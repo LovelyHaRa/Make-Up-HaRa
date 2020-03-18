@@ -82,6 +82,9 @@ const HeaderBlock = styled.nav`
   }
   .dropdown.etc hr {
     margin: 0 0.25rem;
+    border: 0;
+    height: 0.5px;
+    background: ${palette.gray[5]};
   }
   .dropdown.etc ul {
     padding: 0.5rem 0.25rem;
@@ -189,8 +192,8 @@ const EtcDropDown = ({ state }) => {
             <li>Search</li>
             <li>blog</li>
           </ul>
-        </div>
-        <hr />
+          <hr />
+        </div>        
         <ul>
           <li>테스트1</li>
           <li>테스트2</li>
