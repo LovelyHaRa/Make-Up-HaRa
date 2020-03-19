@@ -40,7 +40,7 @@ const HeaderBlock = styled.nav`
     display: flex;
     align-items: center;
   }
-  .menu a:hover {
+  .menu div > a:hover {
     color: ${palette.gray[3]};
   }
   @media screen and (max-width: 500px) {
@@ -189,13 +189,19 @@ const EtcDropDown = ({ state }) => {
         <div className="all-menu">
           <p>MAIN MENU</p>
           <ul>
-            <li>Search</li>
-            <li>blog</li>
+            <Link to="/search">
+              <li>Search</li>
+            </Link>
+            <Link to="/">
+              <li>blog</li>
+            </Link>
           </ul>
           <hr />
-        </div>        
+        </div>
         <ul>
-          <li>테스트1</li>
+          <Link to="/todo">
+            <li>TODO</li>
+          </Link>
           <li>테스트2</li>
           <li>테스트3</li>
           <li>테스트4</li>
@@ -256,10 +262,10 @@ const Header = () => {
           </Link>
           <div className="menu">
             <Menu className="main-menu">
-              <Link to="#">Search</Link>
+              <Link to="/search">Search</Link>
             </Menu>
             <Menu className="main-menu">
-              <Link to="#">Blog</Link>
+              <Link to="/">Blog</Link>
             </Menu>
             <ClickAwayListener onClickAway={handleEtcClose}>
               <Menu>
@@ -297,7 +303,7 @@ const Header = () => {
             className="btn-sign-in"
             transparent="true"
             indigo="true"
-            to="#"
+            to="/login"
           >
             로그인
           </Button>
