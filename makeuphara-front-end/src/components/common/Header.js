@@ -79,7 +79,7 @@ const HeaderBlock = styled.nav`
     border-radius: 3px;
     box-shadow: 0 0 5px 2px
       ${({ theme }) =>
-        theme.body === 'fff'
+        theme.body === '#fff'
           ? 'rgba(0, 0, 0, 0.15)'
           : 'rgba(255, 255, 255, 0.05)'};
     font-size: 0.9rem;
