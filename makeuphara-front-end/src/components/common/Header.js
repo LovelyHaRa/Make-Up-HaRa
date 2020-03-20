@@ -11,7 +11,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 const HeaderBlock = styled.nav`
   position: fixed;
   width: 100%;
-  background: ${palette.gray[9]};
+  background: ${({ theme }) => theme.body};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   height: 3rem;
   display: flex;
@@ -33,15 +33,15 @@ const HeaderBlock = styled.nav`
     margin-right: 0.25rem;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    color: #fff;
+    color: ${({ theme }) => theme.text};
   }
   .menu {
-    color: #fff;
+    color: ${({ theme }) => theme.text};
     display: flex;
     align-items: center;
   }
   .menu div > a:hover {
-    color: ${palette.gray[3]};
+    color: ${({ theme }) => theme.hoverText};
   }
   @media screen and (max-width: 500px) {
     .main-menu {
@@ -73,11 +73,15 @@ const HeaderBlock = styled.nav`
   .dropdown.etc {
     width: 10rem;
     top: 2.5rem;
-    background: #fff;
-    color: #000;
+    background: ${({ theme }) => theme.body};
+    color: ${({ theme }) => theme.text};
     border: none;
     border-radius: 3px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px 2px
+      ${({ theme }) =>
+        theme.body === 'fff'
+          ? 'rgba(0, 0, 0, 0.15)'
+          : 'rgba(255, 255, 255, 0.05)'};
     font-size: 0.9rem;
   }
   .dropdown.etc hr {
@@ -101,7 +105,7 @@ const HeaderBlock = styled.nav`
     margin-bottom: 0;
   }
   .dropdown.etc li:hover {
-    background: ${palette.gray[2]};
+    background: ${({ theme }) => theme.hoverList};
   }
   .dropdown.dropdown-search-input {
     display: flex;
@@ -137,11 +141,11 @@ const SearchResponsive = styled.div`
     }
     .search-btn {
       display: inherit;
-      color: ${palette.gray[0]};
+      color: ${({ theme }) => theme.text};
       margin: 0 0.5rem;
     }
     .search-btn > a:hover {
-      color: ${palette.gray[5]};
+      color: ${({ theme }) => theme.hoverText};
     }
   }
 `;
@@ -159,10 +163,10 @@ const SearchInput = styled.input`
   border-bottom-left-radius: 3px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  background: ${palette.gray[7]};
-  color: ${palette.gray[1]};
+  background: ${({ theme }) => theme.inputBody};
+  color: ${({ theme }) => theme.text};
   &::placeholder {
-    color: ${palette.gray[2]};
+    color: ${({ theme }) => theme.placeholder};
   }
   &:focus {
     outline: 2px solid ${palette.indigo[9]};
@@ -174,7 +178,7 @@ const SearchBtn = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${palette.gray[8]};
+  background: ${({ theme }) => theme.btnBody};
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   &:hover {

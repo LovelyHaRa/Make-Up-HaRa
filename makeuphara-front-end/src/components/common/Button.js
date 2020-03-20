@@ -57,8 +57,8 @@ const buttonStyle = css`
     props.indigo &&
     css`
       background: none;
-      color: ${palette.gray[0]};
-      border: 1px solid ${palette.gray[0]};
+      color: ${({ theme }) => theme.text};
+      border: 1px solid ${({ theme }) => theme.text};
       &:hover {
         background: ${palette.gray[1]};
         color: ${palette.gray[7]};
