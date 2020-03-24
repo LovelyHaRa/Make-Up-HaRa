@@ -10,6 +10,7 @@ import { createStore, applyMiddleware } from 'redux';
 import rootReducer, { rootSaga } from './module/redux/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
+import { tempSetUser, check } from './module/redux/user';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -18,6 +19,17 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
+const loadUser = () => {
+  try {
+    const user = sessionStorage.getItem('user');
+    if (!user) return;
+    store.dispatch(tempSetUser(user));
+    store.dispatch(check());
+  } catch (error) {
+    throw error;
+  }
+};
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>

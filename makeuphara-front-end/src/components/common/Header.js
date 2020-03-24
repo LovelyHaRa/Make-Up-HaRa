@@ -66,11 +66,14 @@ const HeaderBlock = styled.nav`
     margin-right: 0.5rem;
     margin-left: 1rem;
   }
+  .user-info {
+    margin-right: 0.5rem;
+  }
   .dropdown {
     position: fixed;
     z-index: 100;
   }
-  .dropdown.etc {
+  .dropdown.dropdown-menu {
     width: 10rem;
     top: 2.5rem;
     background: ${({ theme }) => theme.body};
@@ -84,28 +87,31 @@ const HeaderBlock = styled.nav`
           : 'rgba(255, 255, 255, 0.05)'};
     font-size: 0.9rem;
   }
-  .dropdown.etc hr {
+  .dropdown.dropdown-menu hr {
     margin: 0 0.25rem;
     border: 0;
     height: 0.5px;
     background: ${palette.gray[5]};
   }
-  .dropdown.etc ul {
+  .dropdown.dropdown-menu ul {
     padding: 0.5rem 0.25rem;
     margin: 0;
   }
-  .dropdown.etc > ul li:first-of-type {
+  .dropdown.dropdown-menu > ul li:first-of-type {
     margin-top: 0;
   }
-  .dropdown.etc > ul li {
+  .dropdown.dropdown-menu > ul li {
     margin-top: 0.25rem;
     padding: 0.5rem;
   }
-  .dropdown.etc > ul li:last-of-type {
+  .dropdown.dropdown-menu > ul li:last-of-type {
     margin-bottom: 0;
   }
-  .dropdown.etc li:hover {
+  .dropdown.dropdown-menu li:hover {
     background: ${({ theme }) => theme.hoverList};
+  }
+  .dropdown.dropdown-menu.dropdown-user-info {
+    right: 0.5rem;
   }
   .dropdown.dropdown-search-input {
     display: flex;
@@ -189,7 +195,7 @@ const SearchBtn = styled(Link)`
 const EtcDropDown = ({ state }) => {
   return (
     state && (
-      <div className="dropdown etc">
+      <div className="dropdown dropdown-menu">
         <div className="all-menu">
           <p>MAIN MENU</p>
           <ul>
@@ -220,6 +226,20 @@ const SearchDropDown = ({ state }) => {
   return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
 };
 
+const UserDropDown = ({ state, onLogout }) => {
+  return (
+    state && (
+      <div className="dropdown dropdown-menu dropdown-user-info">
+        <ul>
+          <Link onClick={onLogout}>
+            <li>로그아웃</li>
+          </Link>
+        </ul>
+      </div>
+    )
+  );
+};
+
 const SearchInputPackage = ({ type }) => (
   <div className={type} tabIndex="-1">
     <SearchInputWrapper>
@@ -237,9 +257,10 @@ const Spacer = styled.div`
 
 library.add([faSearch, faEllipsisH]);
 
-const Header = () => {
+const Header = ({ user, onLogout }) => {
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
+  const [userinfo, setUserinfo] = useState(false);
 
   const handleEtcToggle = () => {
     setEtc(prevOpen => !prevOpen);
@@ -255,6 +276,14 @@ const Header = () => {
 
   const handleSearchClose = () => {
     setSearch(false);
+  };
+
+  const handleUserInfoToggle = () => {
+    setUserinfo(prevOpen => !prevOpen);
+  };
+
+  const handleUserInfoClose = () => {
+    setUserinfo(false);
   };
 
   return (
@@ -303,14 +332,27 @@ const Header = () => {
               </div>
             </ClickAwayListener>
           </SearchResponsive>
-          <Button
-            className="btn-sign-in"
-            transparent="true"
-            indigo="true"
-            to="/login"
-          >
-            로그인
-          </Button>
+          {user ? (
+            <ClickAwayListener onClickAway={handleUserInfoClose}>
+              <div className="user-info">
+                <Link to="#" onClick={handleUserInfoToggle}>
+                  {user.username}
+                </Link>
+                <UserDropDown state={userinfo} onLogout={onLogout} />
+              </div>
+            </ClickAwayListener>
+          ) : (
+            <div>
+              <Button
+                className="btn-sign-in"
+                transparent="true"
+                indigo="true"
+                to="/login"
+              >
+                로그인
+              </Button>
+            </div>
+          )}
         </div>
       </HeaderBlock>
       <Spacer />

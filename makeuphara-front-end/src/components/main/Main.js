@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../common/Header';
+import HeaderContainer from '../../containers/common/HeaderContainer';
 
 const Main = () => {
   return (
     <>
-      <Header />
+      <HeaderContainer />
       <div>main</div>
     </>
   );

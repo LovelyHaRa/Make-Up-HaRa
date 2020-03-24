@@ -10,11 +10,21 @@ const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
   'user/CHECK',
 );
 const LOGOUT = 'user/LOGOUT';
+const TEMP_SET_USER = 'user/TEMP_SET_USER';
 
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
+export const tempSetUser = createAction(TEMP_SET_USER);
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
+
+const checkFailureSaga = () => {
+  try {
+    sessionStorage.removeItem('user');
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 function* logoutSaga() {
   try {
@@ -27,6 +37,7 @@ function* logoutSaga() {
 
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
+  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
 }
 
@@ -37,6 +48,10 @@ const initialState = {
 
 export default handleActions(
   {
+    [TEMP_SET_USER]: (state, { payload: user }) => ({
+      ...state,
+      user,
+    }),
     [CHECK_SUCCESS]: (state, { payload: user }) => ({
       ...state,
       user,

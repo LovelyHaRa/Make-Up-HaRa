@@ -37,7 +37,7 @@ const LoginForm = ({ history }) => {
         setError('계정 또는 비밀번호가 일치하지 않습니다.');
         return;
       } else {
-        setError('로그인 실패' + authError);
+        setError('로그인 실패: ' + authError);
         return;
       }
     }
@@ -50,7 +50,7 @@ const LoginForm = ({ history }) => {
     if (user) {
       history.push('/');
       try {
-        // sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('user', JSON.stringify(user));
       } catch (error) {
         throw error;
       }
