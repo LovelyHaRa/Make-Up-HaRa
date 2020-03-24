@@ -3,8 +3,9 @@ import * as AuthController from './controller';
 
 const auth = new Router();
 
-auth.get('/login/google', AuthController.authGoogle);
-auth.get('/login/google/callback', AuthController.authGoogleCallback);
-auth.get('/logout', AuthController.logout);
+auth.post('/register', AuthController.register);
+auth.post('/login', AuthController.login);
+auth.get('/check', AuthController.check);
+auth.post('/logout', AuthController.logout);
 
 export default auth;

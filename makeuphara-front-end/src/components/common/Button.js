@@ -19,6 +19,17 @@ const buttonStyle = css`
   }
 
   ${props =>
+    props.fullWidth &&
+    css`
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      width: 100%;
+      display: inline-block;
+      box-sizing: border-box;
+      text-align: center;
+    `}
+
+  ${props =>
     props.indigo &&
     css`
       background: ${palette.indigo[9]};
