@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/open-color';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { PurpleSwitch } from './CustomSwitch';
+import { useDispatch } from 'react-redux';
+import { setTheme } from '../../module/redux/theme';
 
 const HeaderBlock = styled.nav`
   position: fixed;
@@ -68,13 +73,14 @@ const HeaderBlock = styled.nav`
   }
   .user-info {
     margin-right: 0.5rem;
+    color: ${({ theme }) => theme.text};
   }
   .dropdown {
     position: fixed;
     z-index: 100;
   }
   .dropdown.dropdown-menu {
-    width: 10rem;
+    width: 12rem;
     top: 2.5rem;
     background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
@@ -226,12 +232,58 @@ const SearchDropDown = ({ state }) => {
   return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
 };
 
-const UserDropDown = ({ state, onLogout }) => {
+const UserDropDown = ({ state, onLogout, isDarkTheme }) => {
+  const [darkTheme, setDarkTheme] = useState(false);
+  const dispatch = useDispatch();
+  const handleDarkThemeToggle = () => {
+    dispatch(setTheme(!darkTheme));
+    try {
+      localStorage.setItem('darkTheme', !darkTheme + '');
+      console.log(localStorage.getItem('darkTheme'));
+    } catch (error) {
+      throw error;
+    }
+    setDarkTheme(!darkTheme);
+  };
+  useEffect(() => {
+    if (isDarkTheme) {
+      setDarkTheme(true);
+    }
+  }, [isDarkTheme]);
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
         <ul>
-          <Link onClick={onLogout}>
+          <li>
+            <Typography component="div">
+              <Grid
+                component="label"
+                container
+                display="flex"
+                alignItems="center"
+                justify="space-between"
+                style={{
+                  fontSize: '0.9rem',
+                  fontFamily: 'sans-serif',
+                  letterSpacing: '0',
+                }}
+              >
+                <Grid item>Dark Theme</Grid>
+                <Grid item>
+                  <PurpleSwitch
+                    checked={darkTheme}
+                    onChange={handleDarkThemeToggle}
+                    name="darkTheme"
+                    size="small"
+                  />
+                </Grid>
+              </Grid>
+            </Typography>
+          </li>
+        </ul>
+        <hr />
+        <ul>
+          <Link to="#" onClick={onLogout}>
             <li>로그아웃</li>
           </Link>
         </ul>
@@ -257,7 +309,7 @@ const Spacer = styled.div`
 
 library.add([faSearch, faEllipsisH]);
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, onLogout, isDarkTheme }) => {
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
   const [userinfo, setUserinfo] = useState(false);
@@ -338,7 +390,11 @@ const Header = ({ user, onLogout }) => {
                 <Link to="#" onClick={handleUserInfoToggle}>
                   {user.username}
                 </Link>
-                <UserDropDown state={userinfo} onLogout={onLogout} />
+                <UserDropDown
+                  state={userinfo}
+                  onLogout={onLogout}
+                  isDarkTheme={isDarkTheme}
+                />
               </div>
             </ClickAwayListener>
           ) : (

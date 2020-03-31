@@ -4,12 +4,15 @@ import { logout } from '../../module/redux/user';
 import Header from '../../components/common/Header';
 
 const HeaderContainer = () => {
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const { user, isDarkTheme } = useSelector(({ user, theme }) => ({
+    user: user.user,
+    isDarkTheme: theme.isDarkTheme,
+  }));
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
   };
-  return <Header user={user} onLogout={onLogout} />;
+  return <Header user={user} onLogout={onLogout} isDarkTheme={isDarkTheme} />;
 };
 
 export default HeaderContainer;
