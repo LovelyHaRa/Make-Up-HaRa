@@ -4,12 +4,16 @@ import palette from '../../lib/styles/open-color';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faEllipsisH,
+  faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { PurpleSwitch } from './CustomSwitch';
+import { DarkThemeSwitch } from './CustomSwitch';
 import { useDispatch } from 'react-redux';
 import { setTheme } from '../../module/redux/theme';
 
@@ -82,15 +86,14 @@ const HeaderBlock = styled.nav`
   .dropdown.dropdown-menu {
     width: 12rem;
     top: 2.5rem;
-    background: ${({ theme }) => theme.body};
+    background: ${({ theme }) => theme.dropdownBody};
     color: ${({ theme }) => theme.text};
     border: none;
     border-radius: 3px;
-    box-shadow: 0 0 5px 2px
-      ${({ theme }) =>
-        theme.body === '#fff'
-          ? 'rgba(0, 0, 0, 0.15)'
-          : 'rgba(255, 255, 255, 0.05)'};
+    box-shadow: ${({ theme }) =>
+      theme.body === '#fff'
+        ? '0 0 5px 2px rgba(0, 0, 0, 0.15)'
+        : '0 0 5px 2px rgba(0, 0, 0, 0.35)'};
     font-size: 0.9rem;
   }
   .dropdown.dropdown-menu hr {
@@ -124,6 +127,10 @@ const HeaderBlock = styled.nav`
     top: 2.75rem;
     right: 6.625rem;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.55);
+  }
+  .none-user {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -205,8 +212,8 @@ const EtcDropDown = ({ state }) => {
         <div className="all-menu">
           <p>MAIN MENU</p>
           <ul>
-            <Link to="/search">
-              <li>Search</li>
+            <Link to="/wiki">
+              <li>WIKI</li>
             </Link>
             <Link to="/">
               <li>blog</li>
@@ -232,14 +239,13 @@ const SearchDropDown = ({ state }) => {
   return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
 };
 
-const UserDropDown = ({ state, onLogout, isDarkTheme }) => {
+const OptionMenu = ({ isDarkTheme }) => {
   const [darkTheme, setDarkTheme] = useState(false);
   const dispatch = useDispatch();
   const handleDarkThemeToggle = () => {
     dispatch(setTheme(!darkTheme));
     try {
       localStorage.setItem('darkTheme', !darkTheme + '');
-      console.log(localStorage.getItem('darkTheme'));
     } catch (error) {
       throw error;
     }
@@ -250,43 +256,64 @@ const UserDropDown = ({ state, onLogout, isDarkTheme }) => {
       setDarkTheme(true);
     }
   }, [isDarkTheme]);
+
+  return (
+    <ul>
+      <li>
+        <Typography component="div">
+          <Grid
+            component="label"
+            container
+            display="flex"
+            alignItems="center"
+            justify="space-between"
+            style={{
+              fontSize: '0.9rem',
+              fontFamily: 'sans-serif',
+              letterSpacing: '0',
+            }}
+          >
+            <Grid item>Dark Theme</Grid>
+            <Grid item>
+              <DarkThemeSwitch
+                checked={darkTheme}
+                onChange={handleDarkThemeToggle}
+                name="darkTheme"
+                size="small"
+              />
+            </Grid>
+          </Grid>
+        </Typography>
+      </li>
+    </ul>
+  );
+};
+
+const LogoutMenu = ({ onLogout }) => (
+  <ul>
+    <Link to="#" onClick={onLogout}>
+      <li>로그아웃</li>
+    </Link>
+  </ul>
+);
+
+const UserDropDown = ({ state, onLogout, isDarkTheme }) => {
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
-        <ul>
-          <li>
-            <Typography component="div">
-              <Grid
-                component="label"
-                container
-                display="flex"
-                alignItems="center"
-                justify="space-between"
-                style={{
-                  fontSize: '0.9rem',
-                  fontFamily: 'sans-serif',
-                  letterSpacing: '0',
-                }}
-              >
-                <Grid item>Dark Theme</Grid>
-                <Grid item>
-                  <PurpleSwitch
-                    checked={darkTheme}
-                    onChange={handleDarkThemeToggle}
-                    name="darkTheme"
-                    size="small"
-                  />
-                </Grid>
-              </Grid>
-            </Typography>
-          </li>
-        </ul>
+        <OptionMenu isDarkTheme={isDarkTheme} />
         <hr />
-        <ul>
-          <Link to="#" onClick={onLogout}>
-            <li>로그아웃</li>
-          </Link>
-        </ul>
+        <LogoutMenu onLogout={onLogout} />
+      </div>
+    )
+  );
+};
+
+const NoneUserDropDown = ({ state, isDarkTheme }) => {
+  return (
+    state && (
+      <div className="dropdown dropdown-menu dropdown-user-info">
+        <OptionMenu isDarkTheme={isDarkTheme} />
       </div>
     )
   );
@@ -307,12 +334,13 @@ const Spacer = styled.div`
   height: 3rem;
 `;
 
-library.add([faSearch, faEllipsisH]);
+library.add([faSearch, faEllipsisH, faEllipsisV]);
 
 const Header = ({ user, onLogout, isDarkTheme }) => {
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
   const [userinfo, setUserinfo] = useState(false);
+  const [noneuser, setNoneUser] = useState(false);
 
   const handleEtcToggle = () => {
     setEtc(prevOpen => !prevOpen);
@@ -338,6 +366,14 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
     setUserinfo(false);
   };
 
+  const handleNoneUserToggle = () => {
+    setNoneUser(prevOpen => !prevOpen);
+  };
+
+  const handleNoneUserClose = () => {
+    setNoneUser(false);
+  };
+
   return (
     <>
       <HeaderBlock>
@@ -347,7 +383,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
           </Link>
           <div className="menu">
             <Menu className="main-menu">
-              <Link to="/search">Search</Link>
+              <Link to="/wiki">WIKI</Link>
             </Menu>
             <Menu className="main-menu">
               <Link to="/">Blog</Link>
@@ -377,7 +413,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
           >
             <ClickAwayListener onClickAway={handleSearchClose}>
               <div className="search-btn">
-                <Link to="#" onClick={handleSearchToggle}>
+                <Link to="#" aria-haspopup="true" onClick={handleSearchToggle}>
                   <FontAwesomeIcon icon="search" />
                 </Link>
                 <SearchDropDown state={search} />
@@ -387,7 +423,11 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
           {user ? (
             <ClickAwayListener onClickAway={handleUserInfoClose}>
               <div className="user-info">
-                <Link to="#" onClick={handleUserInfoToggle}>
+                <Link
+                  to="#"
+                  aria-haspopup="true"
+                  onClick={handleUserInfoToggle}
+                >
                   {user.username}
                 </Link>
                 <UserDropDown
@@ -398,7 +438,18 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
               </div>
             </ClickAwayListener>
           ) : (
-            <div>
+            <div className="none-user">
+              <ClickAwayListener onClickAway={handleNoneUserClose}>
+                <div className="">
+                  <Link to="#" onClick={handleNoneUserToggle}>
+                    <FontAwesomeIcon icon="ellipsis-v" />
+                  </Link>
+                  <NoneUserDropDown
+                    state={noneuser}
+                    isDarkTheme={isDarkTheme}
+                  />
+                </div>
+              </ClickAwayListener>
               <Button
                 className="btn-sign-in"
                 transparent="true"

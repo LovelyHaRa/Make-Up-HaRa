@@ -9,11 +9,14 @@ export const lightTheme = {
   inputBody: palette.gray[1],
   placeholder: palette.gray[7],
   btnBody: palette.gray[1],
+  dropdownBody: '#fff',
   /* AuthForm */
   loginBody: palette.gray[2],
   loginInputBorder: palette.gray[5],
   loginInputBorderFocus: palette.gray[7],
-
+  /* DarkThemeSwitch */
+  darkThemeSwitchBody: palette.gray[7],
+  darkThemeSwitchTrack: palette.gray[5],
 };
 
 export const darkTheme = {
@@ -25,8 +28,12 @@ export const darkTheme = {
   inputBody: palette.gray[7],
   placeholder: palette.gray[2],
   btnBody: palette.gray[8],
+  dropdownBody: palette.gray[9],
   /* AuthForm */
   loginBody: palette.gray[7],
   loginInputBorder: palette.gray[5],
   loginInputBorderFocus: palette.gray[3],
+  /* DarkThemeSwitch */
+  darkThemeSwitchBody: '#fff',
+  darkThemeSwitchTrack: palette.gray[2],
 };

@@ -1,19 +1,14 @@
-import { withStyles } from '@material-ui/core/styles';
-import { blueGrey } from '@material-ui/core/colors';
+import styled from 'styled-components';
 import Switch from '@material-ui/core/Switch';
 
-export const PurpleSwitch = withStyles({
-  root: {},
-  switchBase: {
-    color: blueGrey[300],
-    '&$checked': {
-      color: blueGrey[700],
-    },
-    '&$checked + $track': {
-      backgroundColor: blueGrey[700],
-    },
-  },
-  thumb: {},
-  checked: {},
-  track: {},
-})(Switch);
+export const DarkThemeSwitch = styled(Switch)`
+  .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: ${({ theme }) => theme.darkThemeSwitchTrack};
+  }
+  .MuiSwitch-switchBase {
+    color: ${({ theme }) => theme.darkThemeSwitchBody};
+  }
+  .MuiSwitch-colorSecondary.Mui-checked {
+    color: ${({ theme }) => theme.darkThemeSwitchBody};
+  }
+`;
