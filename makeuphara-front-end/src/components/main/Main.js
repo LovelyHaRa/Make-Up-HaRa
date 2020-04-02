@@ -1,15 +1,10 @@
 import React from 'react';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import styled from 'styled-components';
+import BodyBlock from '../common/BodyBlock';
 
-const BodyBlock = styled.div`
-  position: fixed;
+const HeaderBodyBlock = styled(BodyBlock)`
   top: 3rem;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: ${({ theme }) => theme.body};
-  z-index: -1;
 `;
 
 const MainBlock = styled.div`
@@ -20,8 +15,8 @@ const Main = () => {
   return (
     <>
       <HeaderContainer />
-      <BodyBlock></BodyBlock>
-      <MainBlock style={{ 'margin': '2rem' }}>main</MainBlock>
+      <HeaderBodyBlock />
+      <MainBlock style={{ margin: '2rem' }}>main</MainBlock>
     </>
   );
 };

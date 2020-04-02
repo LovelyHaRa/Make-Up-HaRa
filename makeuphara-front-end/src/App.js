@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from './module/redux/theme';
+import PostWritePage from './pages/PostWritePage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -31,6 +32,7 @@ const App = () => {
         <Route component={MainPage} path={['/']} exact />
         <Route component={LoginPage} path={'/login'} />
         <Route component={RegisterPage} path={'/register'} />
+        <Route component={PostWritePage} path={'/blog/write'} />
       </>
     </ThemeProvider>
   );

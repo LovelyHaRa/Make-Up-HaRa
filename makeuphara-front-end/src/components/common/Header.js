@@ -129,6 +129,7 @@ const HeaderBlock = styled.nav`
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.55);
   }
   .none-user {
+    color: ${({ theme }) => theme.text};
     display: flex;
     align-items: center;
   }
@@ -161,7 +162,7 @@ const SearchResponsive = styled.div`
     .search-btn {
       display: inherit;
       color: ${({ theme }) => theme.text};
-      margin: 0 0.5rem;
+      margin: 0 1rem;
     }
     .search-btn > a:hover {
       color: ${({ theme }) => theme.hoverText};

@@ -17,6 +17,16 @@ export const lightTheme = {
   /* DarkThemeSwitch */
   darkThemeSwitchBody: palette.gray[7],
   darkThemeSwitchTrack: palette.gray[5],
+  /* Editor */
+  EditorTitleBorder: palette.gray[4],
+  EditorText: palette.gray[8],
+  EditorTagComponentBorder: palette.gray[4],
+  EditorTagBoxBorder: palette.gray[9],
+  EditorTagTitle: palette.gray[8],
+  EditorTagButtonBody: palette.gray[8],
+  EditorHoverTagButtonBody: palette.gray[6],
+  EditorTagButtonText: '#fff',
+  EditorTagText: palette.gray[6],
 };
 
 export const darkTheme = {
@@ -36,4 +46,14 @@ export const darkTheme = {
   /* DarkThemeSwitch */
   darkThemeSwitchBody: '#fff',
   darkThemeSwitchTrack: palette.gray[2],
+  /* Editor */
+  EditorTitleBorder: palette.gray[5],
+  EditorText: palette.gray[5],
+  EditorTagComponentBorder: palette.gray[5],
+  EditorTagBoxBorder: palette.gray[5],
+  EditorTagTitle: palette.gray[6],
+  EditorTagButtonBody: palette.gray[2],
+  EditorHoverTagButtonBody: palette.gray[4],
+  EditorTagButtonText: palette.gray[9],
+  EditorTagText: palette.gray[4],
 };
