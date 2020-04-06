@@ -37,7 +37,7 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
   password,
 }));
 
-/* redux-saga  */
+/* redux-saga */
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 

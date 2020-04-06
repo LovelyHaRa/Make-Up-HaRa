@@ -14,7 +14,7 @@ const TitleInput = styled.input`
   outline: none;
   padding-bottom: 0.5rem;
   border: none;
-  border-bottom: 1px solid ${({ theme }) => theme.EditorTitleBorder};
+  border-bottom: 1px solid ${({ theme }) => theme.editorTitleBorder};
   background: ${({ theme }) => theme.body};
   margin-bottom: 2rem;
   width: 100%;
@@ -26,10 +26,10 @@ const QuillWrapper = styled.div`
     min-height: 320px;
     font-size: 1rem;
     line-height: 1.5;
-    color: ${({ theme }) => theme.EditorText};
+    color: ${({ theme }) => theme.editorText};
   }
   .ql-editor.ql-blank::before {
-    color: ${({ theme }) => theme.EditorText};
+    color: ${({ theme }) => theme.editorText};
     left: 0;
   }
 `;
@@ -43,7 +43,7 @@ const Editor = ({ title, body, onChangeField }) => {
       theme: 'bubble',
       placeholder: '포스트 작성...',
       modules: {
-        // https://quilljs.com/docs/modules/toolbar/
+        // 참고: https://quilljs.com/docs/modules/toolbar/
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
@@ -55,10 +55,26 @@ const Editor = ({ title, body, onChangeField }) => {
         ],
       },
     });
-  }, []);
+
+    // 참고: https://quilljs.com/docs/api/#events
+    const quill = quillInstance.current;
+    quill.on('text-change', (delta, oldDelta, source) => {
+      if (source === 'user') {
+        onChangeField({ key: 'body', value: quill.root.innerHTML });
+      }
+    });
+  }, [onChangeField]);
+
+  const onChangeTitle = e => {
+    onChangeField({ key: 'title', value: e.target.value });
+  };
   return (
     <EditorBlock>
-      <TitleInput placeholder="포스트 제목" />
+      <TitleInput
+        placeholder="포스트 제목"
+        value={title}
+        onChange={onChangeTitle}
+      />
       <QuillWrapper>
         <div ref={quillElement} />
       </QuillWrapper>

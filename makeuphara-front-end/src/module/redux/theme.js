@@ -6,7 +6,7 @@ const SET_THEME = 'theme/SET_THEME';
 /* action */
 export const setTheme = createAction(SET_THEME);
 
-/* redux-saga  */
+/* redux-saga */
 
 /* initialize state */
 const initialState = {

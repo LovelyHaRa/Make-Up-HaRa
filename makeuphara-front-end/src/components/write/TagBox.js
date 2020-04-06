@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 const TagBoxBlock = styled.div`
   width: 100%;
-  border-top: 1px solid ${({ theme }) => theme.EditorTagComponentBorder};
+  border-top: 1px solid ${({ theme }) => theme.editorTagComponentBorder};
   padding-top: 2rem;
 
   h4 {
-    color: ${({ theme }) => theme.EditorTagTitle};
+    color: ${({ theme }) => theme.editorTagTitle};
     margin-top: 0;
     margin-bottom: 0.5rem;
   }
@@ -18,7 +18,7 @@ const TagForm = styled.form`
   overflow: hidden;
   display: flex;
   width: 256px;
-  border: 1px solid ${({ theme }) => theme.EditorTagBoxBorder};
+  border: 1px solid ${({ theme }) => theme.editorTagBoxBorder};
   input,
   button {
     outline: none;
@@ -31,22 +31,22 @@ const TagForm = styled.form`
     flex: 1;
     min-width: 0;
     background: ${({ theme }) => theme.body};
-    color: ${({ theme }) => theme.EditorText};
+    color: ${({ theme }) => theme.editorText};
   }
   button {
     cursor: pointer;
     padding: 0 1rem;
-    background: ${({ theme }) => theme.EditorTagButtonBody};
-    color: ${({ theme }) => theme.EditorTagButtonText};
+    background: ${({ theme }) => theme.editorTagButtonBody};
+    color: ${({ theme }) => theme.editorTagButtonText};
     &:hover {
-      background: ${({ theme }) => theme.EditorHoverTagButtonBody};
+      background: ${({ theme }) => theme.editorHoverTagButtonBody};
     }
   }
 `;
 
 const Tag = styled.div`
   margin-right: 0.5rem;
-  color: ${({ theme }) => theme.EditorTagText};
+  color: ${({ theme }) => theme.editorTagText};
   cursor: pointer;
   &:hover {
     opacity: 0.7;
@@ -70,7 +70,7 @@ const TagList = React.memo(({ tags, onRemove }) => (
   </TagListBlock>
 ));
 
-const TagBox = ({ tags = [] }) => {
+const TagBox = ({ tags, onChangeTags }) => {
   const [input, setInput] = useState('');
   const [localTags, setLocalTags] = useState([]);
 
@@ -80,16 +80,18 @@ const TagBox = ({ tags = [] }) => {
       if (localTags.includes(tag)) return;
       const nextTags = [...localTags, tag];
       setLocalTags(nextTags);
+      onChangeTags(nextTags);
     },
-    [localTags],
+    [localTags, onChangeTags],
   );
 
   const onRemove = useCallback(
     tag => {
       const nextTags = localTags.filter(t => t !== tag);
       setLocalTags(nextTags);
+      onChangeTags(nextTags);
     },
-    [localTags],
+    [localTags, onChangeTags],
   );
 
   const onChange = useCallback(e => {
@@ -105,11 +107,15 @@ const TagBox = ({ tags = [] }) => {
     [input, insertTag],
   );
 
+  useEffect(() => {
+    setLocalTags(tags);
+  }, [tags]);
+
   return (
     <TagBoxBlock>
       <h4>태그</h4>
       <TagForm onSubmit={onSubmit}>
-        <input placeholder="태그 입력..." onChange={onChange} />
+        <input placeholder="태그 입력..." onChange={onChange} value={input} />
         <button type="submit">추가</button>
       </TagForm>
       <TagList tags={localTags} onRemove={onRemove} />

@@ -9,11 +9,11 @@ const buttonStyle = css`
   font-size: 1rem;
   font-weight: normal;
   padding: 0.25rem 1rem;
-  color: #fff;
+  color: ${({ theme }) => theme.btnText};
   outline: none;
   cursor: pointer;
+  background: ${({ theme }) => theme.btnBody};
 
-  background: ${palette.gray[9]};
   &:hover {
     background: ${palette.gray[7]};
   }
@@ -65,7 +65,6 @@ const buttonStyle = css`
     `}
   ${props =>
     props.transparent &&
-    props.indigo &&
     css`
       background: none;
       color: ${({ theme }) => theme.text};

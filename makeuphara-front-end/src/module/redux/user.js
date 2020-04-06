@@ -18,7 +18,7 @@ export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 export const tempSetUser = createAction(TEMP_SET_USER);
 
-/* redux-saga  */
+/* redux-saga */
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
 
 const checkFailureSaga = () => {

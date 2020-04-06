@@ -8,7 +8,7 @@ export const lightTheme = {
   hoverList: palette.gray[2],
   inputBody: palette.gray[1],
   placeholder: palette.gray[7],
-  btnBody: palette.gray[1],
+  btnSearchBody: palette.gray[1],
   dropdownBody: '#fff',
   /* AuthForm */
   loginBody: palette.gray[2],
@@ -18,15 +18,20 @@ export const lightTheme = {
   darkThemeSwitchBody: palette.gray[7],
   darkThemeSwitchTrack: palette.gray[5],
   /* Editor */
-  EditorTitleBorder: palette.gray[4],
-  EditorText: palette.gray[8],
-  EditorTagComponentBorder: palette.gray[4],
-  EditorTagBoxBorder: palette.gray[9],
-  EditorTagTitle: palette.gray[8],
-  EditorTagButtonBody: palette.gray[8],
-  EditorHoverTagButtonBody: palette.gray[6],
-  EditorTagButtonText: '#fff',
-  EditorTagText: palette.gray[6],
+  editorTitleBorder: palette.gray[4],
+  editorText: palette.gray[8],
+  editorTagComponentBorder: palette.gray[4],
+  editorTagBoxBorder: palette.gray[9],
+  editorTagTitle: palette.gray[8],
+  editorTagButtonBody: palette.gray[8],
+  editorHoverTagButtonBody: palette.gray[6],
+  editorTagButtonText: '#fff',
+  editorTagText: palette.gray[6],
+  /* Footer */
+  footerText: palette.gray[8],
+  /* Button */
+  btnBody: palette.gray[9],
+  btnText: '#fff',
 };
 
 export const darkTheme = {
@@ -37,7 +42,7 @@ export const darkTheme = {
   hoverList: palette.gray[7],
   inputBody: palette.gray[7],
   placeholder: palette.gray[2],
-  btnBody: palette.gray[8],
+  btnSearchBody: palette.gray[8],
   dropdownBody: palette.gray[9],
   /* AuthForm */
   loginBody: palette.gray[7],
@@ -47,13 +52,18 @@ export const darkTheme = {
   darkThemeSwitchBody: '#fff',
   darkThemeSwitchTrack: palette.gray[2],
   /* Editor */
-  EditorTitleBorder: palette.gray[5],
-  EditorText: palette.gray[5],
-  EditorTagComponentBorder: palette.gray[5],
-  EditorTagBoxBorder: palette.gray[5],
-  EditorTagTitle: palette.gray[6],
-  EditorTagButtonBody: palette.gray[2],
-  EditorHoverTagButtonBody: palette.gray[4],
-  EditorTagButtonText: palette.gray[9],
-  EditorTagText: palette.gray[4],
+  editorTitleBorder: palette.gray[5],
+  editorText: palette.gray[5],
+  editorTagComponentBorder: palette.gray[5],
+  editorTagBoxBorder: palette.gray[5],
+  editorTagTitle: palette.gray[6],
+  editorTagButtonBody: palette.gray[2],
+  editorHoverTagButtonBody: palette.gray[4],
+  editorTagButtonText: palette.gray[9],
+  editorTagText: palette.gray[4],
+  /* Footer */
+  footerText: palette.gray[2],
+  /* Button */
+  btnBody: '#fff',
+  btnText: palette.gray[9],
 };

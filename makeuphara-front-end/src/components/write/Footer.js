@@ -7,21 +7,22 @@ const FooterBlock = styled.div`
   bottom: 0;
   height: 2rem;
   width: inherit;
-  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: ${({ theme }) => theme.body};
 
   .title > a {
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.footerText};
   }
   .title > a:hover {
     color: ${({ theme }) => theme.hoverText};
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
-  .editor-name > a {
-    color: ${({ theme }) => theme.text};
+  .editor-name {
+    color: ${({ theme }) => theme.footerText};
   }
   .editor-name > a:hover {
     color: ${({ theme }) => theme.hoverText};
@@ -30,14 +31,16 @@ const FooterBlock = styled.div`
   }
 `;
 
-const Footer = () => {
+const Footer = ({ type = 'blog' }) => {
+  const editorName = type === 'blog' ? 'BLOG' : 'WIKI';
+  const editorHref = type === 'blog' ? '/blog' : '/wiki';
   return (
     <FooterBlock>
       <div className="title">
         <Link to="/">MAKE UP HARA</Link>
       </div>
       <div className="editor-name">
-        <Link to="/blog">BLOG</Link>
+        <Link to={editorHref}>{editorName}</Link>
         <span>&nbsp;EDITOR</span>
       </div>
     </FooterBlock>

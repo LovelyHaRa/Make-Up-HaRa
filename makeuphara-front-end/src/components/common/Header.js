@@ -198,7 +198,7 @@ const SearchBtn = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.btnBody};
+  background: ${({ theme }) => theme.btnSearchBody};
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   &:hover {
@@ -454,7 +454,6 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
               <Button
                 className="btn-sign-in"
                 transparent="true"
-                indigo="true"
                 to="/login"
               >
                 로그인

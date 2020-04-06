@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import auth from './auth/index';
+import post from './post/index';
 const api = new Router();
 
 api.get('/test', ctx => {
@@ -9,5 +10,6 @@ api.get('/test', ctx => {
 });
 
 api.use('/auth', auth.routes());
+api.use('/post', post.routes());
 
 export default api;
