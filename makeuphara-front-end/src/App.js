@@ -9,6 +9,8 @@ import RegisterPage from './pages/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from './module/redux/theme';
 import PostWritePage from './pages/PostWritePage';
+import PostPage from './pages/PostPage';
+import { Helmet } from 'react-helmet-async';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -29,10 +31,14 @@ const App = () => {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <>
+        <Helmet>
+          <title>MAKE UP HARA</title>
+        </Helmet>
         <Route component={MainPage} path={['/']} exact />
         <Route component={LoginPage} path={'/login'} />
         <Route component={RegisterPage} path={'/register'} />
         <Route component={PostWritePage} path={'/blog/write'} />
+        <Route component={PostPage} path={'/blog/@:username/:postId'} />
       </>
     </ThemeProvider>
   );

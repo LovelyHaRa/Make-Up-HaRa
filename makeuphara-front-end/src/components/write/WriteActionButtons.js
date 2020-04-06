@@ -14,7 +14,7 @@ const StyledButton = styled(Button)`
   height: 2.125rem;
 `;
 
-const WriteActionButtons = ({ type = 'blog', isEdit = false, onPublish, onCancel }) => {
+const WriteActionButtons = ({ type = 'blog', isEdit, onPublish, onCancel }) => {
   const editorName = type === 'blog' ? '포스트' : '위키';
   return (
     <WriteActionButtonsBlock>

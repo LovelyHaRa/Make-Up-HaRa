@@ -15,7 +15,7 @@ const buttonStyle = css`
   background: ${({ theme }) => theme.btnBody};
 
   &:hover {
-    background: ${palette.gray[7]};
+    background: ${({ theme }) => theme.btnHoverBody};
   }
 
   ${props =>

@@ -1,24 +1,36 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { writePost } from '../../module/redux/post';
+import { writePost, updatePost } from '../../module/redux/post';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
 
 const WriteActionButtonsContainer = ({ history }) => {
   // 액션함수 불러오기
   const dispatch = useDispatch();
   // 전역함수 불러오기
-  const { title, body, tags, post, postError } = useSelector(({ post }) => ({
+  const {
+    title,
+    body,
+    tags,
+    editPost,
+    editPostError,
+    targetPostId,
+  } = useSelector(({ post }) => ({
     title: post.title,
     body: post.body,
     tags: post.tags,
-    post: post.post,
-    postError: post.postError,
+    editPost: post.editPost,
+    editPostError: post.editPostError,
+    targetPostId: post.targetPostId,
   }));
   // 이벤트 정의
   // 포스트 등록
   const onPublish = () => {
-    dispatch(writePost({ title, body, tags }));
+    if (targetPostId) {
+      dispatch(updatePost({ id: targetPostId, title, body, tags }));
+    } else {
+      dispatch(writePost({ title, body, tags }));
+    }
   };
   // 취소
   const onCancel = () => {
@@ -26,16 +38,22 @@ const WriteActionButtonsContainer = ({ history }) => {
   };
   // 처리 후 작업
   useEffect(() => {
-    if (post) {
-      const { _id, publisher } = post;
-      history.push(`/@${publisher.username}/${_id}`);
+    if (editPost) {
+      const { _id, publisher } = editPost;
+      history.push(`/blog/@${publisher.username}/${_id}`);
     }
-    if (postError) {
-      console.log(postError);
+    if (editPostError) {
+      console.log(editPostError);
     }
-  }, [history, post, postError]);
+  }, [history, editPost, editPostError]);
 
-  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
+  return (
+    <WriteActionButtons
+      onPublish={onPublish}
+      onCancel={onCancel}
+      isEdit={!!targetPostId}
+    />
+  );
 };
 
 export default withRouter(WriteActionButtonsContainer);

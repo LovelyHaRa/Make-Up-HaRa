@@ -63,7 +63,7 @@ const LoginForm = ({ history }) => {
       onChange={onChange}
       onSubmit={onSubmit}
       error={error}
-    ></AuthForm>
+    />
   );
 };
 

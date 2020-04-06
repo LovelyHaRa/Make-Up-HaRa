@@ -1,6 +1,8 @@
 import Joi from '@hapi/joi';
 import Post from '../../database/models/post';
 import mongoose from 'mongoose';
+import sanitizeHtml from 'sanitize-html';
+import SanitizeOption from '../../lib/sanitize-html/SanitizeOption';
 
 /* post 정보를 state에 저장하는 미들웨어 */
 export const getPostById = async (ctx, next) => {
@@ -68,7 +70,12 @@ export const write = async ctx => {
   }
   /* data push */
   const { title, body, tags } = ctx.request.body;
-  const post = new Post({ title, body, tags, publisher: ctx.state.user });
+  const post = new Post({
+    title,
+    body: sanitizeHtml(body, SanitizeOption),
+    tags,
+    publisher: ctx.state.user,
+  });
   try {
     await post.save();
     ctx.body = post;
@@ -98,8 +105,12 @@ export const update = async ctx => {
     ctx.body = result.error;
   }
   /* data push */
+  const nextData = { ...ctx.request.body };
+  if (nextData.body) {
+    nextData.body = sanitizeHtml(nextData.body, SanitizeOption);
+  }
   try {
-    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+    const post = await Post.findByIdAndUpdate(id, nextData, {
       new: true,
     });
     if (!post) {

@@ -65,6 +65,14 @@ const Editor = ({ title, body, onChangeField }) => {
     });
   }, [onChangeField]);
 
+  /* useRef를 사용하여 에디터 내 편집할 데이터 삽입 */
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
+    quillInstance.current.root.innerHTML = body;
+  }, [body]);
+
   const onChangeTitle = e => {
     onChangeField({ key: 'title', value: e.target.value });
   };

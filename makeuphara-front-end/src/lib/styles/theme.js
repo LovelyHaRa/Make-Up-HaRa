@@ -1,10 +1,11 @@
 import palette from './open-color';
 
 export const lightTheme = {
-  /* Header */
+  /* Common */
   body: '#fff',
   text: palette.gray[9],
   hoverText: palette.gray[6],
+  /* Header */
   hoverList: palette.gray[2],
   inputBody: palette.gray[1],
   placeholder: palette.gray[7],
@@ -31,14 +32,24 @@ export const lightTheme = {
   footerText: palette.gray[8],
   /* Button */
   btnBody: palette.gray[9],
+  btnHoverBody: palette.gray[7],
   btnText: '#fff',
+  /* PostViewer */
+  postTitleBorder: palette.gray[4],
+  postTagText: palette.cyan[7],
+  postTagHoverText: palette.cyan[5],
+  postActionButtonText: palette.gray[7],
+  postActionButtonHoverText: palette.gray[6],
+  postActionButtonBody: palette.gray[2],
+  postActionButtonHoverBody: palette.gray[1],
 };
 
 export const darkTheme = {
-  /* Header */
+  /* Common */
   body: palette.gray[9],
   text: '#fff',
   hoverText: palette.gray[3],
+  /* Header */
   hoverList: palette.gray[7],
   inputBody: palette.gray[7],
   placeholder: palette.gray[2],
@@ -65,5 +76,14 @@ export const darkTheme = {
   footerText: palette.gray[2],
   /* Button */
   btnBody: '#fff',
+  btnHoverBody: palette.gray[2],
   btnText: palette.gray[9],
+  /* PostViewer */
+  postTitleBorder: palette.gray[5],
+  postTagText: palette.violet[7],
+  postTagHoverText: palette.violet[5],
+  postActionButtonText: palette.gray[5],
+  postActionButtonHoverText: palette.gray[3],
+  postActionButtonBody: palette.gray[8],
+  postActionButtonHoverBody: palette.gray[7],
 };
