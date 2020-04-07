@@ -44,6 +44,16 @@ const Tags = styled.div`
 
 const PostContent = styled.div`
   color: ${({ theme }) => theme.text};
+  .ql-video {
+    margin: 0 1%;
+    width: 98%;
+    height: 52.1vmax;
+  }
+  @media screen and (max-width: 1024px) {
+    .ql-video {
+      height: 400px;
+    }
+  }
 `;
 
 const PostViewer = ({ post, loading, error, actionButtons }) => {

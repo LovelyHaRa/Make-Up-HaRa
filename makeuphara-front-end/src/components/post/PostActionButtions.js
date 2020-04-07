@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AskRemoveModal from './AskRemoveModal';
 
@@ -43,11 +43,17 @@ const PostActionButtions = ({ onEdit, onRemove }) => {
   };
 
   /* 모달 영역 밖 클릭시 모달 닫기 */
-  window.onclick = event => {
-    if (event.target.className.includes('modal')) {
-      setModal(false);
-    }
-  };
+  useEffect(() => {
+    window.onclick = event => {
+      if (event.target.className.includes('modal')) {
+        setModal(false);
+      }
+    };
+    // 언마운트시 이벤트 제거
+    return () => {
+      window.onclick = () => {};
+    };
+  }, []);
 
   return (
     <>

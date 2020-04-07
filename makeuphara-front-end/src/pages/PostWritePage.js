@@ -6,8 +6,14 @@ import EditorContainer from '../containers/write/EditorContainer';
 import TagBoxContainer from '../containers/write/TagBoxContainer';
 import WriteActionButtonsContainer from '../containers/write/WriteActionButtonsContainer';
 import { Helmet } from 'react-helmet-async';
+import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const PostWritePage = () => {
+const PostWritePage = ({ history }) => {
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  if (!user) {
+    history.push('/login');
+  }
   return (
     <Responsive>
       <Helmet>
@@ -22,4 +28,4 @@ const PostWritePage = () => {
   );
 };
 
-export default PostWritePage;
+export default withRouter(PostWritePage);

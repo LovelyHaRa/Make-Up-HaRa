@@ -32,6 +32,11 @@ const QuillWrapper = styled.div`
     color: ${({ theme }) => theme.editorText};
     left: 0;
   }
+  .ql-video {
+    margin: 0 1%;
+    width: 98%;
+    height: 450px;
+  }
 `;
 
 const Editor = ({ title, body, onChangeField }) => {
@@ -52,6 +57,7 @@ const Editor = ({ title, body, onChangeField }) => {
           [{ color: [] }, { background: [] }],
           ['blockquote', 'code-block', 'link', 'image'],
           ['clean'],
+          ['video'],
         ],
       },
     });

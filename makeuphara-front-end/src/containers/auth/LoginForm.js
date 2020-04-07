@@ -48,7 +48,7 @@ const LoginForm = ({ history }) => {
 
   useEffect(() => {
     if (user) {
-      history.push('/');
+      history.goBack();
       try {
         sessionStorage.setItem('user', JSON.stringify(user));
       } catch (error) {

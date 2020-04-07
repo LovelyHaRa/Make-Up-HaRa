@@ -38,6 +38,8 @@ export default {
     a: ['href', 'name', 'target'],
     img: ['src'],
     li: ['class'],
+    iframe: ['src', 'class', 'frameborder', 'allowfullscreen'],
   },
-  allowedSchemes: ['data', 'http'],
+  allowedSchemes: ['data', 'http', 'https'],
+  allowedIframeHostnames: ['www.youtube.com', 'youtu.be'],
 };
