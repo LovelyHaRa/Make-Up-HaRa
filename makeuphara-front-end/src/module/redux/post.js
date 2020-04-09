@@ -30,6 +30,10 @@ const [
   UPDATE_POST_SUCCESS,
   UPDATE_POST_FAILURE,
 ] = createRequestActionTypes('post/UPDATE_POST');
+// api - list
+const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] = createRequestActionTypes(
+  'post/GET_LIST',
+);
 
 /* action */
 export const initialize = createAction(INITIALIZE);
@@ -49,16 +53,23 @@ export const updatePost = createAction(
   UPDATE_POST,
   ({ id, title, body, tags }) => ({ id, title, body, tags }),
 );
+export const getList = createAction(GET_LIST, ({ page, tag, username }) => ({
+  page,
+  tag,
+  username,
+}));
 
 /* redux-saga */
 const writePostSaga = createRequestSaga(WRITE_POST, postAPI.writePost);
 const readPostSaga = createRequestSaga(READ_POST, postAPI.readPost);
 const updatePostSaga = createRequestSaga(UPDATE_POST, postAPI.updatePost);
+const getListSaga = createRequestSaga(GET_LIST, postAPI.getList);
 
 export function* postSaga() {
   yield takeLatest(WRITE_POST, writePostSaga);
   yield takeLatest(READ_POST, readPostSaga);
   yield takeLatest(UPDATE_POST, updatePostSaga);
+  yield takeLatest(GET_LIST, getListSaga);
 }
 
 /* initialize state */
@@ -70,6 +81,9 @@ const initialState = {
   editPostError: null,
   post: null,
   postError: null,
+  postList: [],
+  lastPage: 1,
+  postListError: null,
   targetPostId: null,
 };
 
@@ -114,14 +128,23 @@ const post = handleActions(
       ...state,
       postError,
     }),
-    [UPDATE_POST_SUCCESS]: (state, {payload: editPost}) => ({
+    [UPDATE_POST_SUCCESS]: (state, { payload: editPost }) => ({
       ...state,
       editPost,
     }),
-    [UPDATE_POST_FAILURE]: (state, {payload: editPostError}) => ({
+    [UPDATE_POST_FAILURE]: (state, { payload: editPostError }) => ({
       ...state,
-      editPostError
-    })
+      editPostError,
+    }),
+    [GET_LIST_SUCCESS]: (state, { payload: postList, meta: response }) => ({
+      ...state,
+      postList,
+      lastPage: parseInt(response.headers['post-last-page'], '10'),
+    }),
+    [GET_LIST_FAILURE]: (state, { payload: postListError }) => ({
+      ...state,
+      postListError,
+    }),
   },
   initialState,
 );

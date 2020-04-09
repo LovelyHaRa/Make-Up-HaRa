@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Helmet } from 'react-helmet-async';
+import SubInfo from './common/SubInfo';
+import Tags from './common/Tags';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 3rem;
 `;
 
 const PostHead = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.postTitleBorder};
+  border-bottom: 1px solid ${({ theme }) => theme.postBorder};
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   h1 {
@@ -18,36 +20,12 @@ const PostHead = styled.div`
   }
 `;
 
-const SubInfo = styled.div`
-  margin-top: 1rem;
-  color: ${({ theme }) => theme.hoverText};
-
-  /* span 사이 가운뎃점 문자 출력 */
-  span + span:before {
-    padding: 0 0.25rem;
-    content: '\\B7'; /* 가운뎃점 문자 */
-  }
-`;
-
-const Tags = styled.div`
-  margin-top: 0.5rem;
-  .tag {
-    display: inline-block;
-    text-decoration: none;
-    margin-right: 0.5rem;
-    color: ${({ theme }) => theme.postTagText};
-    &:hover {
-      color: ${({ theme }) => theme.postTagHoverText};
-    }
-  }
-`;
-
 const PostContent = styled.div`
   color: ${({ theme }) => theme.text};
   .ql-video {
     margin: 0 1%;
     width: 98%;
-    height: 52.1vmax;
+    height: 570px;
   }
   @media screen and (max-width: 1024px) {
     .ql-video {
@@ -88,19 +66,12 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
       </Helmet>
       <PostHead>
         <h1>{title}</h1>
-        <SubInfo>
-          <span>
-            <b>{publisher.username}</b>
-          </span>
-          <span>{new Date(publishedDate).toLocaleString()}</span>
-        </SubInfo>
-        <Tags>
-          {tags.map(tag => (
-            <div key={tag} className="tag">
-              #{tag}
-            </div>
-          ))}
-        </Tags>
+        <SubInfo
+          hasMarginTop
+          username={publisher.username}
+          publishedDate={publishedDate}
+        />
+        <Tags tags={tags} />
       </PostHead>
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
       {actionButtons}

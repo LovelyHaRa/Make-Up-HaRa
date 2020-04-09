@@ -4,6 +4,7 @@ import isLoggedIn from '../../lib/middleware/isLoggedIn';
 
 const post = new Router();
 
+post.get('/list', PostController.list);
 post.post('/write', isLoggedIn, PostController.write);
 
 const postId = new Router();

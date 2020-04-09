@@ -18,6 +18,12 @@ const buttonStyle = css`
     background: ${({ theme }) => theme.btnHoverBody};
   }
 
+  &:disabled,
+  &[disabled] {
+    cursor: default;
+    background: ${({ theme }) => theme.btnHoverBody};
+  }
+
   ${props =>
     props.fullWidth &&
     css`
@@ -35,6 +41,15 @@ const buttonStyle = css`
       background: ${palette.indigo[9]};
       &:hover {
         background: ${palette.indigo[7]};
+      }
+    `}
+  ${props =>
+    props.violet &&
+    css`
+      background: ${palette.violet[9]};
+      color: #fff;
+      &:hover {
+        background: ${palette.violet[7]};
       }
     `}
 

@@ -4,6 +4,48 @@ import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
 import SanitizeOption from '../../lib/sanitize-html/SanitizeOption';
 
+// html 태그 필터링
+const removeHtmlAndShorten = body => {
+  const filtered = sanitizeHtml(body, { allowedTags: [] });
+  return filtered.length < 150 ? filtered : `${filtered.slice(0, 150)}...`;
+};
+
+/**
+ * 포스트 작성 API
+ * GET /api/post/list
+ */
+export const list = async ctx => {
+  /* parameter 설정 */
+  const page = parseInt(ctx.query.page || '1', 10);
+  const block = parseInt(ctx.query.block || '10', 10);
+  if (page < 1 || block < 1) {
+    ctx.status = 400; // Bad Request
+    return;
+  }
+  /* 필터링 정보 */
+  const { tag, username } = ctx.query;
+  const query = {
+    ...(username ? { 'publisher.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
+  };
+  /* 데이터베이스 검색 */
+  try {
+    const postList = await Post.find(query)
+      .sort({ _id: -1 })
+      .skip((page - 1) * 10)
+      .limit(block)
+      .lean();
+    const postCount = await Post.countDocuments(query);
+    ctx.set('Post-Last-Page', Math.ceil(postCount / 10));
+    ctx.body = postList.map(post => ({
+      ...post,
+      body: removeHtmlAndShorten(post.body),
+    }));
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
 /* post 정보를 state에 저장하는 미들웨어 */
 export const getPostById = async (ctx, next) => {
   // 1. 파라미터 추출

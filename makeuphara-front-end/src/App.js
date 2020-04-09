@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from './module/redux/theme';
 import PostWritePage from './pages/PostWritePage';
 import PostPage from './pages/PostPage';
+import PostListPage from './pages/PostListPage';
 import { Helmet } from 'react-helmet-async';
 
 const App = () => {
@@ -37,8 +38,13 @@ const App = () => {
         <Route component={MainPage} path={['/']} exact />
         <Route component={LoginPage} path={'/login'} />
         <Route component={RegisterPage} path={'/register'} />
+        <Route
+          component={PostListPage}
+          path={['/blog', '/blog/@:username']}
+          exact
+        />
         <Route component={PostWritePage} path={'/blog/write'} />
-        <Route component={PostPage} path={'/blog/@:username/:postId'} />
+        <Route component={PostPage} path={'/blog/@:username/:postId'} exact />
       </>
     </ThemeProvider>
   );

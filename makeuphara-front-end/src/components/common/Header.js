@@ -216,7 +216,7 @@ const EtcDropDown = ({ state }) => {
             <Link to="/wiki">
               <li>WIKI</li>
             </Link>
-            <Link to="/">
+            <Link to="/blog">
               <li>blog</li>
             </Link>
           </ul>
@@ -387,7 +387,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
               <Link to="/wiki">WIKI</Link>
             </Menu>
             <Menu className="main-menu">
-              <Link to="/">Blog</Link>
+              <Link to="/blog">Blog</Link>
             </Menu>
             <ClickAwayListener onClickAway={handleEtcClose}>
               <Menu>

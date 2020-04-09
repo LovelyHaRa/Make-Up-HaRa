@@ -55,9 +55,9 @@ const Editor = ({ title, body, onChangeField }) => {
           [{ indent: '-1' }, { indent: '+1' }],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
+          ['video'],
           ['blockquote', 'code-block', 'link', 'image'],
           ['clean'],
-          ['video'],
         ],
       },
     });
