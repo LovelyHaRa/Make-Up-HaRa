@@ -32,7 +32,7 @@ UserSchema.methods.serialize = function() {
 
 UserSchema.methods.generateToken = function() {
   const token = jwt.sign(
-    { _id: this.id, username: this.username },
+    { _id: this.id, username: this.username, provider: this.provider },
     process.env.JWT_SECRET,
     { expiresIn: '7d' },
   );

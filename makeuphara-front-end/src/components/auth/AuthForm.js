@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import Button from '../common/Button';
+import React, { useEffect, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import Button, { buttonStyle } from '../common/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -12,6 +12,17 @@ const AuthFormBlock = styled.div`
     color: ${({ theme }) => theme.text};
     margin-bottom: 1rem;
     font-weight: normal;
+  }
+  hr {
+    border: 0.5px solid ${({ theme }) => theme.loginInputBorder};
+  }
+  .social-login {
+    button + a {
+      margin-top: 0.5rem;
+    }
+    a + button {
+      margin-top: 0.5rem;
+    }
   }
 `;
 
@@ -53,9 +64,41 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
+const GoogleLoginButton = styled.button`
+  ${buttonStyle}
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const socialBtnStyle = css`
+  border: none;
+  padding: 0;
+  display: block;
+  border-radius: 0.5rem;
+  img {
+    width: 100%;
+    display: flex;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+`;
+
+const NaverLoginButton = styled.a`
+  ${buttonStyle}
+  ${socialBtnStyle}
+`;
+
+const KakaoLoginButton = styled.button`
+  ${buttonStyle}
+  ${socialBtnStyle}
+`;
+
 const textMap = {
   login: '로그인',
-  signinGoogle: '구글로 로그인 하기',
+  signinGoogle: '구글로 로그인',
   register: '회원가입',
 };
 
@@ -66,8 +109,121 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
   const text = textMap[type];
+
+  // Login with Google
+  const googleLoginBtn = useRef(null);
+  const auth2 = useRef(null);
+
+  // Config Google Login API
+  const loadGoogleLoginApi = () => {
+    // 로그인 버튼 이벤트 주입
+    const prepareLoginButton = () => {
+      auth2.current.attachClickHandler(
+        googleLoginBtn.current,
+        {},
+        googleUser => {
+          // const profile = googleUser.getBasicProfile();
+          // console.log('Token || ' + googleUser.getAuthResponse().id_token);
+          // console.log('ID: ' + profile.getId());
+          // console.log('Name: ' + profile.getName());
+          // console.log('Image URL: ' + profile.getImageUrl());
+          // console.log('Email: ' + profile.getEmail());
+
+          const id_token = googleUser.getAuthResponse().id_token;
+          onSocialLogin({ id_token });
+        },
+        error => {
+          console.log(JSON.stringify(error, undefined, 2));
+        },
+      );
+    };
+
+    window['googleSDKLoaded'] = () => {
+      window['gapi'].load('auth2', () => {
+        auth2.current = window['gapi'].auth2.init({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          cookiepolicy: 'single_host_origin',
+          scope: 'profile email',
+        });
+        prepareLoginButton();
+      });
+    };
+  };
+
+  const onNaverLoginClick = () => {
+    const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
+    const redirect_uri = 'http://localhost:3000/login/naver';
+    const state = 'http%3a%2f%2flocalhost%3a3000%2flogin';
+    let requestUrl =
+      'https://nid.naver.com/oauth2.0/authorize?response_type=code';
+    requestUrl += '&client_id=' + client_id;
+    requestUrl += '&redirect_uri=' + redirect_uri;
+    requestUrl += '&state=' + state;
+    console.log(requestUrl);
+    window.location = requestUrl;
+  };
+
+  const onKakaoLoginClick = () => {
+    const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
+    const redirect_uri = 'http://localhost:3000/login/kakao';
+    const state = 'http%3a%2f%2flocalhost%3a3000%2flogin';
+    let requestUrl =
+      'https:/kauth.kakao.com/oauth/authorize?response_type=code';
+    requestUrl += '&client_id=' + client_id;
+    requestUrl += '&redirect_uri=' + redirect_uri;
+    requestUrl += '&state=' + state;
+    console.log(requestUrl);
+    window.location = requestUrl;
+  };
+
+  // Load Script
+  const loadScript = (document, script, id, srcValue) => {
+    const referenceNode = document.getElementsByTagName(script)[0];
+    if (document.getElementById(id)) {
+      return;
+    }
+    const googlejssdkNode = document.createElement(script);
+    googlejssdkNode.id = id;
+    googlejssdkNode.src = srcValue;
+    referenceNode.parentNode.insertBefore(googlejssdkNode, referenceNode);
+  };
+
+  const removeApiScript = () => {
+    const removeTag = (tagName, targetId) => {
+      const targetNode = document.getElementsByTagName(tagName);
+      [...targetNode].map(
+        node =>
+          node.src.indexOf(targetId) >= 0 && node.parentNode.removeChild(node),
+      );
+    };
+
+    removeTag('script', 'apis.google.com');
+
+    const removeJssdk = id => {
+      const sdkNode = document.getElementById(id);
+      if (sdkNode) {
+        sdkNode.parentNode.removeChild(sdkNode);
+      }
+    };
+
+    removeJssdk('google-jssdk');
+  };
+
+  useEffect(() => {
+    loadScript(
+      document,
+      'script',
+      'google-jssdk',
+      'https://apis.google.com/js/platform.js?onload=googleSDKLoaded',
+    );
+    loadGoogleLoginApi();
+
+    return () => {
+      removeApiScript();
+    };
+  });
 
   return (
     <AuthFormBlock>
@@ -104,13 +260,19 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
         </ButtonWithMarginTop>
       </form>
       {type === 'login' && (
-        <div>
+        <div className="social-login">
           <hr />
-          <Button indigo fullWidth>
+          <GoogleLoginButton fullWidth indigo ref={googleLoginBtn}>
             <FontAwesomeIcon icon={faGoogle} />
+            {' ' + textMap['signinGoogle']}
             <span> </span>
-            {textMap['signinGoogle']}
-          </Button>
+          </GoogleLoginButton>
+          <NaverLoginButton transparent onClick={() => onNaverLoginClick()}>
+            <img src="/images/auth/naver_login_btn.png" alt="naver-login-btn" />
+          </NaverLoginButton>
+          <KakaoLoginButton transparent onClick={() => onKakaoLoginClick()}>
+            <img src="/images/auth/kakao_login_btn.png" alt="naver-login-btn" />
+          </KakaoLoginButton>
         </div>
       )}
 

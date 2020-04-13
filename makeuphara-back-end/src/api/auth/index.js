@@ -8,4 +8,8 @@ auth.post('/login', AuthController.login);
 auth.get('/check', AuthController.check);
 auth.post('/logout', AuthController.logout);
 
+auth.post('/login/google', AuthController.loginWithGoogle);
+auth.post('/login/naver', AuthController.loginWithNaver);
+auth.post('/login/kakao', AuthController.loginWithKakao);
+
 export default auth;

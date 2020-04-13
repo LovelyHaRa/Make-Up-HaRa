@@ -235,6 +235,7 @@ const EtcDropDown = ({ state }) => {
     )
   );
 };
+const MemoizedEtcDropDown = React.memo(EtcDropDown);
 
 const SearchDropDown = ({ state }) => {
   return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
@@ -394,7 +395,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
                 <Link to="#" onClick={handleEtcToggle} aria-haspopup="true">
                   <FontAwesomeIcon icon="ellipsis-h" />
                 </Link>
-                <EtcDropDown state={etc} />
+                <MemoizedEtcDropDown state={etc} />
               </Menu>
             </ClickAwayListener>
           </div>
@@ -451,11 +452,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
                   />
                 </div>
               </ClickAwayListener>
-              <Button
-                className="btn-sign-in"
-                transparent="true"
-                to="/login"
-              >
+              <Button className="btn-sign-in" transparent="true" to="/login">
                 로그인
               </Button>
             </div>

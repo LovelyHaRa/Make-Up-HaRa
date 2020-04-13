@@ -9,6 +9,7 @@ const verifyJwt = async (ctx, next) => {
     ctx.state.user = {
       _id: decoded._id,
       username: decoded.username,
+      provider: decode.provider,
     };
     const now = Math.floor(Date.now() / 1000);
     if (decode.exp - now < 60 * 60 * 24 * 3.5) {

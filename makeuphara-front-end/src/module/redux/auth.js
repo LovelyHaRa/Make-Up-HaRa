@@ -17,6 +17,21 @@ const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
   'auth/LOGIN',
 );
+const [
+  LOGIN_WITH_GOOGLE,
+  LOGIN_WITH_GOOGLE_SUCCESS,
+  LOGIN_WITH_GOOGLE_FAILURE,
+] = createRequestActionTypes('auth/LOGIN_WITH_GOOGLE');
+const [
+  LOGIN_WITH_NAVER,
+  LOGIN_WITH_NAVER_SUCCESS,
+  LOGIN_WITH_NAVER_FAILURE,
+] = createRequestActionTypes('auth/LOGIN_WITH_NAVER');
+const [
+  LOGIN_WITH_KAKAO,
+  LOGIN_WITH_KAKAO_SUCCESS,
+  LOGIN_WITH_KAKAO_FAILURE,
+] = createRequestActionTypes('auth/LOGIN_WITH_KAKAO');
 
 /* action */
 export const changeFieid = createAction(
@@ -36,14 +51,45 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
   username,
   password,
 }));
+export const loginWithGoogle = createAction(
+  LOGIN_WITH_GOOGLE,
+  ({ id_token }) => ({ id_token }),
+);
+export const loginWithNaver = createAction(
+  LOGIN_WITH_NAVER,
+  ({ client_id, client_secret, code, state }) => ({
+    client_id,
+    client_secret,
+    code,
+    state,
+  }),
+);
+export const loginWithKakao = createAction(LOGIN_WITH_KAKAO, ({ data }) => ({
+  data,
+}));
 
 /* redux-saga */
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const loginWithGoogleSaga = createRequestSaga(
+  LOGIN_WITH_GOOGLE,
+  authAPI.loginWithGoogle,
+);
+const loginWithNaverSaga = createRequestSaga(
+  LOGIN_WITH_NAVER,
+  authAPI.loginWithNaver,
+);
+const loginWithKakaoSaga = createRequestSaga(
+  LOGIN_WITH_KAKAO,
+  authAPI.loginWithKakao,
+);
 
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(LOGIN_WITH_GOOGLE, loginWithGoogleSaga);
+  yield takeLatest(LOGIN_WITH_NAVER, loginWithNaverSaga);
+  yield takeLatest(LOGIN_WITH_KAKAO, loginWithKakaoSaga);
 }
 
 /* initialize state */
@@ -88,6 +134,33 @@ const auth = handleActions(
       auth,
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    [LOGIN_WITH_GOOGLE_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    [LOGIN_WITH_GOOGLE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    [LOGIN_WITH_NAVER_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    [LOGIN_WITH_NAVER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    [LOGIN_WITH_KAKAO_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    [LOGIN_WITH_KAKAO_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),

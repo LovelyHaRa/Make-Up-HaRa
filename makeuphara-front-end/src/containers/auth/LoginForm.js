@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFieid, login } from '../../module/redux/auth';
+import { changeFieid, login, loginWithGoogle } from '../../module/redux/auth';
 import { check } from '../../module/redux/user';
 
 const LoginForm = ({ history }) => {
@@ -31,6 +31,10 @@ const LoginForm = ({ history }) => {
     dispatch(login({ username, password }));
   };
 
+  const onSocialLogin = ({ id_token }) => {
+    dispatch(loginWithGoogle({ id_token }));
+  };
+
   useEffect(() => {
     if (authError) {
       if (authError.response.status === 401) {
@@ -56,6 +60,7 @@ const LoginForm = ({ history }) => {
       }
     }
   }, [user, history]);
+
   return (
     <AuthForm
       type="login"
@@ -63,6 +68,7 @@ const LoginForm = ({ history }) => {
       onChange={onChange}
       onSubmit={onSubmit}
       error={error}
+      onSocialLogin={onSocialLogin}
     />
   );
 };

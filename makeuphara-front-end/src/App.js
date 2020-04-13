@@ -12,6 +12,8 @@ import PostWritePage from './pages/PostWritePage';
 import PostPage from './pages/PostPage';
 import PostListPage from './pages/PostListPage';
 import { Helmet } from 'react-helmet-async';
+import LoginWithNaverCallbackPage from './pages/LoginWithNaverCallbackPage';
+import LoginWithKakaoCallbackPage from './pages/LoginWithKakaoCallbackPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -36,7 +38,9 @@ const App = () => {
           <title>MAKE UP HARA</title>
         </Helmet>
         <Route component={MainPage} path={['/']} exact />
-        <Route component={LoginPage} path={'/login'} />
+        <Route component={LoginPage} path={'/login'} exact />
+        <Route component={LoginWithNaverCallbackPage} path={'/login/naver'} />
+        <Route component={LoginWithKakaoCallbackPage} path={'/login/kakao'} />
         <Route component={RegisterPage} path={'/register'} />
         <Route
           component={PostListPage}
