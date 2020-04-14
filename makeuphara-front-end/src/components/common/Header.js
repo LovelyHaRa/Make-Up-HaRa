@@ -8,6 +8,7 @@ import {
   faSearch,
   faEllipsisH,
   faEllipsisV,
+  faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -99,7 +100,7 @@ const HeaderBlock = styled.nav`
   .dropdown.dropdown-menu hr {
     margin: 0 0.25rem;
     border: 0;
-    height: 0.5px;
+    height: 1px;
     background: ${palette.gray[5]};
   }
   .dropdown.dropdown-menu ul {
@@ -120,7 +121,17 @@ const HeaderBlock = styled.nav`
     background: ${({ theme }) => theme.hoverList};
   }
   .dropdown.dropdown-menu.dropdown-user-info {
+    width: 16rem;
     right: 0.5rem;
+  }
+  .profile-menu p {
+    margin: 0.5rem 0.5rem 0;
+    color: ${({ theme }) => theme.text};
+    font-weight: 600;
+  }
+  .profile-menu li {
+    margin: 0;
+    padding: 0.25rem 0.5rem;
   }
   .dropdown.dropdown-search-input {
     display: flex;
@@ -199,6 +210,7 @@ const SearchBtn = styled(Link)`
   justify-content: center;
   align-items: center;
   background: ${({ theme }) => theme.btnSearchBody};
+  color: ${({ theme }) => theme.text};
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   &:hover {
@@ -239,6 +251,17 @@ const MemoizedEtcDropDown = React.memo(EtcDropDown);
 
 const SearchDropDown = ({ state }) => {
   return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
+};
+
+const ProfileInfo = ({ user }) => {
+  return (
+    <div className="profile-menu">
+      <p>{user.username}</p>
+      <ul>
+        <li>My Page</li>
+      </ul>
+    </div>
+  );
 };
 
 const OptionMenu = ({ isDarkTheme }) => {
@@ -299,10 +322,12 @@ const LogoutMenu = ({ onLogout }) => (
   </ul>
 );
 
-const UserDropDown = ({ state, onLogout, isDarkTheme }) => {
+const UserDropDown = ({ state, user, onLogout, isDarkTheme }) => {
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
+        <ProfileInfo user={user} />
+        <hr />
         <OptionMenu isDarkTheme={isDarkTheme} />
         <hr />
         <LogoutMenu onLogout={onLogout} />
@@ -336,7 +361,7 @@ const Spacer = styled.div`
   height: 3rem;
 `;
 
-library.add([faSearch, faEllipsisH, faEllipsisV]);
+library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
 
 const Header = ({ user, onLogout, isDarkTheme }) => {
   const [etc, setEtc] = useState(false);
@@ -430,10 +455,11 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
                   aria-haspopup="true"
                   onClick={handleUserInfoToggle}
                 >
-                  {user.username}
+                  <FontAwesomeIcon icon="user-circle" size="lg" />
                 </Link>
                 <UserDropDown
                   state={userinfo}
+                  user={user}
                   onLogout={onLogout}
                   isDarkTheme={isDarkTheme}
                 />
