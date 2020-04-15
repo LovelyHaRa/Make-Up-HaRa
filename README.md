@@ -12,6 +12,18 @@
 
 
 
+##### To Do List
+
+- Search
+- WIKI
+- Barcode / QRcode Maker
+- To Do List For User
+- Shopping Search
+- Trending Search keywords list
+- My Page
+
+
+
 ##### Technology Stacks
 
 Front-end
