@@ -34,6 +34,7 @@ const [
 const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] = createRequestActionTypes(
   'post/GET_LIST',
 );
+const UNLOAD_LIST = 'post/UNLOAD_LIST'; // 포스트 리스트 뷰 언마운트시 post list 정보 제거
 
 /* action */
 export const initialize = createAction(INITIALIZE);
@@ -53,11 +54,16 @@ export const updatePost = createAction(
   UPDATE_POST,
   ({ id, title, body, tags }) => ({ id, title, body, tags }),
 );
-export const getList = createAction(GET_LIST, ({ page, tag, username }) => ({
-  page,
-  tag,
-  username,
-}));
+export const getList = createAction(
+  GET_LIST,
+  ({ page, tag, username, block }) => ({
+    page,
+    tag,
+    username,
+    block,
+  }),
+);
+export const unloadList = createAction(UNLOAD_LIST);
 
 /* redux-saga */
 const writePostSaga = createRequestSaga(WRITE_POST, postAPI.writePost);
@@ -144,6 +150,11 @@ const post = handleActions(
     [GET_LIST_FAILURE]: (state, { payload: postListError }) => ({
       ...state,
       postListError,
+    }),
+    [UNLOAD_LIST]: state => ({
+      ...state,
+      postList: null,
+      postListError: null,
     }),
   },
   initialState,

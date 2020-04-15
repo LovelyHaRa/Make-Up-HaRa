@@ -28,9 +28,11 @@ const SubInfo = ({ username, publishedDate, hasMarginTop }) => {
           <b>{username}</b>
         </Link>
       </span>
-      <span className="publishedDate">
-        {new Date(publishedDate).toLocaleString()}
-      </span>
+      {publishedDate && (
+        <span className="publishedDate">
+          {new Date(publishedDate).toLocaleString()}
+        </span>
+      )}
     </SubInfoBlock>
   );
 };

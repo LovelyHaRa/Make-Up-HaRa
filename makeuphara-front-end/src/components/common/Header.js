@@ -85,7 +85,7 @@ const HeaderBlock = styled.nav`
     z-index: 100;
   }
   .dropdown.dropdown-menu {
-    width: 12rem;
+    width: 14rem;
     top: 2.5rem;
     background: ${({ theme }) => theme.dropdownBody};
     color: ${({ theme }) => theme.text};
@@ -95,7 +95,7 @@ const HeaderBlock = styled.nav`
       theme.body === '#fff'
         ? '0 0 5px 2px rgba(0, 0, 0, 0.15)'
         : '0 0 5px 2px rgba(0, 0, 0, 0.35)'};
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   .dropdown.dropdown-menu hr {
     margin: 0 0.25rem;
@@ -236,12 +236,12 @@ const EtcDropDown = ({ state }) => {
         </div>
         <ul>
           <Link to="/todo">
-            <li>TODO</li>
+            <li>외부사이트 검색(구현 중...)</li>
           </Link>
-          <li>테스트2</li>
-          <li>테스트3</li>
-          <li>테스트4</li>
-          <li>테스트5</li>
+          <li>쇼핑 검색(구현 중...)</li>
+          <li>바코드 / QR코드 만들기(구현 중...)</li>
+          <li>실시간 검색어 순위(구현 중...)</li>
+          <li>TODO(구현 중...)</li>
         </ul>
       </div>
     )
@@ -258,7 +258,7 @@ const ProfileInfo = ({ user }) => {
     <div className="profile-menu">
       <p>{user.username}</p>
       <ul>
-        <li>My Page</li>
+        <li>My Page(구현 중...)</li>
       </ul>
     </div>
   );

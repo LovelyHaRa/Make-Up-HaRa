@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
-import { getList } from '../../module/redux/post';
+import { getList, unloadList } from '../../module/redux/post';
 import PostList from '../../components/post/PostList';
 import loadable from '@loadable/component';
 const PaginationContainer = loadable(() => import('./PaginationContainer'));
@@ -29,6 +29,7 @@ const PostListContainer = ({ location, match }) => {
     dispatch(getList({ username, tag, page }));
     pagination.current = true;
     return () => {
+      dispatch(unloadList());
       pagination.current = false;
     }
   }, [dispatch, tag, page, username]);

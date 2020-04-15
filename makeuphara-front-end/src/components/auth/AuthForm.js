@@ -232,7 +232,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
         <StyledInput
           autoComplete="username"
           name="username"
-          placeholder="이메일 또는 계정명"
+          placeholder="계정 이름"
           value={form.username}
           onChange={onChange}
         />

@@ -18,17 +18,28 @@ const TagsBlock = styled.div`
 
 const buildLink = ({ username, tag }) => {
   const query = qs.stringify({ tag });
-  return username ? `/blog/@${username}?${query}` : `/blog/?${query}`;
+  return username ? `/blog/@${username}?${query}` : `/blog?${query}`;
 };
 
-const Tags = ({ tags, username }) => {
+const Tags = ({ tags, username, limit = 0 }) => {
   return (
     <TagsBlock className="tags">
-      {tags.map(tag => (
-        <Link className="tag" to={buildLink({ username, tag })} key={tag}>
-          #{tag}
-        </Link>
-      ))}
+      {limit > 0 &&
+        tags.map(
+          (tag, index) =>
+            index < limit && (
+              <Link className="tag" to={buildLink({ username, tag })} key={tag}>
+                #{tag}
+              </Link>
+            ),
+        )}
+      {limit > 0 && limit < tags.length && <span>...</span>}
+      {!limit &&
+        tags.map(tag => (
+          <Link className="tag" to={buildLink({ username, tag })} key={tag}>
+            #{tag}
+          </Link>
+        ))}
     </TagsBlock>
   );
 };

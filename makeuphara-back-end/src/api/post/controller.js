@@ -39,6 +39,8 @@ export const list = async ctx => {
     ctx.set('Post-Last-Page', Math.ceil(postCount / 10));
     ctx.body = postList.map(post => ({
       ...post,
+      title:
+        post.title.length < 50 ? post.title : `${post.title.slice(0, 150)}...`,
       body: removeHtmlAndShorten(post.body),
     }));
   } catch (error) {

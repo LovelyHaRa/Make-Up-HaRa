@@ -34,6 +34,7 @@ export const lightTheme = {
   btnBody: palette.gray[9],
   btnHoverBody: palette.gray[7],
   btnText: '#fff',
+  btnDisableBody: palette.cyan[7],
   /* PostViewer */
   postBorder: palette.gray[4],
   postSubInfoText: palette.gray[6],
@@ -80,6 +81,7 @@ export const darkTheme = {
   btnBody: '#fff',
   btnHoverBody: palette.gray[4],
   btnText: palette.gray[9],
+  btnDisableBody: palette.violet[7],
   /* PostViewer */
   postBorder: palette.gray[5],
   postSubInfoText: palette.gray[5],
