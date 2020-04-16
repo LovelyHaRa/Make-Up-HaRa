@@ -45,6 +45,10 @@ export const lightTheme = {
   postActionButtonHoverText: palette.gray[6],
   postActionButtonBody: palette.gray[2],
   postActionButtonHoverBody: palette.gray[1],
+  /* Wiki */
+  wikiMenuBorder: palette.gray[5],
+  wikiActionButtonBody: palette.gray[2],
+  wikiActionButtonHoverBody: palette.gray[1],
 };
 
 export const darkTheme = {
@@ -92,4 +96,8 @@ export const darkTheme = {
   postActionButtonHoverText: palette.gray[3],
   postActionButtonBody: palette.gray[8],
   postActionButtonHoverBody: palette.gray[7],
+  /* Wiki */
+  wikiMenuBorder: palette.gray[7],
+  wikiActionButtonBody: palette.gray[8],
+  wikiActionButtonHoverBody: palette.gray[7],
 };

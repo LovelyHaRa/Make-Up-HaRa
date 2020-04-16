@@ -361,9 +361,8 @@ const Spacer = styled.div`
   height: 3rem;
 `;
 
-library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
-
 const Header = ({ user, onLogout, isDarkTheme }) => {
+  library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
   const [userinfo, setUserinfo] = useState(false);

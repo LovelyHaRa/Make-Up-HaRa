@@ -13,11 +13,11 @@ const BlogSection = styled.div`
   h3 {
     font-weight: 500;
   }
-  & > a {
+  & > span {
     display: flex;
     justify-content: flex-end;
     margin-top: 0.5rem;
-    &:hover {
+    & > a:hover {
       color: ${({ theme }) => theme.hoverText};
     }
   }
@@ -86,7 +86,9 @@ const Main = ({ postList, loading, postError }) => {
               ))}
             </div>
           )}
-          <Link to="/blog">MORE POST...</Link>
+          <span>
+            <Link to="/blog">MORE POST...</Link>
+          </span>
         </BlogSection>
       </MainBlock>
     </>
