@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { writePost, updatePost } from '../../module/redux/post';
-import WriteActionButtons from '../../components/write/WriteActionButtons';
+import { writePost, updatePost } from '../../../module/redux/post';
+import WriteActionButtons from '../../../components/post/write/WriteActionButtons';
 
 const WriteActionButtonsContainer = ({ history }) => {
   // 액션함수 불러오기

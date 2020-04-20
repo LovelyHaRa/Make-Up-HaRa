@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
-import { useEffect } from 'react';
+import Responsive from '../../common/Responsive';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 

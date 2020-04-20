@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 mongoose.set('useCreateIndex', true);
 const UserSchema = new Schema({
-  username: { type: String },
+  username: { type: String, index: { unique: true } },
   name: { type: String, index: 'hashed' },
   hashedPassword: String,
   createdAt: { type: Date, index: { unique: false }, default: Date.now },

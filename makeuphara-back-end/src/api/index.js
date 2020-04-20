@@ -1,15 +1,11 @@
 import Router from 'koa-router';
 import auth from './auth/index';
 import post from './post/index';
+import wiki from './wiki/index';
 const api = new Router();
-
-api.get('/test', ctx => {
-  console.log(ctx.state.user);
-  ctx.body = 'test 성공 ';
-  ctx.body += ctx.state.user && ctx.state.user.username;
-});
 
 api.use('/auth', auth.routes());
 api.use('/post', post.routes());
+api.use('/wiki', wiki.routes());
 
 export default api;

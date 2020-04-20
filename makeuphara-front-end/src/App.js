@@ -15,6 +15,7 @@ import { Helmet } from 'react-helmet-async';
 import LoginWithNaverCallbackPage from './pages/LoginWithNaverCallbackPage';
 import LoginWithKakaoCallbackPage from './pages/LoginWithKakaoCallbackPage';
 import WikiPage from './pages/WikiPage';
+import WikiEditPage from './pages/WikiEditPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -51,6 +52,11 @@ const App = () => {
         <Route component={PostWritePage} path={'/blog/write'} />
         <Route component={PostPage} path={'/blog/@:username/:postId'} exact />
         <Route component={WikiPage} path={['/wiki', '/wiki/@:id']} exact />
+        <Route
+          component={WikiEditPage}
+          path={['/wiki/edit', '/wiki/edit/:id']}
+          exact
+        />
       </>
     </ThemeProvider>
   );
