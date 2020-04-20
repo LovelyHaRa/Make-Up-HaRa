@@ -16,6 +16,7 @@ import LoginWithNaverCallbackPage from './pages/LoginWithNaverCallbackPage';
 import LoginWithKakaoCallbackPage from './pages/LoginWithKakaoCallbackPage';
 import WikiPage from './pages/WikiPage';
 import WikiEditPage from './pages/WikiEditPage';
+import WikiRequestPage from './pages/WikiRequestPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -52,11 +53,8 @@ const App = () => {
         <Route component={PostWritePage} path={'/blog/write'} />
         <Route component={PostPage} path={'/blog/@:username/:postId'} exact />
         <Route component={WikiPage} path={['/wiki', '/wiki/@:id']} exact />
-        <Route
-          component={WikiEditPage}
-          path={['/wiki/edit', '/wiki/edit/:id']}
-          exact
-        />
+        <Route component={WikiEditPage} path={'/wiki/edit/:id'} exact />
+        <Route component={WikiRequestPage} path={'/wiki/request'} exact />
       </>
     </ThemeProvider>
   );

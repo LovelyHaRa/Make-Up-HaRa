@@ -235,10 +235,10 @@ const EtcDropDown = ({ state }) => {
           <hr />
         </div>
         <ul>
-          <Link to="/todo">
-            <li>외부사이트 검색(구현 중...)</li>
+          <Link to="/wiki/request">
+            <li>작성이 필요한 문서[WIKI]</li>
           </Link>
-          <li>쇼핑 검색(구현 중...)</li>
+          <li>외부사이트 검색(구현 중...)</li>
           <li>바코드 / QR코드 만들기(구현 중...)</li>
           <li>실시간 검색어 순위(구현 중...)</li>
           <li>TODO(구현 중...)</li>

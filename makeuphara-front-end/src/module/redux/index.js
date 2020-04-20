@@ -4,6 +4,7 @@ import loading from './loading';
 import auth, { authSaga } from './auth';
 import user, { userSaga } from './user';
 import post, { postSaga } from './post';
+import wiki, { wikiSaga } from './wiki';
 import theme from './theme';
 
 /* root reducer */
@@ -13,11 +14,12 @@ const rootReducer = combineReducers({
   user,
   theme,
   post,
+  wiki,
 });
 
 /* root saga */
 export function* rootSaga() {
-  yield all([authSaga(), userSaga(), postSaga()]);
+  yield all([authSaga(), userSaga(), postSaga(), wikiSaga()]);
 }
 
 export default rootReducer;
