@@ -1,6 +1,6 @@
 import React from 'react';
 import Responsive from '../components/common/Responsive';
-import Footer from '../components/post/write/Footer';
+import EditorFooter from '../components/common/editor/EditorFooter';
 import BodyBlock from '../components/common/BodyBlock';
 import EditorContainer from '../containers/post/write/EditorContainer';
 import TagBoxContainer from '../containers/post/write/TagBoxContainer';
@@ -23,7 +23,7 @@ const PostWritePage = ({ history }) => {
       <EditorContainer />
       <TagBoxContainer />
       <WriteActionButtonsContainer />
-      <Footer />
+      <EditorFooter />
     </Responsive>
   );
 };

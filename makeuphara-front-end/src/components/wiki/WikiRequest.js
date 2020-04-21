@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import Responsive from '../common/Responsive';
 
 const WikiRequestBlock = styled.div`
@@ -16,23 +15,34 @@ const WikiRequestBlock = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
-    a {
+    button {
+      padding: 0.25rem 0.5rem;
       margin-left: 3rem;
-      font-size: 0.9rem;
+      border: none;
+      outline: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+      color: ${({ theme }) => theme.wikiActionButtonText};
+      background: ${({ theme }) => theme.wikiActionButtonBody};
+      &:hover {
+        color: ${({ theme }) => theme.wikiActionButtonHoverText};
+        background: ${({ theme }) => theme.wikiActionButtonHoverBody};
+      }
     }
   }
 `;
 
-const RequestItem = ({ name, id }) => {
+const RequestItem = ({ title, onEdit }) => {
+  const { name } = title;
   return (
     <div className="item">
       <span>{name}</span>
-      <Link to={`/wiki/edit/${id}`}>작성하기</Link>
+      <button onClick={() => onEdit(title)}>작성하기</button>
     </div>
   );
 };
 
-const WikiRequest = ({ requestList, error }) => {
+const WikiRequest = ({ requestList, loading, error, onEdit }) => {
   if (error) {
     return (
       <Responsive>
@@ -42,12 +52,15 @@ const WikiRequest = ({ requestList, error }) => {
       </Responsive>
     );
   }
+  if (!requestList || loading) {
+    return null;
+  }
   return (
     <Responsive>
       <WikiRequestBlock>
         <h2>작성이 필요한 문서</h2>
         {requestList.map(request => (
-          <RequestItem name={request.name} id={request._id} />
+          <RequestItem title={request} onEdit={onEdit} key={request._id} />
         ))}
       </WikiRequestBlock>
     </Responsive>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const FooterBlock = styled.div`
+const EditorFooterBlock = styled.div`
   position: fixed;
   bottom: 0;
   height: 2rem;
@@ -31,11 +31,11 @@ const FooterBlock = styled.div`
   }
 `;
 
-const Footer = ({ type = 'blog' }) => {
+const EditorFooter = ({ type = 'blog' }) => {
   const editorName = type === 'blog' ? 'BLOG' : 'WIKI';
   const editorHref = type === 'blog' ? '/blog' : '/wiki';
   return (
-    <FooterBlock>
+    <EditorFooterBlock>
       <div className="title">
         <Link to="/">MAKE UP HARA</Link>
       </div>
@@ -43,8 +43,8 @@ const Footer = ({ type = 'blog' }) => {
         <Link to={editorHref}>{editorName}</Link>
         <span>&nbsp;EDITOR</span>
       </div>
-    </FooterBlock>
+    </EditorFooterBlock>
   );
 };
 
-export default Footer;
+export default EditorFooter;

@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 mongoose.set('useCreateIndex', true);
 
 const WikiTitleSchema = new Schema({
-  code: { type: String },
+  code: { type: [String] },
   name: { type: String, index: { unique: true } },
   lately: { type: Number },
 });

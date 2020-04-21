@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { writePost, updatePost } from '../../../module/redux/post';
-import WriteActionButtons from '../../../components/post/write/WriteActionButtons';
+import WriteActionButtons from '../../../components/common/editor/WriteActionButtons';
 
 const WriteActionButtonsContainer = ({ history }) => {
-  // 액션함수 불러오기
+  // 액션 함수 불러오기
   const dispatch = useDispatch();
-  // 전역함수 불러오기
+  // 전역 상태 불러오기
   const {
     title,
     body,
@@ -49,7 +49,7 @@ const WriteActionButtonsContainer = ({ history }) => {
 
   return (
     <WriteActionButtons
-      onPublish={onPublish}
+      onClick={onPublish}
       onCancel={onCancel}
       isEdit={!!targetPostId}
     />
