@@ -225,7 +225,7 @@ const EtcDropDown = ({ state }) => {
         <div className="all-menu">
           <p>MAIN MENU</p>
           <ul>
-            <Link to="/wiki">
+            <Link to="/w">
               <li>WIKI</li>
             </Link>
             <Link to="/blog">
@@ -409,7 +409,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
           </Link>
           <div className="menu">
             <Menu className="main-menu">
-              <Link to="/wiki">WIKI</Link>
+              <Link to="/w">WIKI</Link>
             </Menu>
             <Menu className="main-menu">
               <Link to="/blog">Blog</Link>

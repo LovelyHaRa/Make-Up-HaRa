@@ -39,6 +39,8 @@ export default {
     img: ['src'],
     li: ['class'],
     iframe: ['src', 'class', 'frameborder', 'allowfullscreen'],
+    p: ['class'],
+    b: ['class'],
   },
   allowedSchemes: ['data', 'http', 'https'],
   allowedIframeHostnames: ['www.youtube.com', 'youtu.be'],

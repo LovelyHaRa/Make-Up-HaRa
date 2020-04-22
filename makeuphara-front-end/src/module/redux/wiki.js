@@ -25,6 +25,14 @@ const [
   WRITE_DOCUMENT_SUCCESS,
   WRITE_DOCUMENT_FAILURE,
 ] = createRequestActionTypes('wiki/WRITE_DOCUMENT');
+// api - read
+const [
+  READ_DOCUMENT,
+  READ_DOCUMENT_SUCCESS,
+  READ_DOCUMENT_FAILURE,
+] = createRequestActionTypes('wiki/READ_DOCUMENT');
+const UNLOAD_DOCUMENT = 'wiki/UNLOAD_DOCUMENT'; // 위키 문서 뷰 언마운트시 문서 정보 제거
+const SET_ORIGINAL_DOCUMENT = 'wiki/SET_ORIGINAL_DOCUMENT'; // 위키 문서 편집 시 에디터에 문서 세팅
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -35,6 +43,12 @@ export const writeDocument = createAction(WRITE_DOCUMENT, ({ id, body }) => ({
   id,
   body,
 }));
+export const readDocument = createAction(READ_DOCUMENT, ({ id }) => ({ id }));
+export const unloadDocument = createAction(UNLOAD_DOCUMENT);
+export const setOriginalDocument = createAction(
+  SET_ORIGINAL_DOCUMENT,
+  document => document,
+);
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -45,10 +59,15 @@ const writeDocumentSaga = createRequestSaga(
   WRITE_DOCUMENT,
   wikiAPI.writeDocument,
 );
+export const readDocumentSaga = createRequestSaga(
+  READ_DOCUMENT,
+  wikiAPI.readDocument,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
   yield takeLatest(WRITE_DOCUMENT, writeDocumentSaga);
+  yield takeLatest(READ_DOCUMENT, readDocumentSaga);
 }
 
 /* initialize state */
@@ -56,6 +75,8 @@ const initialState = {
   title: null,
   titleError: null,
   body: '',
+  document: null,
+  documentError: null,
   editDocument: null,
   editDocumentError: null,
   requestList: [],
@@ -94,6 +115,24 @@ const wiki = handleActions(
     [WRITE_DOCUMENT_FAILURE]: (state, { payload: editDocumentError }) => ({
       ...state,
       editDocumentError,
+    }),
+    [READ_DOCUMENT_SUCCESS]: (state, { payload: document }) => ({
+      ...state,
+      document,
+    }),
+    [READ_DOCUMENT_FAILURE]: (state, { payload: documentError }) => ({
+      ...state,
+      documentError,
+    }),
+    [UNLOAD_DOCUMENT]: state => ({
+      ...state,
+      document: null,
+      documentError: null,
+    }),
+    [SET_ORIGINAL_DOCUMENT]: (state, { payload: document }) => ({
+      ...state,
+      title: document.title,
+      body: document.body,
     }),
   },
   initialState,

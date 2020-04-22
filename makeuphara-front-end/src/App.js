@@ -52,7 +52,7 @@ const App = () => {
         />
         <Route component={PostWritePage} path={'/blog/write'} />
         <Route component={PostPage} path={'/blog/@:username/:postId'} exact />
-        <Route component={WikiPage} path={['/wiki', '/wiki/@:id']} exact />
+        <Route component={WikiPage} path={['/w', '/w/:docName']} exact />
         <Route component={WikiEditPage} path={'/wiki/edit'} exact />
         <Route component={WikiRequestPage} path={'/wiki/request'} exact />
       </>

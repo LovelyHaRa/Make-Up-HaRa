@@ -21,7 +21,25 @@ export const getTitleById = async (ctx, next) => {
       return;
     }
     // 4. 컨텍스트에 타이틀 삽입
-    ctx.state.wikititle = title; // 타이틀 상태 저장
+    ctx.state.wikititle = title.toJSON(); // 타이틀 상태 저장
+    return next(); // 다음 미들웨어 호출
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+export const getTitleByName = async (ctx, next) => {
+  // 1. 파라미터 추출
+  const { id } = ctx.params;
+  try {
+    // 2. 데이터베이스 검색
+    const title = await WikiTitle.findByName(id); // 타이틀 검색
+    if (!title) {
+      ctx.status = 404; // Not Found
+      return;
+    }
+    // 3. 컨텍스트에 타이틀 삽입
+    ctx.state.wikititle = title.toJSON(); // 타이틀 상태 저장
     return next(); // 다음 미들웨어 호출
   } catch (error) {
     ctx.throw(500, error);
@@ -30,6 +48,19 @@ export const getTitleById = async (ctx, next) => {
 
 export const getTitle = async ctx => {
   ctx.body = ctx.state.wikititle;
+};
+
+export const readDocument = async ctx => {
+  const { _id, lately } = ctx.state.wikititle;
+  try {
+    const document = await Document.findOne({
+      'title._id': _id,
+      revision: lately,
+    });
+    ctx.body = document;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
 };
 
 export const write = async ctx => {
@@ -47,7 +78,7 @@ export const write = async ctx => {
   }
   /* data push */
   try {
-    const { _id, lately } = { ...ctx.state.wikititle._doc };
+    const { _id, lately } = { ...ctx.state.wikititle };
     const title = await WikiTitle.findByIdAndUpdate(
       _id,
       { lately: lately + 1 },
@@ -56,7 +87,7 @@ export const write = async ctx => {
     const revision = title._doc.lately;
     const { body } = ctx.request.body;
     const document = new Document({
-      title: title,
+      title: { _id: title._doc._id, name: title._doc.name },
       body: sanitizeHtml(body, SanitizeOption),
       publisher: ctx.state.user,
       revision,

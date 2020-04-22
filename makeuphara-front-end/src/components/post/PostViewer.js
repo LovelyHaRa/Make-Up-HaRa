@@ -27,6 +27,15 @@ const PostContent = styled.div`
     width: 98%;
     height: 570px;
   }
+  .ql-align-left {
+    text-align: left;
+  }
+  .ql-align-center {
+    text-align: center;
+  }
+  .ql-align-right {
+    text-align: right;
+  }
   @media screen and (max-width: 1024px) {
     .ql-video {
       height: 400px;

@@ -52,6 +52,7 @@ const Editor = ({ title, body, onChangeField }) => {
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ indent: '-1' }, { indent: '+1' }],
+          [{ align: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
           ['video'],

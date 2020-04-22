@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
-import { Link } from 'react-router-dom';
 
 const WikiViewerBlock = styled.div``;
 
@@ -11,9 +10,14 @@ const DocumentMenuBlock = styled.div`
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
   border-bottom: 1px solid ${({ theme }) => theme.wikiMenuBorder};
-  a {
+  button {
     padding: 0.25rem 0.75rem;
+    outline: none;
+    border: none;
     border-left: 1px solid ${({ theme }) => theme.wikiMenuBorder};
+    cursor: pointer;
+    background: ${({ theme }) => theme.body};
+    color: ${({ theme }) => theme.text};
     &:hover {
       background: ${({ theme }) => theme.wikiActionButtonHoverBody};
       color: ${({ theme }) => theme.hoverText};
@@ -21,11 +25,12 @@ const DocumentMenuBlock = styled.div`
   }
 `;
 
-const DocumentMenu = () => {
+const DocumentMenu = ({ onEdit }) => {
   return (
     <>
-      <Link to="#">편집</Link>
-      <Link to="#">역사</Link>
+      <button>코드 등록</button>
+      <button onClick={onEdit}>편집</button>
+      <button>역사</button>
     </>
   );
 };
@@ -50,30 +55,69 @@ const BodyBlock = styled.div`
   margin: 1rem 0;
 `;
 
-const BodyTest = () => {
-  return (
-    <div>
-      <p>메이크업베이스</p>
-      <p>잘발림</p>
-      <p>평점: 9/10</p>
-      <p>긴문장테스트으으으으으으으으으으를하는중입니다</p>
-    </div>
-  );
-};
+const DocumentContent = styled.div`
+  color: ${({ theme }) => theme.text};
+  p {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  .ql-video {
+    margin: 0 1%;
+    width: 98%;
+    height: 570px;
+  }
+  .ql-align-left {
+    text-align: left;
+  }
+  .ql-align-center {
+    text-align: center;
+  }
+  .ql-align-right {
+    text-align: right;
+  }
+  @media screen and (max-width: 1024px) {
+    .ql-video {
+      height: 400px;
+    }
+  }
+`;
 
-const WikiViewer = () => {
+const WikiViewer = ({ document, error, loading, onEdit }) => {
+  if (error) {
+    if (error.response && error.response.status === 404) {
+      return (
+        <BodyBlock>
+          <DocumentContent>존재하지 않는 위키 문서입니다.</DocumentContent>
+        </BodyBlock>
+      );
+    } else {
+      return (
+        <BodyBlock>
+          <DocumentContent>
+            Status {error.response.status}: {error.response.statusText}
+          </DocumentContent>
+        </BodyBlock>
+      );
+    }
+  }
+
+  if (loading || !document) {
+    return null;
+  }
+  const { title, body, publishedDate } = document;
+
   return (
     <WikiViewerBlock>
       <DocumentMenuBlock>
-        <DocumentMenu />
+        <DocumentMenu onEdit={onEdit} />
       </DocumentMenuBlock>
       <DocumentBlock>
         <TitleBlock>
-          <h2>이니스프리 메이크업 베이스 퍼플</h2>
-          <p>최근 수정시각: {new Date().toLocaleString()}</p>
+          <h2>{title && title.name}</h2>
+          <p>최근 수정시각: {new Date(publishedDate).toLocaleString()}</p>
         </TitleBlock>
         <BodyBlock>
-          <BodyTest />
+          <DocumentContent dangerouslySetInnerHTML={{ __html: body }} />
         </BodyBlock>
       </DocumentBlock>
     </WikiViewerBlock>

@@ -45,7 +45,10 @@ const PostActionButtions = ({ onEdit, onRemove }) => {
   /* 모달 영역 밖 클릭시 모달 닫기 */
   useEffect(() => {
     window.onclick = event => {
-      if (event.target.className.includes('modal')) {
+      if (
+        !!event.target.className.includes &&
+        event.target.className.includes('modal')
+      ) {
         setModal(false);
       }
     };

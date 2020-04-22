@@ -9,9 +9,10 @@ const WikiTitleSchema = new Schema({
 });
 
 const DocumentSchema = new Schema({
-  title: WikiTitleSchema,
+  title: { _id: mongoose.Types.ObjectId, name: { type: String } },
   body: { type: String },
   publisher: { _id: mongoose.Types.ObjectId, username: { type: String } },
+  publishedDate: { type: Date, default: Date.now },
   revision: { type: Number },
 });
 

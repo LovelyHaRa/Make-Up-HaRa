@@ -36,7 +36,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   useEffect(() => {
     if (editDocument) {
       const { name } = editDocument.title;
-      history.push(`/wiki/${name}`);
+      history.push(`/w/${name}`);
     }
     if (editDocumentError) {
       console.log(editDocumentError);
