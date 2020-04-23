@@ -46,24 +46,24 @@ export const getTitleByName = async (ctx, next) => {
   }
 };
 
-export const getTitle = async ctx => {
+export const getTitle = async (ctx) => {
   ctx.body = ctx.state.wikititle;
 };
 
-export const readDocument = async ctx => {
+export const readDocument = async (ctx) => {
   const { _id, lately } = ctx.state.wikititle;
   try {
     const document = await Document.findOne({
-      'title._id': _id,
+      title: _id,
       revision: lately,
-    });
+    }).populate('title');
     ctx.body = document;
   } catch (error) {
     ctx.throw(500, error);
   }
 };
 
-export const write = async ctx => {
+export const write = async (ctx) => {
   /* validate */
   const schema = Joi.object().keys({
     body: Joi.string().required(),
@@ -78,7 +78,7 @@ export const write = async ctx => {
   }
   /* data push */
   try {
-    const { _id, lately } = { ...ctx.state.wikititle };
+    const { _id, name, lately } = { ...ctx.state.wikititle };
     const title = await WikiTitle.findByIdAndUpdate(
       _id,
       { lately: lately + 1 },
@@ -87,23 +87,23 @@ export const write = async ctx => {
     const revision = title._doc.lately;
     const { body } = ctx.request.body;
     const document = new Document({
-      title: { _id: title._doc._id, name: title._doc.name },
+      title: _id,
       body: sanitizeHtml(body, SanitizeOption),
       publisher: ctx.state.user,
       revision,
     });
-
     await document.save();
+    document._doc.name = name;
     ctx.body = document;
   } catch (error) {
     ctx.throw(500, error);
   }
 };
 
-export const requestDocument = async ctx => {
+export const requestDocument = async (ctx) => {
   try {
     const titleList = await WikiTitle.find({ lately: 0 }).lean();
-    ctx.body = titleList.map(title => ({
+    ctx.body = titleList.map((title) => ({
       ...title,
       name:
         title.name.length < 50 ? title.name : `${title.name.slice(0, 50)}...`,
@@ -113,7 +113,7 @@ export const requestDocument = async ctx => {
   }
 };
 
-export const addTitle = async ctx => {
+export const addTitle = async (ctx) => {
   const { name } = ctx.request.body;
   const title = new WikiTitle({
     name,

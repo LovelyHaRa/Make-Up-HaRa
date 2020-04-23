@@ -35,7 +35,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   // 처리 후 작업
   useEffect(() => {
     if (editDocument) {
-      const { name } = editDocument.title;
+      const { name } = editDocument;
       history.push(`/w/${name}`);
     }
     if (editDocumentError) {

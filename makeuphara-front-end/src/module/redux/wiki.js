@@ -14,7 +14,7 @@ const [
   GET_REQUEST_LIST_FAILURE,
 ] = createRequestActionTypes('wiki/GET_REQUEST_LIST');
 // edit - set title
-const SET_TITLE = createRequestActionTypes('wiki/LOAD_TITLE');
+const SET_TITLE = createRequestActionTypes('wiki/SET_TITLE');
 // edit - initialize
 const INITIALIZE = 'wiki/INITIALIZE';
 // edit - change field
@@ -36,7 +36,7 @@ const SET_ORIGINAL_DOCUMENT = 'wiki/SET_ORIGINAL_DOCUMENT'; // 위키 문서 편
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
-export const setTitle = createAction(SET_TITLE, title => title);
+export const setTitle = createAction(SET_TITLE, (title) => title);
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD);
 export const writeDocument = createAction(WRITE_DOCUMENT, ({ id, body }) => ({
@@ -47,7 +47,7 @@ export const readDocument = createAction(READ_DOCUMENT, ({ id }) => ({ id }));
 export const unloadDocument = createAction(UNLOAD_DOCUMENT);
 export const setOriginalDocument = createAction(
   SET_ORIGINAL_DOCUMENT,
-  document => document,
+  (document) => document,
 );
 
 /* redux-saga */
@@ -98,11 +98,13 @@ const wiki = handleActions(
       ...state,
       title,
     }),
-    [INITIALIZE]: state => ({
+    [INITIALIZE]: (state) => ({
       ...state,
       title: null,
       titleError: null,
       body: '',
+      editDocument: null,
+      editDocumentError: null,
     }),
     [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
       ...state,
@@ -124,7 +126,7 @@ const wiki = handleActions(
       ...state,
       documentError,
     }),
-    [UNLOAD_DOCUMENT]: state => ({
+    [UNLOAD_DOCUMENT]: (state) => ({
       ...state,
       document: null,
       documentError: null,
@@ -133,6 +135,8 @@ const wiki = handleActions(
       ...state,
       title: document.title,
       body: document.body,
+      editDocument: null,
+      editDocumentError: null,
     }),
   },
   initialState,

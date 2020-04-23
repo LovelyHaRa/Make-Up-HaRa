@@ -13,9 +13,10 @@ const EditorContainer = ({ history }) => {
     body: wiki.body,
   }));
   // 이벤트 정의
-  const onChangeField = useCallback(payload => dispatch(changeField(payload)), [
-    dispatch,
-  ]);
+  const onChangeField = useCallback(
+    (payload) => dispatch(changeField(payload)),
+    [dispatch],
+  );
   try {
     if (title) {
       sessionStorage.setItem('wiki-title', JSON.stringify(title));
@@ -25,11 +26,11 @@ const EditorContainer = ({ history }) => {
   }
 
   // 언마운트 될 때 초기화
-  useEffect(() => {
-    return () => {
-      dispatch(initialize());
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(initialize());
+  //   };
+  // }, [dispatch]);
 
   if (!title && !sessionStorage.getItem('wiki-title')) {
     history.push('/wiki');
