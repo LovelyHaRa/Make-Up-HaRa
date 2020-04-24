@@ -126,3 +126,31 @@ export const addTitle = async (ctx) => {
     ctx.throw(500, error);
   }
 };
+
+export const getList = async (ctx) => {
+  const block = parseInt(ctx.query.block || '0', 10);
+  try {
+    const documentList = await Document.find()
+      .sort({ _id: -1 })
+      .populate('title')
+      .limit(block)
+      .lean();
+    ctx.body = documentList.filter(
+      (document) => document.title.lately === document.revision,
+    );
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+export const getHistory = async (ctx) => {
+  const { _id } = ctx.state.wikititle;
+  try {
+    const documentList = await Document.find({
+      title: _id,
+    }).populate('title');
+    ctx.body = documentList;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};

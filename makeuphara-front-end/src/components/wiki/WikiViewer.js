@@ -49,6 +49,11 @@ const TitleBlock = styled.div`
   p {
     text-align: right;
   }
+  hr {
+    background: ${({ theme }) => theme.wikiMenuBorder};
+    border: 0;
+    height: 1px;
+  }
 `;
 
 const BodyBlock = styled.div`
@@ -82,13 +87,18 @@ const DocumentContent = styled.div`
   }
 `;
 
-const WikiViewer = ({ document, error, loading, onEdit }) => {
+const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return (
-        <BodyBlock>
-          <DocumentContent>존재하지 않는 위키 문서입니다.</DocumentContent>
-        </BodyBlock>
+        <WikiViewerBlock>
+          <DocumentBlock>
+            <TitleBlock>
+              <h2>{docName}</h2>
+            </TitleBlock>
+            <DocumentContent>존재하지 않는 위키 문서입니다.</DocumentContent>
+          </DocumentBlock>
+        </WikiViewerBlock>
       );
     } else {
       return (
@@ -115,6 +125,7 @@ const WikiViewer = ({ document, error, loading, onEdit }) => {
         <TitleBlock>
           <h2>{title && title.name}</h2>
           <p>최근 수정시각: {new Date(publishedDate).toLocaleString()}</p>
+          <hr />
         </TitleBlock>
         <BodyBlock>
           <DocumentContent dangerouslySetInnerHTML={{ __html: body }} />

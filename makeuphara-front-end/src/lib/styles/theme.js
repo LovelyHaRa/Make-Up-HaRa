@@ -51,6 +51,7 @@ export const lightTheme = {
   wikiActionButtonHoverBody: palette.gray[1],
   wikiActionButtonText: palette.gray[7],
   wikitActionButtonHoverText: palette.gray[6],
+  wikiBorder: palette.gray[4],
 };
 
 export const darkTheme = {
@@ -104,4 +105,5 @@ export const darkTheme = {
   wikiActionButtonHoverBody: palette.gray[7],
   wikiActionButtonText: palette.gray[5],
   wikitActionButtonHoverText: palette.gray[3],
+  wikiBorder: palette.gray[5],
 };

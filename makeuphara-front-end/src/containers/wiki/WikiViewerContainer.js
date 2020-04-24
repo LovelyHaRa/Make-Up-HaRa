@@ -43,6 +43,7 @@ const WikiViewerContainer = ({ match, history }) => {
       error={error}
       loading={loading}
       onEdit={onEdit}
+      docName={docName}
     />
   );
 };

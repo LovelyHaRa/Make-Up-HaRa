@@ -26,11 +26,11 @@ const EditorContainer = ({ history }) => {
   }
 
   // 언마운트 될 때 초기화
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(initialize());
-  //   };
-  // }, [dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(initialize());
+    };
+  }, [dispatch]);
 
   if (!title && !sessionStorage.getItem('wiki-title')) {
     history.push('/wiki');
