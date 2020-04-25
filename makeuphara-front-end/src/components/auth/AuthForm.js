@@ -123,7 +123,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
       auth2.current.attachClickHandler(
         googleLoginBtn.current,
         {},
-        googleUser => {
+        (googleUser) => {
           // const profile = googleUser.getBasicProfile();
           // console.log('Token || ' + googleUser.getAuthResponse().id_token);
           // console.log('ID: ' + profile.getId());
@@ -134,7 +134,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
           const id_token = googleUser.getAuthResponse().id_token;
           onSocialLogin({ id_token });
         },
-        error => {
+        (error) => {
           console.log(JSON.stringify(error, undefined, 2));
         },
       );
@@ -154,8 +154,8 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
 
   const onNaverLoginClick = () => {
     const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const redirect_uri = 'http://localhost:3000/login/naver';
-    const state = 'http%3a%2f%2flocalhost%3a3000%2flogin';
+    const redirect_uri = process.env.REACT_APP_NAVER_LOGIN_REDIRECT_URI;
+    const state = process.env.REACT_APP_NAVER_LOGIN_STATE;
     let requestUrl =
       'https://nid.naver.com/oauth2.0/authorize?response_type=code';
     requestUrl += '&client_id=' + client_id;
@@ -167,8 +167,8 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
 
   const onKakaoLoginClick = () => {
     const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
-    const redirect_uri = 'http://localhost:3000/login/kakao';
-    const state = 'http%3a%2f%2flocalhost%3a3000%2flogin';
+    const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
+    const state = process.env.REACT_APP_KAKAO_LOGIN_STATE;
     let requestUrl =
       'https:/kauth.kakao.com/oauth/authorize?response_type=code';
     requestUrl += '&client_id=' + client_id;
@@ -194,14 +194,14 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     const removeTag = (tagName, targetId) => {
       const targetNode = document.getElementsByTagName(tagName);
       [...targetNode].map(
-        node =>
+        (node) =>
           node.src.indexOf(targetId) >= 0 && node.parentNode.removeChild(node),
       );
     };
 
     removeTag('script', 'apis.google.com');
 
-    const removeJssdk = id => {
+    const removeJssdk = (id) => {
       const sdkNode = document.getElementById(id);
       if (sdkNode) {
         sdkNode.parentNode.removeChild(sdkNode);
@@ -268,10 +268,16 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
             <span> </span>
           </GoogleLoginButton>
           <NaverLoginButton transparent onClick={() => onNaverLoginClick()}>
-            <img src="/images/auth/naver_login_btn.png" alt="naver-login-btn" />
+            <img
+              src={process.env.PUBLIC_URL + '/images/auth/naver_login_btn.png'}
+              alt="naver-login-btn"
+            />
           </NaverLoginButton>
           <KakaoLoginButton transparent onClick={() => onKakaoLoginClick()}>
-            <img src="/images/auth/kakao_login_btn.png" alt="naver-login-btn" />
+            <img
+              src={process.env.PUBLIC_URL + '/images/auth/kakao_login_btn.png'}
+              alt="kakao-login-btn"
+            />
           </KakaoLoginButton>
         </div>
       )}

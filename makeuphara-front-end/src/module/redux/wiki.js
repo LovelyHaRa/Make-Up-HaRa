@@ -40,6 +40,12 @@ const [
   GET_DOCUMENT_LIST_FAILURE,
 ] = createRequestActionTypes('wiki/GET_DOCUMENT_LIST');
 const UNLOAD_LIST = 'wiki/UNLOAD_LIST'; // 위키 리스트 뷰 언마운트시 document list 정보 제거
+// api - history list
+const [
+  GET_HISTORY_LIST,
+  GET_HISTORY_LIST_SUCCESS,
+  GET_HISTORY_LIST_FAILURE,
+] = createRequestActionTypes('wiki/GET_HISTORY_LIST');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -61,6 +67,9 @@ export const getDocumentList = createAction(
   (block) => block,
 );
 export const unloadList = createAction(UNLOAD_LIST);
+export const getHistoryList = createAction(GET_HISTORY_LIST, ({ id }) => ({
+  id,
+}));
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -79,12 +88,17 @@ export const getDocumentListSaga = createRequestSaga(
   GET_DOCUMENT_LIST,
   wikiAPI.getDocumentList,
 );
+export const getHistoryListSaga = createRequestSaga(
+  GET_HISTORY_LIST,
+  wikiAPI.getHistoryList,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
   yield takeLatest(WRITE_DOCUMENT, writeDocumentSaga);
   yield takeLatest(READ_DOCUMENT, readDocumentSaga);
   yield takeLatest(GET_DOCUMENT_LIST, getDocumentListSaga);
+  yield takeLatest(GET_HISTORY_LIST, getHistoryListSaga);
 }
 
 /* initialize state */
@@ -100,6 +114,8 @@ const initialState = {
   requestListError: null,
   documentList: null,
   documentListError: null,
+  historyList: null,
+  historyListError: null,
 };
 
 /* reducer */
@@ -169,6 +185,14 @@ const wiki = handleActions(
       ...state,
       documentList: null,
       documentListError: null,
+    }),
+    [GET_HISTORY_LIST_SUCCESS]: (state, { payload: historyList }) => ({
+      ...state,
+      historyList,
+    }),
+    [GET_HISTORY_LIST_FAILURE]: (state, { payload: historyListError }) => ({
+      ...state,
+      historyListError,
     }),
   },
   initialState,

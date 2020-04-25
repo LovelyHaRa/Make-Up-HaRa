@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 const PostWritePage = ({ history }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   if (!user) {
-    history.push('/login');
+    history.replace('/login');
   }
   return (
     <Responsive>

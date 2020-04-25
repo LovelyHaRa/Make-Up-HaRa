@@ -12,3 +12,5 @@ export const getDocumentList = (block) => {
   const queryString = qs.stringify({ block });
   return client.get(`/api/wiki/list?${queryString}`);
 };
+
+export const getHistoryList = ({ id }) => client.get(`/api/wiki/${id}/history`);

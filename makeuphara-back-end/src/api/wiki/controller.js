@@ -146,9 +146,9 @@ export const getList = async (ctx) => {
 export const getHistory = async (ctx) => {
   const { _id } = ctx.state.wikititle;
   try {
-    const documentList = await Document.find({
-      title: _id,
-    }).populate('title');
+    const documentList = await Document.find({ title: _id })
+      .sort({ _id: -1 })
+      .populate('title');
     ctx.body = documentList;
   } catch (error) {
     ctx.throw(500, error);

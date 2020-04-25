@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
+import { Link } from 'react-router-dom';
 
 const WikiViewerBlock = styled.div``;
 
@@ -10,7 +11,8 @@ const DocumentMenuBlock = styled.div`
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
   border-bottom: 1px solid ${({ theme }) => theme.wikiMenuBorder};
-  button {
+  button,
+  a {
     padding: 0.25rem 0.75rem;
     outline: none;
     border: none;
@@ -23,14 +25,19 @@ const DocumentMenuBlock = styled.div`
       color: ${({ theme }) => theme.hoverText};
     }
   }
+  a {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    align-items: center;
+  }
 `;
 
-const DocumentMenu = ({ onEdit }) => {
+const DocumentMenu = ({ onEdit, docName }) => {
   return (
     <>
       <button>코드 등록</button>
       <button onClick={onEdit}>편집</button>
-      <button>역사</button>
+      <Link to={`/wiki/history/${docName}`}>역사</Link>
     </>
   );
 };
@@ -119,7 +126,7 @@ const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
   return (
     <WikiViewerBlock>
       <DocumentMenuBlock>
-        <DocumentMenu onEdit={onEdit} />
+        <DocumentMenu onEdit={onEdit} docName={docName} />
       </DocumentMenuBlock>
       <DocumentBlock>
         <TitleBlock>

@@ -17,6 +17,7 @@ import LoginWithKakaoCallbackPage from './pages/LoginWithKakaoCallbackPage';
 import WikiPage from './pages/WikiPage';
 import WikiEditPage from './pages/WikiEditPage';
 import WikiRequestPage from './pages/WikiRequestPage';
+import WikiHistoryPage from './pages/WikiHistoryPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -55,6 +56,11 @@ const App = () => {
         <Route component={WikiPage} path={['/w', '/w/:docName']} exact />
         <Route component={WikiEditPage} path={'/wiki/edit'} exact />
         <Route component={WikiRequestPage} path={'/wiki/request'} exact />
+        <Route
+          component={WikiHistoryPage}
+          path={'/wiki/history/:docName'}
+          exact
+        />
       </>
     </ThemeProvider>
   );
