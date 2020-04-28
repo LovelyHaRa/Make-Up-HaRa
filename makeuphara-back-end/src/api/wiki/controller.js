@@ -52,10 +52,14 @@ export const getTitle = async (ctx) => {
 
 export const readDocument = async (ctx) => {
   const { _id, lately } = ctx.state.wikititle;
+  let revision = lately;
+  if (ctx.query.r) {
+    revision = parseInt(ctx.query.r, 10);
+  }
   try {
     const document = await Document.findOne({
       title: _id,
-      revision: lately,
+      revision: revision,
     }).populate('title');
     ctx.body = document;
   } catch (error) {
@@ -150,6 +154,24 @@ export const getHistory = async (ctx) => {
       .sort({ _id: -1 })
       .populate('title');
     ctx.body = documentList;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+export const searchDocument = async (ctx, next) => {
+  const { query } = ctx.query;
+  try {
+    const documentList = await WikiTitle.find({
+      name: { $regex: '.*' + query + '.*' },
+    }).lean();
+    ctx.body = documentList;
+    const reqUrl = ctx.request.url;
+    const isNext = reqUrl.indexOf('/direct');
+    if (isNext != -1) {
+      ctx.state.wikititle = documentList[0]; // 타이틀 상태 저장
+      return next();
+    }
   } catch (error) {
     ctx.throw(500, error);
   }

@@ -7,8 +7,9 @@ import {
   unloadDocument,
   setOriginalDocument,
 } from '../../module/redux/wiki';
+import qs from 'qs';
 
-const WikiViewerContainer = ({ match, history }) => {
+const WikiViewerContainer = ({ location, match, history }) => {
   // 액션 함수 불러오기
   const dispatch = useDispatch();
   // 전역 상태 불러오기
@@ -18,24 +19,25 @@ const WikiViewerContainer = ({ match, history }) => {
     error: wiki.documentError,
     loading: loading['wiki/READ_DOCUMENT'],
   }));
+  const { r } = qs.parse(location.search, { ignoreQueryPrefix: true });
 
   // 이벤트 정의
-  if (!docName) {
-    history.push('/w/MAKE UP HARA WIKI: 대문');
-  }
-
   const onEdit = () => {
     dispatch(setOriginalDocument(document));
     history.push('/wiki/edit');
   };
 
   useEffect(() => {
-    dispatch(readDocument({ id: docName }));
+    if (docName) {
+      dispatch(readDocument({ id: docName, r }));
+    } else {
+      history.push('/w/MAKE UP HARA WIKI: 대문');
+    }
     // 언마운트 될 때 포스트 데이터 제거
     return () => {
       dispatch(unloadDocument());
     };
-  }, [dispatch, docName]);
+  }, [dispatch, history, docName, r]);
 
   return (
     <WikiViewer

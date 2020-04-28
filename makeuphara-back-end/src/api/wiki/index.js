@@ -18,6 +18,14 @@ wiki.get('/list', WikiController.getList);
 
 wiki.get('/doc/:id', WikiController.getTitleById, WikiController.readDocument);
 
+wiki.get('/search', WikiController.searchDocument);
+
+wiki.get(
+  '/search/direct',
+  WikiController.searchDocument,
+  WikiController.readDocument,
+);
+
 const document = new Router();
 document.get('/', WikiController.readDocument);
 document.get('/history', WikiController.getHistory);

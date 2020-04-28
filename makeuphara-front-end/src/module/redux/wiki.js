@@ -46,17 +46,29 @@ const [
   GET_HISTORY_LIST_SUCCESS,
   GET_HISTORY_LIST_FAILURE,
 ] = createRequestActionTypes('wiki/GET_HISTORY_LIST');
+// api - search
+const [
+  GET_SEARCH_LIST,
+  GET_SEARCH_LIST_SUCCESS,
+  GET_SEARCH_LIST_FAILURE,
+] = createRequestActionTypes('wiki/GET_SEARCH_LIST');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
 export const setTitle = createAction(SET_TITLE, (title) => title);
 export const initialize = createAction(INITIALIZE);
-export const changeField = createAction(CHANGE_FIELD);
+export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
+  key,
+  value,
+}));
 export const writeDocument = createAction(WRITE_DOCUMENT, ({ id, body }) => ({
   id,
   body,
 }));
-export const readDocument = createAction(READ_DOCUMENT, ({ id }) => ({ id }));
+export const readDocument = createAction(READ_DOCUMENT, ({ id, r }) => ({
+  id,
+  r,
+}));
 export const unloadDocument = createAction(UNLOAD_DOCUMENT);
 export const setOriginalDocument = createAction(
   SET_ORIGINAL_DOCUMENT,
@@ -69,6 +81,9 @@ export const getDocumentList = createAction(
 export const unloadList = createAction(UNLOAD_LIST);
 export const getHistoryList = createAction(GET_HISTORY_LIST, ({ id }) => ({
   id,
+}));
+export const getSearchList = createAction(GET_SEARCH_LIST, ({ query }) => ({
+  query,
 }));
 
 /* redux-saga */
@@ -92,6 +107,10 @@ export const getHistoryListSaga = createRequestSaga(
   GET_HISTORY_LIST,
   wikiAPI.getHistoryList,
 );
+export const getSearchListSaga = createRequestSaga(
+  GET_SEARCH_LIST,
+  wikiAPI.getSearchList,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
@@ -99,6 +118,7 @@ export function* wikiSaga() {
   yield takeLatest(READ_DOCUMENT, readDocumentSaga);
   yield takeLatest(GET_DOCUMENT_LIST, getDocumentListSaga);
   yield takeLatest(GET_HISTORY_LIST, getHistoryListSaga);
+  yield takeLatest(GET_SEARCH_LIST, getSearchListSaga);
 }
 
 /* initialize state */
@@ -116,6 +136,9 @@ const initialState = {
   documentListError: null,
   historyList: null,
   historyListError: null,
+  query: '',
+  searchList: null,
+  searchListError: null,
 };
 
 /* reducer */
@@ -193,6 +216,14 @@ const wiki = handleActions(
     [GET_HISTORY_LIST_FAILURE]: (state, { payload: historyListError }) => ({
       ...state,
       historyListError,
+    }),
+    [GET_SEARCH_LIST_SUCCESS]: (state, { payload: documentList }) => ({
+      ...state,
+      documentList,
+    }),
+    [GET_SEARCH_LIST_FAILURE]: (state, { payload: documentListError }) => ({
+      ...state,
+      documentListError,
     }),
   },
   initialState,

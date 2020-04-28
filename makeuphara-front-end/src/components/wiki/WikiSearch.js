@@ -53,20 +53,35 @@ const SearchButton = styled.button`
   }
 `;
 
-const WikiSearch = () => {
+const WikiSearch = ({ onChangeField, onSearch, onDirect }) => {
   library.add([faSearch, faRandom, faArrowRight]);
+
+  const handleChange = (e) => {
+    onChangeField({ key: 'query', value: e.target.value });
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      return onSearch();
+    }
+  };
+
   return (
     <WikiSearchBlock>
       <SearchBlock>
         <Link to="#">
           <FontAwesomeIcon icon="random" />
         </Link>
-        <SearchInput placeholder="Search" />
+        <SearchInput
+          onChange={handleChange}
+          onKeyUp={handleKeyUp}
+          placeholder="위키 문서 검색"
+        />
         <span className="action-button">
-          <SearchButton>
+          <SearchButton onClick={onSearch}>
             <FontAwesomeIcon icon="search" />
           </SearchButton>
-          <SearchButton>
+          <SearchButton onClick={onDirect}>
             <FontAwesomeIcon icon="arrow-right" />
           </SearchButton>
         </span>

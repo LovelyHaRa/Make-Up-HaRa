@@ -18,6 +18,7 @@ import WikiPage from './pages/WikiPage';
 import WikiEditPage from './pages/WikiEditPage';
 import WikiRequestPage from './pages/WikiRequestPage';
 import WikiHistoryPage from './pages/WikiHistoryPage';
+import WikiListPage from './pages/WikiListPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -61,6 +62,7 @@ const App = () => {
           path={'/wiki/history/:docName'}
           exact
         />
+        <Route component={WikiListPage} path={'/wiki/list'} exact />
       </>
     </ThemeProvider>
   );
