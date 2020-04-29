@@ -22,3 +22,8 @@ export const getSearchList = ({ query }) => {
   const queryString = qs.stringify({ query });
   return client.get(`/api/wiki/search?${queryString}`);
 };
+
+export const getDirectTitle = ({ query }) => {
+  const queryString = qs.stringify({ query });
+  return client.get(`/api/wiki/search/direct?${queryString}`);
+};

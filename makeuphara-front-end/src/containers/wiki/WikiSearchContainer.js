@@ -3,8 +3,9 @@ import WikiSearch from '../../components/wiki/WikiSearch';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeField,
-  getSearchList,
   unloadList,
+  getDirectTitle,
+  initialize,
 } from '../../module/redux/wiki';
 import { withRouter } from 'react-router-dom';
 
@@ -12,9 +13,9 @@ const WikiSearchContainer = ({ history }) => {
   // 액션 함수 불러오기
   const dispatch = useDispatch();
   // 전역 설정 불러오기
-  const { query, documentList } = useSelector(({ wiki }) => ({
+  const { query, directName } = useSelector(({ wiki }) => ({
     query: wiki.query,
-    documentList: wiki.documentList,
+    directName: wiki.directName,
   }));
   // 이벤트 정의
   const onChangeField = useCallback(
@@ -27,19 +28,18 @@ const WikiSearchContainer = ({ history }) => {
   };
 
   const onDirect = () => {
-    dispatch(getSearchList({ query }));
+    dispatch(getDirectTitle({ query }));
   };
 
   useEffect(() => {
-    if (documentList) {
-      const topDocument = documentList[0];
-      const { name } = topDocument;
-      history.push(`/w/${name}`);
+    if (directName) {
+      history.push(`/w/${directName}`);
+      dispatch(initialize());
     }
     return () => {
       dispatch(unloadList());
     };
-  }, [dispatch, history, documentList]);
+  }, [dispatch, history, directName]);
 
   return (
     <WikiSearch

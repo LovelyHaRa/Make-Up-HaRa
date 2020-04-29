@@ -52,6 +52,12 @@ const [
   GET_SEARCH_LIST_SUCCESS,
   GET_SEARCH_LIST_FAILURE,
 ] = createRequestActionTypes('wiki/GET_SEARCH_LIST');
+// api- search/direct
+const [
+  GET_DIRECT_TITLE,
+  GET_DIRECT_TITLE_SUCCESS,
+  GET_DIRECT_TITLE_FAILURE,
+] = createRequestActionTypes('wiki/GET_DIRECT_TITLE');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -85,6 +91,9 @@ export const getHistoryList = createAction(GET_HISTORY_LIST, ({ id }) => ({
 export const getSearchList = createAction(GET_SEARCH_LIST, ({ query }) => ({
   query,
 }));
+export const getDirectTitle = createAction(GET_DIRECT_TITLE, ({ query }) => ({
+  query,
+}));
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -111,6 +120,10 @@ export const getSearchListSaga = createRequestSaga(
   GET_SEARCH_LIST,
   wikiAPI.getSearchList,
 );
+export const getDirectTitleSaga = createRequestSaga(
+  GET_DIRECT_TITLE,
+  wikiAPI.getDirectTitle,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
@@ -119,6 +132,7 @@ export function* wikiSaga() {
   yield takeLatest(GET_DOCUMENT_LIST, getDocumentListSaga);
   yield takeLatest(GET_HISTORY_LIST, getHistoryListSaga);
   yield takeLatest(GET_SEARCH_LIST, getSearchListSaga);
+  yield takeLatest(GET_DIRECT_TITLE, getDirectTitleSaga);
 }
 
 /* initialize state */
@@ -139,6 +153,8 @@ const initialState = {
   query: '',
   searchList: null,
   searchListError: null,
+  directName: null,
+  directError: null,
 };
 
 /* reducer */
@@ -224,6 +240,14 @@ const wiki = handleActions(
     [GET_SEARCH_LIST_FAILURE]: (state, { payload: documentListError }) => ({
       ...state,
       documentListError,
+    }),
+    [GET_DIRECT_TITLE_SUCCESS]: (state, { payload: document }) => ({
+      ...state,
+      directName: document.title.name,
+    }),
+    [GET_DIRECT_TITLE_FAILURE]: (state, { payload: directError }) => ({
+      ...state,
+      directError,
     }),
   },
   initialState,

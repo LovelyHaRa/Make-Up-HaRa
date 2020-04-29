@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFieid, login, loginWithGoogle } from '../../module/redux/auth';
+import {
+  changeFieid,
+  login,
+  loginWithGoogle,
+  initializeForm,
+} from '../../module/redux/auth';
 import { check } from '../../module/redux/user';
 
 const LoginForm = ({ history }) => {
@@ -15,13 +20,13 @@ const LoginForm = ({ history }) => {
     user: user.user,
   }));
 
-  const onChange = e => {
+  const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(changeFieid({ form: 'login', key: name, value }));
     setError(null);
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const { username, password } = form;
     if ([username, password].includes('')) {
@@ -47,7 +52,11 @@ const LoginForm = ({ history }) => {
     }
     if (auth) {
       dispatch(check());
+      dispatch(initializeForm());
     }
+    return () => {
+      dispatch(initializeForm());
+    };
   }, [auth, authError, dispatch]);
 
   useEffect(() => {
