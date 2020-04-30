@@ -314,15 +314,15 @@ const OptionMenu = ({ isDarkTheme }) => {
   );
 };
 
-const LogoutMenu = ({ onLogout }) => (
+const LogoutMenu = ({ onLogout, currentPath }) => (
   <ul>
-    <Link to="#" onClick={onLogout}>
+    <Link to={currentPath} onClick={onLogout}>
       <li>로그아웃</li>
     </Link>
   </ul>
 );
 
-const UserDropDown = ({ state, user, onLogout, isDarkTheme }) => {
+const UserDropDown = ({ state, user, onLogout, isDarkTheme, currentPath }) => {
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
@@ -330,7 +330,7 @@ const UserDropDown = ({ state, user, onLogout, isDarkTheme }) => {
         <hr />
         <OptionMenu isDarkTheme={isDarkTheme} />
         <hr />
-        <LogoutMenu onLogout={onLogout} />
+        <LogoutMenu onLogout={onLogout} currentPath={currentPath} />
       </div>
     )
   );
@@ -346,12 +346,12 @@ const NoneUserDropDown = ({ state, isDarkTheme }) => {
   );
 };
 
-const SearchInputPackage = ({ type }) => (
+const SearchInputPackage = ({ type, currentPath }) => (
   <div className={type} tabIndex="-1">
     <SearchInputWrapper>
       <SearchInput placeholder="검색" />
     </SearchInputWrapper>
-    <SearchBtn to="#">
+    <SearchBtn to={currentPath}>
       <FontAwesomeIcon icon="search" />
     </SearchBtn>
   </div>
@@ -361,7 +361,7 @@ const Spacer = styled.div`
   height: 3rem;
 `;
 
-const Header = ({ user, onLogout, isDarkTheme }) => {
+const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
   library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
@@ -369,7 +369,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
   const [noneuser, setNoneUser] = useState(false);
 
   const handleEtcToggle = () => {
-    setEtc(prevOpen => !prevOpen);
+    setEtc((prevOpen) => !prevOpen);
   };
 
   const handleEtcClose = () => {
@@ -377,7 +377,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
   };
 
   const handleSearchToggle = () => {
-    setSearch(prevOpen => !prevOpen);
+    setSearch((prevOpen) => !prevOpen);
   };
 
   const handleSearchClose = () => {
@@ -385,7 +385,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
   };
 
   const handleUserInfoToggle = () => {
-    setUserinfo(prevOpen => !prevOpen);
+    setUserinfo((prevOpen) => !prevOpen);
   };
 
   const handleUserInfoClose = () => {
@@ -393,7 +393,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
   };
 
   const handleNoneUserToggle = () => {
-    setNoneUser(prevOpen => !prevOpen);
+    setNoneUser((prevOpen) => !prevOpen);
   };
 
   const handleNoneUserClose = () => {
@@ -416,7 +416,11 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
             </Menu>
             <ClickAwayListener onClickAway={handleEtcClose}>
               <Menu>
-                <Link to="#" onClick={handleEtcToggle} aria-haspopup="true">
+                <Link
+                  to={currentPath}
+                  onClick={handleEtcToggle}
+                  aria-haspopup="true"
+                >
                   <FontAwesomeIcon icon="ellipsis-h" />
                 </Link>
                 <MemoizedEtcDropDown state={etc} />
@@ -426,7 +430,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
         </div>
         <div className="header-mid">
           <SearchResponsive>
-            <SearchInputPackage type="search-input" />
+            <SearchInputPackage type="search-input" currentPath={currentPath} />
           </SearchResponsive>
         </div>
         <div className="header-rigit">
@@ -439,7 +443,11 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
           >
             <ClickAwayListener onClickAway={handleSearchClose}>
               <div className="search-btn">
-                <Link to="#" aria-haspopup="true" onClick={handleSearchToggle}>
+                <Link
+                  to={currentPath}
+                  aria-haspopup="true"
+                  onClick={handleSearchToggle}
+                >
                   <FontAwesomeIcon icon="search" />
                 </Link>
                 <SearchDropDown state={search} />
@@ -450,7 +458,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
             <ClickAwayListener onClickAway={handleUserInfoClose}>
               <div className="user-info">
                 <Link
-                  to="#"
+                  to={currentPath}
                   aria-haspopup="true"
                   onClick={handleUserInfoToggle}
                 >
@@ -461,6 +469,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
                   user={user}
                   onLogout={onLogout}
                   isDarkTheme={isDarkTheme}
+                  currentPath={currentPath}
                 />
               </div>
             </ClickAwayListener>
@@ -468,7 +477,7 @@ const Header = ({ user, onLogout, isDarkTheme }) => {
             <div className="none-user">
               <ClickAwayListener onClickAway={handleNoneUserClose}>
                 <div className="">
-                  <Link to="#" onClick={handleNoneUserToggle}>
+                  <Link to={currentPath} onClick={handleNoneUserToggle}>
                     <FontAwesomeIcon icon="ellipsis-v" />
                   </Link>
                   <NoneUserDropDown

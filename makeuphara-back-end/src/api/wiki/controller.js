@@ -132,7 +132,7 @@ export const addTitle = async (ctx) => {
 };
 
 export const getList = async (ctx) => {
-  const block = parseInt(ctx.query.block || '0', 10);
+  const block = parseInt(ctx.query.block || '10', 10);
   try {
     const documentList = await Document.find()
       .sort({ _id: -1 })

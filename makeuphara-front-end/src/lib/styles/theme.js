@@ -5,6 +5,7 @@ export const lightTheme = {
   body: '#fff',
   text: palette.gray[9],
   hoverText: palette.gray[6],
+  categoryBorder: palette.cyan[7],
   /* Header */
   hoverList: palette.gray[2],
   inputBody: palette.gray[1],
@@ -61,6 +62,7 @@ export const darkTheme = {
   body: palette.gray[9],
   text: '#fff',
   hoverText: palette.gray[3],
+  categoryBorder: palette.violet[7],
   /* Header */
   hoverList: palette.gray[7],
   inputBody: palette.gray[7],

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const WikiListBlock = styled.div`
   margin: 2rem;
+  margin-top: 0;
   color: ${({ theme }) => theme.text};
 `;
 
@@ -12,6 +13,9 @@ const DocumentBlock = styled.div`
   align-items: center;
   border-top: 1px solid ${({ theme }) => theme.wikiBorder};
   padding: 0.5rem 0.25rem;
+  &:first-of-type {
+    border-top: none;
+  }
   &:last-of-type {
     border-bottom: 1px solid ${({ theme }) => theme.wikiBorder};
   }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { unloadList, getSearchList } from '../../module/redux/wiki';
 import qs from 'qs';
 import { withRouter } from 'react-router-dom';
+import Categories from '../../components/wiki/Categories';
 
 const WikiListContainer = ({ location }) => {
   // 액션 함수 불러오기
@@ -23,7 +24,10 @@ const WikiListContainer = ({ location }) => {
     };
   }, [dispatch, query]);
   return (
-    <WikiList documentList={documentList} error={error} loading={loading} />
+    <>
+      <Categories />
+      <WikiList documentList={documentList} error={error} loading={loading} />
+    </>
   );
 };
 
