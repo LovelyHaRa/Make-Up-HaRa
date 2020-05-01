@@ -83,16 +83,18 @@ export const write = async (ctx) => {
   /* data push */
   try {
     const { _id, name, lately } = { ...ctx.state.wikititle };
+    const { body } = ctx.request.body;
+    const processBody = sanitizeHtml(body, SanitizeOption);
+    const documentLength = processBody.length;
     const title = await WikiTitle.findByIdAndUpdate(
       _id,
-      { lately: lately + 1 },
+      { lately: lately + 1, updateDate: Date.now(), documentLength },
       { new: true },
     );
     const revision = title._doc.lately;
-    const { body } = ctx.request.body;
     const document = new Document({
       title: _id,
-      body: sanitizeHtml(body, SanitizeOption),
+      body: processBody,
       publisher: ctx.state.user,
       revision,
     });
@@ -160,11 +162,16 @@ export const getHistory = async (ctx) => {
 };
 
 export const searchDocument = async (ctx, next) => {
-  const { query } = ctx.query;
+  let { query } = ctx.query;
+  if (query === undefined) {
+    query = '';
+  }
   try {
     const documentList = await WikiTitle.find({
       name: { $regex: '.*' + query + '.*' },
-    }).lean();
+    })
+      .sort({ _id: -1 })
+      .lean();
     ctx.body = documentList;
     const reqUrl = ctx.request.url;
     const isNext = reqUrl.indexOf('/direct');

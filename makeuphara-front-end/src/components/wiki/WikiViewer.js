@@ -30,6 +30,9 @@ const DocumentMenuBlock = styled.div`
     font-size: 0.8rem;
     align-items: center;
   }
+  li {
+    list-style: square !important;
+  }
 `;
 
 const DocumentMenu = ({ onEdit, docName }) => {

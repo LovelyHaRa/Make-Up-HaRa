@@ -27,6 +27,9 @@ const HeaderBlock = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  li {
+    list-style-type: none !important;
+  }
   & > div {
     display: flex;
   }

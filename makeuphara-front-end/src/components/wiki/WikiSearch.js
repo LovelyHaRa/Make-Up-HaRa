@@ -47,6 +47,7 @@ const SearchButton = styled.button`
   border: none;
   border-left: 1px solid ${({ theme }) => theme.wikiMenuBorder};
   color: ${({ theme }) => theme.text};
+  cursor: pointer;
   &:hover {
     color: ${({ theme }) => theme.hoverText};
     background: ${({ theme }) => theme.wikiActionButtonHoverBody};

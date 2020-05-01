@@ -36,7 +36,8 @@ const WriteActionButtonsContainer = ({ history }) => {
   useEffect(() => {
     if (editDocument) {
       const { name } = editDocument;
-      history.push(`/w/${name}`);
+      history.replace(`/w/${name}`);
+      history.goBack();
     }
     if (editDocumentError) {
       console.log(editDocumentError);

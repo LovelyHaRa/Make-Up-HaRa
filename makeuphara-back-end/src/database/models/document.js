@@ -6,6 +6,8 @@ const WikiTitleSchema = new Schema({
   code: { type: [String] },
   name: { type: String, index: { unique: true } },
   lately: { type: Number },
+  updateDate: { type: Date },
+  documentLength: { type: Number },
 });
 
 WikiTitleSchema.statics.findByCode = function (code) {
