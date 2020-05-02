@@ -71,7 +71,7 @@ const WikiSection = ({ documentList, loading, error }) => {
       )}
 
       <span>
-        <Link to="/w">MORE WIKI...</Link>
+        <Link to="/wiki/list">MORE WIKI...</Link>
       </span>
     </WikiSectionBlock>
   );

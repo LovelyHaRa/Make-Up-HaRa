@@ -88,9 +88,15 @@ export const unloadList = createAction(UNLOAD_LIST);
 export const getHistoryList = createAction(GET_HISTORY_LIST, ({ id }) => ({
   id,
 }));
-export const getSearchList = createAction(GET_SEARCH_LIST, ({ query }) => ({
-  query,
-}));
+export const getSearchList = createAction(
+  GET_SEARCH_LIST,
+  ({ query, oldest, shortest, longest }) => ({
+    query,
+    oldest,
+    shortest,
+    longest,
+  }),
+);
 export const getDirectTitle = createAction(GET_DIRECT_TITLE, ({ query }) => ({
   query,
 }));
@@ -179,6 +185,9 @@ const wiki = handleActions(
       body: '',
       editDocument: null,
       editDocumentError: null,
+      query: '',
+      directName: null,
+      directError: null,
     }),
     [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
       ...state,
@@ -233,13 +242,13 @@ const wiki = handleActions(
       ...state,
       historyListError,
     }),
-    [GET_SEARCH_LIST_SUCCESS]: (state, { payload: documentList }) => ({
+    [GET_SEARCH_LIST_SUCCESS]: (state, { payload: searchList }) => ({
       ...state,
-      documentList,
+      searchList,
     }),
-    [GET_SEARCH_LIST_FAILURE]: (state, { payload: documentListError }) => ({
+    [GET_SEARCH_LIST_FAILURE]: (state, { payload: searchListError }) => ({
       ...state,
-      documentListError,
+      searchListError,
     }),
     [GET_DIRECT_TITLE_SUCCESS]: (state, { payload: document }) => ({
       ...state,

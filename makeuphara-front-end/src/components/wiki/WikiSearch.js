@@ -38,6 +38,7 @@ const SearchInput = styled.input`
   outline: none;
   font-size: 0.875rem;
   background: ${({ theme }) => theme.body};
+  color: ${({ theme }) => theme.text};
 `;
 
 const SearchButton = styled.button`

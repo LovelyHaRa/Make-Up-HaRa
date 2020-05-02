@@ -18,8 +18,8 @@ export const getDocumentList = (block) => {
 
 export const getHistoryList = ({ id }) => client.get(`/api/wiki/${id}/history`);
 
-export const getSearchList = ({ query }) => {
-  const queryString = qs.stringify({ query });
+export const getSearchList = ({ query, oldest, shortest, longest }) => {
+  const queryString = qs.stringify({ query, oldest, shortest, longest });
   return client.get(`/api/wiki/search?${queryString}`);
 };
 

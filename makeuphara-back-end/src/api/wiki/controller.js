@@ -162,20 +162,32 @@ export const getHistory = async (ctx) => {
 };
 
 export const searchDocument = async (ctx, next) => {
-  let { query } = ctx.query;
+  let { query, oldest, shortest, longest } = ctx.query;
   if (query === undefined) {
     query = '';
+  }
+  let sortObj = { updateDate: -1 };
+  if (oldest && oldest === 'true') {
+    sortObj.updateDate = 1;
+  }
+  if (shortest && shortest === 'true') {
+    sortObj.documentLength = 1;
+    delete sortObj.updateDate;
+  } else if (longest && longest === 'true') {
+    sortObj.documentLength = -1;
+    delete sortObj.updateDate;
   }
   try {
     const documentList = await WikiTitle.find({
       name: { $regex: '.*' + query + '.*' },
     })
-      .sort({ _id: -1 })
+      .sort(sortObj)
       .lean();
     ctx.body = documentList;
     const reqUrl = ctx.request.url;
     const isNext = reqUrl.indexOf('/direct');
-    if (isNext != -1) {
+
+    if (isNext !== -1) {
       ctx.state.wikititle = documentList[0]; // 타이틀 상태 저장
       return next();
     }

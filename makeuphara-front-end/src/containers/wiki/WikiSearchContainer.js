@@ -3,7 +3,6 @@ import WikiSearch from '../../components/wiki/WikiSearch';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeField,
-  unloadList,
   getDirectTitle,
   initialize,
 } from '../../module/redux/wiki';
@@ -24,7 +23,11 @@ const WikiSearchContainer = ({ history }) => {
   );
 
   const onSearch = () => {
-    history.push(`/wiki/list?query=${query}`);
+    if (query === '') {
+      history.push('/wiki/list');
+    } else {
+      history.push(`/wiki/list?query=${query}`);
+    }
   };
 
   const onDirect = () => {
@@ -36,9 +39,6 @@ const WikiSearchContainer = ({ history }) => {
       history.push(`/w/${directName}`);
       dispatch(initialize());
     }
-    return () => {
-      dispatch(unloadList());
-    };
   }, [dispatch, history, directName]);
 
   return (
