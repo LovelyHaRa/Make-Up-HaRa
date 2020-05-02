@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const WikiSectionBlock = styled.div`
   h3 {
@@ -45,7 +46,7 @@ const DocumentItem = ({ document }) => {
     <DocumentBlock>
       <Link to={`/w/${name}`}>{name}</Link>
       <div className="wiki-info">
-        <span>{new Date(publishedDate).toLocaleString()}</span>
+        <span>{dayjs(publishedDate).format('YYYY-MM-DD')}</span>
       </div>
     </DocumentBlock>
   );

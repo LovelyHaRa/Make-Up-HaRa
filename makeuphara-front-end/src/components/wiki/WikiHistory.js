@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const WikiHistoryBlock = styled(Responsive)`
   background: ${({ theme }) => theme.body};
@@ -38,7 +39,7 @@ const HistoryItem = ({ document }) => {
   return (
     <div className="item">
       <span className="item-date">
-        {new Date(publishedDate).toLocaleString()}
+        {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
       </span>
       <Link to={`/w/${title.name}?r=${revision}`} className="item-link">
         (보기)

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const SubInfoBlock = styled.div`
-  ${props =>
+  ${(props) =>
     props.hasMarginTop &&
     css`
       margin-top: 1rem;
@@ -30,7 +31,7 @@ const SubInfo = ({ username, publishedDate, hasMarginTop }) => {
       </span>
       {publishedDate && (
         <span className="publishedDate">
-          {new Date(publishedDate).toLocaleString()}
+          {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
         </span>
       )}
     </SubInfoBlock>

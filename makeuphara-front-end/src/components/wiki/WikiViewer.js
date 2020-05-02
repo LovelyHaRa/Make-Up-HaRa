@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const WikiViewerBlock = styled.div``;
 
@@ -134,7 +135,9 @@ const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
       <DocumentBlock>
         <TitleBlock>
           <h2>{title && title.name}</h2>
-          <p>최근 수정시각: {new Date(publishedDate).toLocaleString()}</p>
+          <p>
+            최근 수정시각: {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+          </p>
           <hr />
         </TitleBlock>
         <BodyBlock>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import WikiList from '../../components/wiki/WikiList';
 import { useDispatch, useSelector } from 'react-redux';
-import { unloadList, getSearchList } from '../../module/redux/wiki';
+import { getSearchList } from '../../module/redux/wiki';
 import qs from 'qs';
 import { withRouter } from 'react-router-dom';
 import Categories from '../../components/wiki/Categories';
