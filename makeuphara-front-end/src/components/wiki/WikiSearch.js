@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -55,7 +54,7 @@ const SearchButton = styled.button`
   }
 `;
 
-const WikiSearch = ({ onChangeField, onSearch, onDirect }) => {
+const WikiSearch = ({ onChangeField, onSearch, onDirect, onShuffle }) => {
   library.add([faSearch, faRandom, faArrowRight]);
 
   const handleChange = (e) => {
@@ -71,9 +70,9 @@ const WikiSearch = ({ onChangeField, onSearch, onDirect }) => {
   return (
     <WikiSearchBlock>
       <SearchBlock>
-        <Link to="#">
+        <SearchButton onClick={onShuffle}>
           <FontAwesomeIcon icon="random" />
-        </Link>
+        </SearchButton>
         <SearchInput
           onChange={handleChange}
           onKeyUp={handleKeyUp}

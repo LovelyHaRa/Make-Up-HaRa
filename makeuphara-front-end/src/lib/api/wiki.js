@@ -27,3 +27,5 @@ export const getDirectTitle = ({ query }) => {
   const queryString = qs.stringify({ query });
   return client.get(`/api/wiki/search/direct?${queryString}`);
 };
+
+export const getRandomTitle = () => client.get('/api/wiki/search/random');

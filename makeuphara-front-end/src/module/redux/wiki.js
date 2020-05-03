@@ -58,6 +58,12 @@ const [
   GET_DIRECT_TITLE_SUCCESS,
   GET_DIRECT_TITLE_FAILURE,
 ] = createRequestActionTypes('wiki/GET_DIRECT_TITLE');
+// api - search/random
+const [
+  GET_RANDOM_TITLE,
+  GET_RANDOM_TITLE_SUCCESS,
+  GET_RANDOM_TITLE_FAILURE,
+] = createRequestActionTypes('wiki/GET_RANDOM_TITLE');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -100,6 +106,7 @@ export const getSearchList = createAction(
 export const getDirectTitle = createAction(GET_DIRECT_TITLE, ({ query }) => ({
   query,
 }));
+export const getRandomTitle = createAction(GET_RANDOM_TITLE);
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -130,6 +137,10 @@ export const getDirectTitleSaga = createRequestSaga(
   GET_DIRECT_TITLE,
   wikiAPI.getDirectTitle,
 );
+export const getRandomTitleSaga = createRequestSaga(
+  GET_RANDOM_TITLE,
+  wikiAPI.getRandomTitle,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
@@ -139,6 +150,7 @@ export function* wikiSaga() {
   yield takeLatest(GET_HISTORY_LIST, getHistoryListSaga);
   yield takeLatest(GET_SEARCH_LIST, getSearchListSaga);
   yield takeLatest(GET_DIRECT_TITLE, getDirectTitleSaga);
+  yield takeLatest(GET_RANDOM_TITLE, getRandomTitleSaga);
 }
 
 /* initialize state */
@@ -161,6 +173,8 @@ const initialState = {
   searchListError: null,
   directName: null,
   directError: null,
+  randomTitle: null,
+  randomTitleError: null,
 };
 
 /* reducer */
@@ -188,6 +202,8 @@ const wiki = handleActions(
       query: '',
       directName: null,
       directError: null,
+      randomTitle: null,
+      randomTitleError: null,
     }),
     [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
       ...state,
@@ -257,6 +273,14 @@ const wiki = handleActions(
     [GET_DIRECT_TITLE_FAILURE]: (state, { payload: directError }) => ({
       ...state,
       directError,
+    }),
+    [GET_RANDOM_TITLE_SUCCESS]: (state, { payload: title }) => ({
+      ...state,
+      randomTitle: title.name,
+    }),
+    [GET_RANDOM_TITLE_FAILURE]: (state, { payload: randomTitleError }) => ({
+      ...state,
+      randomTitleError,
     }),
   },
   initialState,

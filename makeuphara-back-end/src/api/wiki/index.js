@@ -26,6 +26,8 @@ wiki.get(
   WikiController.readDocument,
 );
 
+wiki.get('/search/random', WikiController.getRandomDocument);
+
 const document = new Router();
 document.get('/', WikiController.readDocument);
 document.get('/history', WikiController.getHistory);

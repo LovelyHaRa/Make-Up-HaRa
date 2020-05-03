@@ -195,3 +195,16 @@ export const searchDocument = async (ctx, next) => {
     ctx.throw(500, error);
   }
 };
+
+export const getRandomDocument = async (ctx) => {
+  try {
+    let randomNum = 0;
+    await WikiTitle.countDocuments().then((count) => {
+      randomNum = Math.floor(Math.random() * count);
+    });
+    const title = await WikiTitle.findOne().skip(randomNum);
+    ctx.body = title;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
