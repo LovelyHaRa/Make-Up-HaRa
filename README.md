@@ -9,13 +9,13 @@
 - Blog
 - Local Login/Social Login(Google, Naver, Kakao)
 - Dark Theme
+- WIKI
 
 
 
 ##### To Do List
 
 - Search
-- WIKI
 - Barcode / QRcode Maker
 - To Do List For User
 - Shopping Search
