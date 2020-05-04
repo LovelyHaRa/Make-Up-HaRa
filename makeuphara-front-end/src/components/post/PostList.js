@@ -4,8 +4,13 @@ import Responsive from '../common/Responsive';
 import Button from '../common/Button';
 import PostItem from './common/PostItem';
 import { Helmet } from 'react-helmet-async';
+import ErrorBlock from '../common/ErrorBlock';
 
 const PostListBlock = styled.div`
+  margin-top: 3rem;
+`;
+
+const PostListErrorBlock = styled(ErrorBlock)`
   margin-top: 3rem;
 `;
 
@@ -48,9 +53,10 @@ const PostList = ({
   if (error) {
     return (
       <Responsive>
-        <PostListBlock>
-          <span className="title">에러가 발생했습니다.</span>
-        </PostListBlock>
+        <PostListErrorBlock>
+          <span className="error-title">블로그 리스트 요청 실패.</span>
+          <span className="error-msg">ERROR MESSAGE: {error.message}</span>
+        </PostListErrorBlock>
       </Responsive>
     );
   }
@@ -93,7 +99,7 @@ const PostList = ({
         </TitleWrapper>
         {!loading && postList && (
           <div>
-            {postList.map(post => (
+            {postList.map((post) => (
               <PostItem post={post} username={username} key={post._id} />
             ))}
           </div>

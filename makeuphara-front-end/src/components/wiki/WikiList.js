@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import ErrorBlock from '../common/ErrorBlock';
 
 const WikiListBlock = styled.div`
   margin: 2rem;
   margin-top: 0;
   color: ${({ theme }) => theme.text};
+`;
+
+const WikiListErrorBlock = styled(ErrorBlock)`
+  margin: 2rem;
 `;
 
 const DocumentBlock = styled.div`
@@ -46,9 +51,29 @@ const DocumentItem = ({ document }) => {
 const WikiList = ({ documentList, error, loading }) => {
   if (error) {
     return (
-      <WikiListBlock>
-        <span>에러가 발생했습니다.</span>
-      </WikiListBlock>
+      <WikiListErrorBlock>
+        <span className="error-title">검색 결과 요청 실패.</span>
+        <span>
+          Status: <span className="error-msg">{error.response.status}</span>
+        </span>
+        <span>
+          Message:{' '}
+          <span className="error-msg">{error.response.statusText}</span>
+        </span>
+      </WikiListErrorBlock>
+    );
+  }
+  if (loading || !documentList) {
+    return null;
+  }
+  if (!loading && documentList && !documentList.length) {
+    return (
+      <WikiListErrorBlock>
+        <span className="error-title">검색 결과가 없습니다.</span>
+        <span className="error-title">
+          다른 검색어를 입력해보는건 어떨까요???
+        </span>
+      </WikiListErrorBlock>
     );
   }
   return (

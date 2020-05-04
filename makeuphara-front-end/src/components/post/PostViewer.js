@@ -4,9 +4,14 @@ import Responsive from '../common/Responsive';
 import { Helmet } from 'react-helmet-async';
 import SubInfo from './common/SubInfo';
 import Tags from './common/Tags';
+import ErrorBlock from '../common/ErrorBlock';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 3rem;
+`;
+
+const PostViewerErrorBlock = styled(ErrorBlock)`
+  margin: 3rem;
 `;
 
 const PostHead = styled.div`
@@ -48,17 +53,23 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return (
-        <PostViewerBlock>
-          <PostContent>존재하지 않는 포스트입니다.</PostContent>
-        </PostViewerBlock>
+        <PostViewerErrorBlock>
+          <span className="error-title">존재하지 않는 포스트입니다.</span>
+          <span className="error-msg">Status: {error.response.status}</span>
+          <span className="error-msg">
+            Message: {error.response.statusText}
+          </span>
+        </PostViewerErrorBlock>
       );
     } else {
       return (
-        <PostViewerBlock>
-          <PostContent>
-            Status {error.response.status}: {error.response.statusText}
-          </PostContent>
-        </PostViewerBlock>
+        <PostViewerErrorBlock>
+          <span className="error-title">포스트 요청 실패.</span>
+          <span className="error-msg">Status: {error.response.status}</span>
+          <span className="error-msg">
+            Message: {error.response.statusText}
+          </span>
+        </PostViewerErrorBlock>
       );
     }
   }

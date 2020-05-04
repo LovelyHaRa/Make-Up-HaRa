@@ -3,8 +3,15 @@ import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import ErrorBlock from '../common/ErrorBlock';
 
 const WikiViewerBlock = styled.div``;
+
+const WikiViewerErrorBlock = styled(ErrorBlock)`
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+`;
 
 const DocumentMenuBlock = styled.div`
   display: flex;
@@ -113,11 +120,16 @@ const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
       );
     } else {
       return (
-        <BodyBlock>
-          <DocumentContent>
-            Status {error.response.status}: {error.response.statusText}
-          </DocumentContent>
-        </BodyBlock>
+        <WikiViewerErrorBlock>
+          <span className="error-title">문서 요청 실패.</span>
+          <span>
+            Status: <span className="error-msg">{error.response.status}</span>
+          </span>
+          <span>
+            Message:{' '}
+            <span className="error-msg">{error.response.statusText}</span>
+          </span>
+        </WikiViewerErrorBlock>
       );
     }
   }

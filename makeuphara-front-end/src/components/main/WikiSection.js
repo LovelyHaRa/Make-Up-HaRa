@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import ErrorBlock from '../common/ErrorBlock';
 
 const WikiSectionBlock = styled.div`
   h3 {
@@ -55,9 +56,10 @@ const DocumentItem = ({ document }) => {
 const WikiSection = ({ documentList, loading, error }) => {
   if (error) {
     return (
-      <WikiSectionBlock>
-        <span className="title">에러가 발생했습니다.</span>
-      </WikiSectionBlock>
+      <ErrorBlock>
+        <span className="error-title">WIKI 리스트 요청 실패.</span>
+        <span className="error-msg">ERROR MESSAGE: {error.message}</span>
+      </ErrorBlock>
     );
   }
   return (

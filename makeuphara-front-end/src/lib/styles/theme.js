@@ -55,6 +55,8 @@ export const lightTheme = {
   wikiBorder: palette.gray[4],
   wikiHistoryLinkText: palette.cyan[7],
   wikiHistoryLinkHoverText: palette.cyan[5],
+  /* Error */
+  errorText: palette.red[5],
 };
 
 export const darkTheme = {
@@ -112,4 +114,6 @@ export const darkTheme = {
   wikiBorder: palette.gray[5],
   wikiHistoryLinkText: palette.violet[7],
   wikiHistoryLinkHoverText: palette.violet[5],
+  /* Error */
+  errorText: palette.red[9],
 };

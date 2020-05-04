@@ -241,9 +241,9 @@ const wiki = handleActions(
       ...state,
       documentList,
     }),
-    [GET_DOCUMENT_LIST_FAILURE]: (state, { payload: documentError }) => ({
+    [GET_DOCUMENT_LIST_FAILURE]: (state, { payload: documentListError }) => ({
       ...state,
-      documentError,
+      documentListError,
     }),
     [UNLOAD_LIST]: (state) => ({
       ...state,

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Tags from '../post/common/Tags';
 import SubInfo from '../post/common/SubInfo';
+import ErrorBlock from '../common/ErrorBlock';
 
 const BlogSectionBlock = styled.div`
   h3 {
@@ -64,9 +65,10 @@ const PostItem = ({ post }) => {
 const BlogSection = ({ postList, loading, postError }) => {
   if (postError) {
     return (
-      <BlogSectionBlock>
-        <span className="title">에러가 발생했습니다.</span>
-      </BlogSectionBlock>
+      <ErrorBlock>
+        <span className="error-title">블로그 리스트 요청 실패.</span>
+        <span className="error-msg">ERROR MESSAGE: {postError.message}</span>
+      </ErrorBlock>
     );
   }
   return (

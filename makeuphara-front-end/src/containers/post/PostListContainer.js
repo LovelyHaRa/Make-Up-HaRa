@@ -45,7 +45,7 @@ const PostListContainer = ({ location, match }) => {
         username={username}
         tag={tag}
       />
-      {pagination.current && <PaginationContainer />}
+      {pagination.current && !error && <PaginationContainer />}
     </>
   );
 };

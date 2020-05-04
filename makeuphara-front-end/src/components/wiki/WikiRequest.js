@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
+import ErrorBlock from '../common/ErrorBlock';
 
 const WikiRequestBlock = styled.div`
   background: ${({ theme }) => theme.body};
@@ -32,6 +33,12 @@ const WikiRequestBlock = styled.div`
   }
 `;
 
+const WikiRequestErrorBlock = styled(ErrorBlock)`
+  margin-top: 3rem;
+  align-items: center;
+  justify-content: center;
+`;
+
 const RequestItem = ({ title, onEdit }) => {
   const { name } = title;
   return (
@@ -46,20 +53,33 @@ const WikiRequest = ({ requestList, loading, error, onEdit }) => {
   if (error) {
     return (
       <Responsive>
-        <WikiRequestBlock>
-          <span className="error-msg">에러가 발생했습니다.</span>
-        </WikiRequestBlock>
+        <WikiRequestErrorBlock>
+          <span className="error-title">리스트 요청 실패.</span>
+          <span className="error-msg">Status: {error.response.status}</span>
+          <span className="error-msg">
+            Message: {error.response.statusText}
+          </span>
+        </WikiRequestErrorBlock>
       </Responsive>
     );
   }
   if (!requestList || loading) {
     return null;
   }
+  if (!requestList.length) {
+    return (
+      <Responsive>
+        <WikiRequestErrorBlock>
+          <span className="error-title">지금 작성이 필요한 문서가 없습니다...ㅠ</span>
+        </WikiRequestErrorBlock>
+      </Responsive>
+    );
+  }
   return (
     <Responsive>
       <WikiRequestBlock>
         <h2>작성이 필요한 문서</h2>
-        {requestList.map(request => (
+        {requestList.map((request) => (
           <RequestItem title={request} onEdit={onEdit} key={request._id} />
         ))}
       </WikiRequestBlock>
