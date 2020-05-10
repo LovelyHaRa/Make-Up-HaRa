@@ -42,7 +42,7 @@ export const changeFieid = createAction(
     value, // 변경 하려는 값
   }),
 );
-export const initializeForm = createAction(INITIALIZE_FORM, form => form);
+export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const register = createAction(REGISTER, ({ username, password }) => ({
   username,
   password,
@@ -64,9 +64,15 @@ export const loginWithNaver = createAction(
     state,
   }),
 );
-export const loginWithKakao = createAction(LOGIN_WITH_KAKAO, ({ data }) => ({
-  data,
-}));
+export const loginWithKakao = createAction(
+  LOGIN_WITH_KAKAO,
+  ({ client_id, client_secret, redirect_uri, code }) => ({
+    client_id,
+    client_secret,
+    redirect_uri,
+    code,
+  }),
+);
 
 /* redux-saga */
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
@@ -111,7 +117,7 @@ const initialState = {
 const auth = handleActions(
   {
     [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
-      produce(state, draft => {
+      produce(state, (draft) => {
         draft[form][key] = value;
       }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({

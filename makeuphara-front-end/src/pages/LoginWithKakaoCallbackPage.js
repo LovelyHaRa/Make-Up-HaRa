@@ -22,31 +22,10 @@ const LoginWithKakaoCallbackPage = ({ location, history }) => {
   const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
   const client_secret = process.env.REACT_APP_KAKAO_CLIENT_SECRET;
   const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
-  const requestUrl = 'https://kauth.kakao.com/oauth/token';
+  // const requestUrl = 'https://kauth.kakao.com/oauth/token';
+
   useEffect(() => {
-    axios
-      .post(requestUrl, null, {
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded',
-        },
-        params: {
-          grant_type: 'authorization_code',
-          client_id,
-          client_secret,
-          code,
-          redirect_uri,
-        },
-      })
-      .then((response) => {
-        const data = response.status === 200 && response.data;
-        console.dir(data);
-        console.dir(data.access_token);
-        dispatch(loginWithKakao({ data }));
-      })
-      .catch((error) => {
-        // ctx.throw(error.response.status || 500, error);
-        console.dir(error);
-      });
+    dispatch(loginWithKakao({ client_id, client_secret, redirect_uri, code }));
   }, [dispatch, client_id, client_secret, code, redirect_uri]);
 
   useEffect(() => {

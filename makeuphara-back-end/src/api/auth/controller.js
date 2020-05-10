@@ -2,13 +2,9 @@ import Joi from '@hapi/joi';
 import User from '../../database/models/user';
 import axios from 'axios';
 
-export const register = async ctx => {
+export const register = async (ctx) => {
   const schema = Joi.object().keys({
-    username: Joi.string()
-      .alphanum()
-      .min(3)
-      .max(20)
-      .required(),
+    username: Joi.string().alphanum().min(3).max(20).required(),
     password: Joi.string().required(),
   });
   const result = schema.validate(ctx.request.body);
@@ -38,7 +34,7 @@ export const register = async ctx => {
   }
 };
 
-export const login = async ctx => {
+export const login = async (ctx) => {
   const { username, password } = ctx.request.body;
 
   if (!username || !password) {
@@ -71,17 +67,17 @@ export const login = async ctx => {
   }
 };
 
-export const loginWithGoogle = async ctx => {
+export const loginWithGoogle = async (ctx) => {
   try {
     const { id_token } = ctx.request.body;
     // id_token 기반으로 프로필 정보 요청
     let userinfo;
     await axios
       .get('https://oauth2.googleapis.com/tokeninfo?id_token=' + id_token)
-      .then(response => {
+      .then((response) => {
         userinfo = response.status === 200 && response.data;
       })
-      .catch(error => {
+      .catch((error) => {
         ctx.throw(error.response.status || 500, error);
       });
 
@@ -108,7 +104,7 @@ export const loginWithGoogle = async ctx => {
   }
 };
 
-export const loginWithNaver = async ctx => {
+export const loginWithNaver = async (ctx) => {
   // 변수 세팅
   const { client_id, client_secret, code, state } = ctx.request.body;
 
@@ -123,10 +119,10 @@ export const loginWithNaver = async ctx => {
   console.log(requestUrl);
   await axios
     .get(requestUrl)
-    .then(response => {
+    .then((response) => {
       data = response.status === 200 && response.data;
     })
-    .catch(error => {
+    .catch((error) => {
       ctx.throw(error.response.status || 500, error);
     });
 
@@ -137,10 +133,10 @@ export const loginWithNaver = async ctx => {
     .get('https://openapi.naver.com/v1/nid/me', {
       headers: { Authorization: header },
     })
-    .then(response => {
+    .then((response) => {
       profile = response.status === 200 && response.data;
     })
-    .catch(error => {
+    .catch((error) => {
       ctx.throw(error.response.status || 500, error);
     });
 
@@ -164,11 +160,35 @@ export const loginWithNaver = async ctx => {
   });
 };
 
-export const loginWithKakao = async ctx => {
+export const loginWithKakao = async (ctx) => {
   // 변수 세팅
-  const { data } = ctx.request.body;
+  const { client_id, client_secret, redirect_uri, code } = ctx.request.body;
+  console.log(client_id, client_secret, redirect_uri, code);
+  let data;
+  await axios
+    .post('https://kauth.kakao.com/oauth/token', null, {
+      params: {
+        grant_type: 'authorization_code',
+        client_id,
+        client_secret,
+        redirect_uri,
+        code,
+      },
+    })
+    .then((response) => {
+      console.log('성공');
+      data = response.status === 200 && response.data;
+    })
+    .catch((error) => {
+      // ctx.throw(error.response.status || 500, error);
+      // console.dir(error);
+    });
 
   // access_token 요청
+  if (!data) {
+    ctx.status = 500;
+    return;
+  }
   const { access_token } = data;
   console.log(access_token);
 
@@ -179,10 +199,10 @@ export const loginWithKakao = async ctx => {
     .get('https://kapi.kakao.com/v2/user/me', {
       headers: { Authorization: header },
     })
-    .then(response => {
+    .then((response) => {
       profile = response.status === 200 && response.data;
     })
-    .catch(error => {
+    .catch((error) => {
       console.dir(error);
     });
   console.dir(profile);
@@ -210,7 +230,7 @@ export const loginWithKakao = async ctx => {
   });
 };
 
-export const check = async ctx => {
+export const check = async (ctx) => {
   const { user } = ctx.state;
   if (!user) {
     ctx.status = 401;
@@ -219,7 +239,7 @@ export const check = async ctx => {
   ctx.body = user;
 };
 
-export const logout = ctx => {
+export const logout = (ctx) => {
   ctx.cookies.set('access_token');
   ctx.status = 204;
 };
