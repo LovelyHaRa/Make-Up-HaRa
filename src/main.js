@@ -14,6 +14,7 @@ import serve from 'koa-static';
 const app = new Koa();
 const router = new Router();
 
+
 app.use(cors());
 
 router.use('/api', api.routes());
@@ -26,7 +27,10 @@ app.use(session({}, app));
 
 app.use(router.routes()).use(router.allowedMethods());
 
-const buildDirectory = path.resolve(__dirname, '../build');
+const buildDirectory = path.resolve(
+  __dirname,
+  '../../makeuphara-front-end/build',
+);
 app.use(serve(buildDirectory));
 app.use(async (ctx) => {
   if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
