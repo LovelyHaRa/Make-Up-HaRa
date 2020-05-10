@@ -162,8 +162,7 @@ export const loginWithNaver = async (ctx) => {
 
 export const loginWithKakao = async (ctx) => {
   // 변수 세팅
-  const { client_id, client_secret, redirect_uri, code } = ctx.request.body;
-  console.log(client_id, client_secret, redirect_uri, code);
+  const { client_id, client_secret, code, redirect_uri } = ctx.request.body;
   let data;
   await axios
     .post('https://kauth.kakao.com/oauth/token', null, {
@@ -176,12 +175,11 @@ export const loginWithKakao = async (ctx) => {
       },
     })
     .then((response) => {
-      console.log('성공');
       data = response.status === 200 && response.data;
     })
     .catch((error) => {
       // ctx.throw(error.response.status || 500, error);
-      // console.dir(error);
+      console.dir(error);
     });
 
   // access_token 요청

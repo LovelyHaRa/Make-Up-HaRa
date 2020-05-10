@@ -66,11 +66,11 @@ export const loginWithNaver = createAction(
 );
 export const loginWithKakao = createAction(
   LOGIN_WITH_KAKAO,
-  ({ client_id, client_secret, redirect_uri, code }) => ({
+  ({ client_id, client_secret, code, redirect_uri }) => ({
     client_id,
     client_secret,
-    redirect_uri,
     code,
+    redirect_uri,
   }),
 );
 

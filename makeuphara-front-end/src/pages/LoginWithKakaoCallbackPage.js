@@ -4,7 +4,6 @@ import qs from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginWithKakao } from '../module/redux/auth';
 import { check } from '../module/redux/user';
-import axios from 'axios';
 
 const LoginWithKakaoCallbackPage = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const LoginWithKakaoCallbackPage = ({ location, history }) => {
   const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
   const client_secret = process.env.REACT_APP_KAKAO_CLIENT_SECRET;
   const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
-  // const requestUrl = 'https://kauth.kakao.com/oauth/token';
 
   useEffect(() => {
     dispatch(loginWithKakao({ client_id, client_secret, redirect_uri, code }));

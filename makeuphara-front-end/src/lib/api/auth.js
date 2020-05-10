@@ -20,14 +20,14 @@ export const loginWithNaver = ({ client_id, client_secret, code, state }) =>
 export const loginWithKakao = ({
   client_id,
   client_secret,
-  redirect_uri,
   code,
+  redirect_uri,
 }) =>
   client.post('/api/auth/login/kakao', {
     client_id,
     client_secret,
-    redirect_uri,
     code,
+    redirect_uri,
   });
 
 export const check = () => client.get('/api/auth/check');
