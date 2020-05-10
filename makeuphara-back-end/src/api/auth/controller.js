@@ -116,7 +116,6 @@ export const loginWithNaver = async (ctx) => {
   requestUrl += '&client_secret=' + client_secret;
   requestUrl += '&code=' + code;
   requestUrl += '&state=' + state;
-  console.log(requestUrl);
   await axios
     .get(requestUrl)
     .then((response) => {
@@ -162,18 +161,15 @@ export const loginWithNaver = async (ctx) => {
 
 export const loginWithKakao = async (ctx) => {
   // 변수 세팅
-  const { client_id, client_secret, code, redirect_uri } = ctx.request.body;
+  const { client_id, client_secret, code } = ctx.request.body;
   let data;
+  let requestUrl =
+    'https://kauth.kakao.com/oauth/token?grant_type=authorization_code';
+  requestUrl += '&client_id=' + client_id;
+  requestUrl += '&client_secret=' + client_secret;
+  requestUrl += '&code=' + code;
   await axios
-    .post('https://kauth.kakao.com/oauth/token', null, {
-      params: {
-        grant_type: 'authorization_code',
-        client_id,
-        client_secret,
-        redirect_uri,
-        code,
-      },
-    })
+    .get(requestUrl)
     .then((response) => {
       data = response.status === 200 && response.data;
     })
