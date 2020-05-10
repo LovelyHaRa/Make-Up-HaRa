@@ -170,11 +170,10 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
     const state = process.env.REACT_APP_KAKAO_LOGIN_STATE;
     let requestUrl =
-      'https:/kauth.kakao.com/oauth/authorize?response_type=code';
+      'https://kauth.kakao.com/oauth/authorize?response_type=code';
     requestUrl += '&client_id=' + client_id;
     requestUrl += '&redirect_uri=' + redirect_uri;
     requestUrl += '&state=' + state;
-    console.log(requestUrl);
     window.location = requestUrl;
   };
 
