@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import Responsive from '../../common/Responsive';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
+import ImageResize from 'quill-image-resize-module-react';
+
+Quill.register('modules/imageResize', ImageResize);
 
 const EditorBlock = styled(Responsive)`
   padding: 5rem 0;
@@ -47,6 +50,9 @@ const Editor = ({ title, body, onChangeField }) => {
       theme: 'bubble',
       placeholder: '포스트 작성...',
       modules: {
+        imageResize: {
+          modules: ['Resize', 'DisplaySize'],
+        },
         // 참고: https://quilljs.com/docs/modules/toolbar/
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -79,7 +85,7 @@ const Editor = ({ title, body, onChangeField }) => {
     quillInstance.current.root.innerHTML = body;
   }, [body]);
 
-  const onChangeTitle = e => {
+  const onChangeTitle = (e) => {
     onChangeField({ key: 'title', value: e.target.value });
   };
   return (
