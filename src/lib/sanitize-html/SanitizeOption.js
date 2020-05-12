@@ -36,7 +36,7 @@ export default {
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target'],
-    img: ['src'],
+    img: ['src', 'width'],
     li: ['class'],
     iframe: ['src', 'class', 'frameborder', 'allowfullscreen'],
     p: ['class'],
