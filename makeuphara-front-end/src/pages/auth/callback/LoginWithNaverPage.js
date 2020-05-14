@@ -2,29 +2,28 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginWithKakao } from '../module/redux/auth';
-import { check } from '../module/redux/user';
+import { loginWithNaver } from '../../../module/redux/auth';
+import { check } from '../../../module/redux/user';
 
-const LoginWithKakaoCallbackPage = ({ location, history }) => {
+const LoginWithNaverPage = ({ location, history }) => {
   const dispatch = useDispatch();
   const { auth, authError, user } = useSelector(({ auth, user }) => ({
     auth: auth.auth,
     authError: auth.authError,
     user: user.user,
   }));
-  const { code, error } = qs.parse(location.search, {
+  const { code, state, error } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
   if (error) {
     history.replace('/login');
   }
-  const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
-  const client_secret = process.env.REACT_APP_KAKAO_CLIENT_SECRET;
-  const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
+  const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
+  const client_secret = process.env.REACT_APP_NAVER_CLIENT_SECRET;
 
   useEffect(() => {
-    dispatch(loginWithKakao({ client_id, client_secret, redirect_uri, code }));
-  }, [dispatch, client_id, client_secret, code, redirect_uri]);
+    dispatch(loginWithNaver({ client_id, client_secret, code, state }));
+  }, [dispatch, client_id, client_secret, code, state]);
 
   useEffect(() => {
     if (auth) {
@@ -52,4 +51,4 @@ const LoginWithKakaoCallbackPage = ({ location, history }) => {
   );
 };
 
-export default withRouter(LoginWithKakaoCallbackPage);
+export default withRouter(LoginWithNaverPage);
