@@ -19,6 +19,9 @@ import WikiEditPage from './pages/wiki/WikiEditPage';
 import WikiRequestPage from './pages/wiki/WikiRequestPage';
 import WikiHistoryPage from './pages/wiki/WikiHistoryPage';
 import WikiListPage from './pages/wiki/WikiListPage';
+import MyPage from './pages/profile/MyPage';
+import SecurityPage from './pages/profile/SecurityPage';
+import ActivityPage from './pages/profile/ActivityPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -63,6 +66,9 @@ const App = () => {
           exact
         />
         <Route component={WikiListPage} path={'/wiki/list'} exact />
+        <Route component={MyPage} path={'/mypage'} exact />
+        <Route component={SecurityPage} path={'/mypage/security'} exact />
+        <Route component={ActivityPage} path={'/mypage/activity'} exact />
       </>
     </ThemeProvider>
   );

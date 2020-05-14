@@ -261,7 +261,9 @@ const ProfileInfo = ({ user }) => {
     <div className="profile-menu">
       <p>{user.username}</p>
       <ul>
-        <li>My Page(구현 중...)</li>
+        <Link to={'/mypage'}>
+          <li>My Page(구현 중...)</li>
+        </Link>
       </ul>
     </div>
   );
