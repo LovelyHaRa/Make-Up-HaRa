@@ -6,6 +6,7 @@ const MyPageMenuBlock = styled.div`
   margin-top: 2rem;
   margin-left: 2rem;
   border-right: 1px solid ${({ theme }) => theme.categoryBorder};
+  color: ${({ theme }) => theme.text};
 `;
 
 const MenuList = [

@@ -28,7 +28,7 @@ export const buttonStyle = css`
     background: ${({ theme }) => theme.btnDisableBody};
   }
 
-  ${props =>
+  ${(props) =>
     props.fullWidth &&
     css`
       padding-top: 0.75rem;
@@ -39,7 +39,7 @@ export const buttonStyle = css`
       text-align: center;
     `}
 
-  ${props =>
+  ${(props) =>
     props.indigo &&
     css`
       background: ${palette.indigo[9]};
@@ -47,7 +47,7 @@ export const buttonStyle = css`
         background: ${palette.indigo[7]};
       }
     `}
-  ${props =>
+  ${(props) =>
     props.violet &&
     css`
       background: ${palette.violet[9]};
@@ -57,7 +57,7 @@ export const buttonStyle = css`
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.red &&
     css`
       background: ${palette.red[8]};
@@ -66,7 +66,7 @@ export const buttonStyle = css`
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.cyan &&
     css`
       background: ${palette.cyan[6]};
@@ -74,7 +74,7 @@ export const buttonStyle = css`
         background: ${palette.cyan[4]};
       }
     `}
-  ${props =>
+  ${(props) =>
     props.yellow &&
     css`
       background: ${palette.yellow[5]};
@@ -82,7 +82,7 @@ export const buttonStyle = css`
         background: ${palette.yellow[3]};
       }
     `}
-  ${props =>
+  ${(props) =>
     props.transparent &&
     css`
       background: none;
@@ -91,6 +91,16 @@ export const buttonStyle = css`
       &:hover {
         background: ${palette.gray[1]};
         color: ${palette.gray[7]};
+      }
+    `}
+    
+  ${(props) =>
+    props.themeColor &&
+    css`
+      background: ${({ theme }) => theme.themeColorBody};
+      color: ${palette.gray[1]};
+      &:hover {
+        background: ${({ theme }) => theme.themeColorHoverBody};
       }
     `}
 `;
@@ -103,7 +113,7 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = props => {
+const Button = (props) => {
   return props.to ? <StyledLink {...props} /> : <StyledButton {...props} />;
 };
 

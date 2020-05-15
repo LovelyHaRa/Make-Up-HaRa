@@ -87,6 +87,7 @@ export const loginWithGoogle = async (ctx) => {
     if (!user) {
       user = new User({
         username: email,
+        name: email,
         provider: 'google',
       });
       await user.save();
@@ -145,6 +146,7 @@ export const loginWithNaver = async (ctx) => {
   if (!user) {
     user = new User({
       username: email,
+      name: email,
       provider: 'naver',
     });
     await user.save();
@@ -210,6 +212,7 @@ export const loginWithKakao = async (ctx) => {
   if (!user) {
     user = new User({
       username: email,
+      name: email,
       provider: 'kakao',
     });
     await user.save();

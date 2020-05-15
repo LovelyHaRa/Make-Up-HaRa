@@ -5,41 +5,46 @@ import jwt from 'jsonwebtoken';
 mongoose.set('useCreateIndex', true);
 const UserSchema = new Schema({
   username: { type: String, index: { unique: true } },
-  name: { type: String, index: 'hashed' },
+  name: { type: String, index: 'hashed', unique: true },
   hashedPassword: String,
-  createdAt: { type: Date, index: { unique: false }, default: Date.now },
-  updateAt: { type: Date, index: { unique: false }, default: Date.now },
+  createdAt: { type: Date, default: Date.now },
+  updateAt: { type: Date, default: Date.now },
   provider: String,
   authToken: String,
   google: {},
 });
 
-UserSchema.methods.setPassword = async function(password) {
+UserSchema.methods.setPassword = async function (password) {
   const hash = await bcrypt.hash(password, 10);
   this.hashedPassword = hash;
 };
 
-UserSchema.methods.checkPassword = async function(password) {
+UserSchema.methods.checkPassword = async function (password) {
   const result = await bcrypt.compare(password, this.hashedPassword);
   return result;
 };
 
-UserSchema.methods.serialize = function() {
+UserSchema.methods.serialize = function () {
   const data = this.toJSON();
   delete data.hashedPassword;
   return data;
 };
 
-UserSchema.methods.generateToken = function() {
+UserSchema.methods.generateToken = function () {
   const token = jwt.sign(
-    { _id: this.id, username: this.username, provider: this.provider },
+    {
+      _id: this.id,
+      username: this.username,
+      name: this.name,
+      provider: this.provider,
+    },
     process.env.JWT_SECRET,
     { expiresIn: '7d' },
   );
   return token;
 };
 
-UserSchema.statics.findByUsername = function(username) {
+UserSchema.statics.findByUsername = function (username) {
   return this.findOne({ username });
 };
 

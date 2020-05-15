@@ -6,6 +6,8 @@ export const lightTheme = {
   text: palette.gray[9],
   hoverText: palette.gray[6],
   categoryBorder: palette.cyan[7],
+  themeColorBody: palette.cyan[7],
+  themeColorHoverBody: palette.cyan[5],
   /* Header */
   hoverList: palette.gray[2],
   inputBody: palette.gray[1],
@@ -57,6 +59,8 @@ export const lightTheme = {
   wikiHistoryLinkHoverText: palette.cyan[5],
   /* Error */
   errorText: palette.red[5],
+  /* Profile */
+  profileInfoValueBody: palette.cyan[0],
 };
 
 export const darkTheme = {
@@ -64,7 +68,9 @@ export const darkTheme = {
   body: palette.gray[9],
   text: '#fff',
   hoverText: palette.gray[3],
-  categoryBorder: palette.violet[7],
+  categoryBorder: palette.violet[5],
+  themeColorBody: palette.violet[5],
+  themeColorHoverBody: palette.violet[3],
   /* Header */
   hoverList: palette.gray[7],
   inputBody: palette.gray[7],
@@ -116,4 +122,6 @@ export const darkTheme = {
   wikiHistoryLinkHoverText: palette.violet[5],
   /* Error */
   errorText: palette.red[9],
+  /* Profile */
+  profileInfoValueBody: palette.violet[5],
 };
