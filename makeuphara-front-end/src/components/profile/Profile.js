@@ -41,6 +41,9 @@ export const ProfileBlock = styled.div`
     display: flex;
     flex-direction: column;
   }
+  .value-provider {
+    text-transform: uppercase;
+  }
 `;
 
 const StyleInput = styled.input`
@@ -58,14 +61,18 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
 `;
 
-const Profile = () => {
+const Profile = ({ user }) => {
+  if (!user) {
+    return null;
+  }
+  const { username, provider, name } = user;
   return (
     <ProfileBlock>
       <div>
         <div className="profile-info">
           <span className="profile-info-title">ID</span>
           <div className="profile-info-value">
-            <span>test@makeuphara.com</span>
+            <span>{username}</span>
           </div>
         </div>
         <div className="profile-info">
@@ -74,7 +81,7 @@ const Profile = () => {
             어떤 방식으로 로그인했는지를 확인합니다.
           </span>
           <div className="profile-info-value">
-            <span>LOCAL</span>
+            <span className="value-provider">{provider}</span>
           </div>
         </div>
         <hr />
@@ -84,7 +91,7 @@ const Profile = () => {
             <span className="profile-info-explain">
               다른 사용자들에게 보여지는 이름입니다.
             </span>
-            <StyleInput value="test@makeuphara.com" />
+            <StyleInput value={name} />
           </div>
           <ButtonWithMarginTop themeColor fullWidth>
             수정
