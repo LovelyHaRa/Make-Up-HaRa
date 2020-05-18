@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import ErrorBlock from '../common/ErrorBlock';
 
 const WikiHistoryBlock = styled(Responsive)`
   background: ${({ theme }) => theme.body};
@@ -34,6 +35,10 @@ const WikiHistoryBlock = styled(Responsive)`
   }
 `;
 
+const HistoryErrorBlock = styled(ErrorBlock)`
+  margin: 2rem;
+`;
+
 const HistoryItem = ({ document }) => {
   const { title, publishedDate, revision } = document;
   return (
@@ -53,7 +58,16 @@ const WikiHistory = ({ historyList, error, loading, docName }) => {
   if (error) {
     return (
       <WikiHistoryBlock>
-        <span className="error-msg">에러가 발생했습니다.</span>
+        <HistoryErrorBlock>
+          <span className="error-title">히스토리 요청 실패.</span>
+          <span>
+            Status: <span className="error-msg">{error.response.status}</span>
+          </span>
+          <span>
+            Message:{' '}
+            <span className="error-msg">{error.response.statusText}</span>
+          </span>
+        </HistoryErrorBlock>
       </WikiHistoryBlock>
     );
   }

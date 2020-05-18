@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import ErrorBlock from '../common/ErrorBlock';
 
 export const ProfileBlock = styled.div`
   margin-top: 2rem;
@@ -12,7 +13,7 @@ export const ProfileBlock = styled.div`
   .profile-info {
     display: flex;
     flex-direction: column;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   .profile-info-title {
     font-weight: lighter;
@@ -44,6 +45,17 @@ export const ProfileBlock = styled.div`
   .value-provider {
     text-transform: uppercase;
   }
+  .possible {
+    border: 2px solid ${({ theme }) => theme.profileInputValid};
+  }
+  .impossible {
+    border: 2px solid ${({ theme }) => theme.profileInputInValid};
+  }
+  .invaild-message {
+    font-weight: 300;
+    color: ${({ theme }) => theme.errorText};
+    margin-top: 0.5rem;
+  }
 `;
 
 const StyleInput = styled.input`
@@ -61,11 +73,40 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.5rem;
 `;
 
-const Profile = ({ user }) => {
+const ProfileErrorBlock = styled(ErrorBlock)`
+  margin: 2rem;
+`;
+
+const Profile = ({
+  user,
+  form,
+  onChange,
+  validName,
+  nameMessage,
+  existNameError,
+  equalName,
+}) => {
   if (!user) {
     return null;
   }
-  const { username, provider, name } = user;
+  if (existNameError) {
+    return (
+      <ProfileErrorBlock>
+        <span className="error-title">프로필 요청 실패.</span>
+        <span>
+          Status:{' '}
+          <span className="error-msg">{existNameError.response.status}</span>
+        </span>
+        <span>
+          Message:{' '}
+          <span className="error-msg">
+            {existNameError.response.statusText}
+          </span>
+        </span>
+      </ProfileErrorBlock>
+    );
+  }
+  const { username, provider } = user;
   return (
     <ProfileBlock>
       <div>
@@ -91,7 +132,18 @@ const Profile = ({ user }) => {
             <span className="profile-info-explain">
               다른 사용자들에게 보여지는 이름입니다.
             </span>
-            <StyleInput value={name} />
+            <StyleInput
+              type="text"
+              name="name"
+              className={
+                !equalName && (validName === true ? 'possible' : 'impossible')
+              }
+              value={form && form.name}
+              onChange={onChange}
+            />
+            {validName === false && (
+              <span className="invaild-message">{nameMessage}</span>
+            )}
           </div>
           <ButtonWithMarginTop themeColor fullWidth>
             수정
