@@ -54,11 +54,9 @@ const RegisterForm = ({ history }) => {
       }
       // 기타 이유
       setError('회원가입 실패');
-      console.log(authError);
       return;
     }
     if (auth) {
-      console.log(auth);
       history.push('/login');
     }
   }, [auth, authError, dispatch, history]);

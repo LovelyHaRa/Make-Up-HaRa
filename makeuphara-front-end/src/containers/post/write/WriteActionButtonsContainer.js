@@ -43,7 +43,7 @@ const WriteActionButtonsContainer = ({ history }) => {
       history.push(`/blog/@${publisher.username}/${_id}`);
     }
     if (editPostError) {
-      console.log(editPostError);
+      // TODO: Failure Write Post
     }
   }, [history, editPost, editPostError]);
 

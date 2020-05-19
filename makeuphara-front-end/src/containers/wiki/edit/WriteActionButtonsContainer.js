@@ -40,7 +40,7 @@ const WriteActionButtonsContainer = ({ history }) => {
       history.goBack();
     }
     if (editDocumentError) {
-      console.log(editDocumentError);
+      // TODO: Failure Write Document
     }
     try {
       sessionStorage.getItem('wiki-title');

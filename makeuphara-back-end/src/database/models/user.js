@@ -45,7 +45,7 @@ UserSchema.methods.generateToken = function () {
 };
 
 UserSchema.statics.findByUsername = function (username) {
-  return this.findOne({ username });
+  return this.findOne({ username: { $regex: new RegExp('^' + username + '$', 'i') } });
 };
 
 UserSchema.statics.findByName = function (name) {

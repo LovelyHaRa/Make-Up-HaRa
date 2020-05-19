@@ -21,6 +21,12 @@ const [
   CHECK_EXIST_NAME_FAILURE,
 ] = createRequestActionTypes('user/CHECK_EXIST_NAME');
 const CHANGE_FIELD = 'user/CHANGE_FIELD';
+const [
+  UPDATE_NAME,
+  UPDATE_NAME_SUCCESS,
+  UPDATE_NAME_FAILURE,
+] = createRequestActionTypes('user/UPDATE_NAME');
+const INITIALIZE_UPDATE_NAME = 'user/INITIALIZE_UPDATE_NAME';
 
 /* action */
 export const check = createAction(CHECK);
@@ -31,6 +37,11 @@ export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({ form, key, value }),
 );
+export const updateName = createAction(UPDATE_NAME, ({ id, name }) => ({
+  id,
+  name,
+}));
+export const initializeUpdateName = createAction(INITIALIZE_UPDATE_NAME);
 
 /* redux-saga */
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
@@ -38,12 +49,13 @@ const checkExistNameSaga = createRequestSaga(
   CHECK_EXIST_NAME,
   userAPI.checkExistName,
 );
+const updateNameSaga = createRequestSaga(UPDATE_NAME, userAPI.updateName);
 
 const checkFailureSaga = () => {
   try {
     sessionStorage.removeItem('user');
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -52,7 +64,7 @@ function* logoutSaga() {
     yield call(authAPI.logout);
     sessionStorage.removeItem('user');
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 
@@ -61,6 +73,7 @@ export function* userSaga() {
   yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
   yield takeLatest(CHECK_EXIST_NAME, checkExistNameSaga);
+  yield takeLatest(UPDATE_NAME, updateNameSaga);
 }
 
 /* initialize state */
@@ -72,6 +85,8 @@ const initialState = {
   },
   existName: null,
   existNameError: null,
+  updateUser: null,
+  updateUserError: null,
 };
 
 /* reducer */
@@ -106,6 +121,19 @@ export default handleActions(
     [CHECK_EXIST_NAME_FAILURE]: (state, { payload: existNameError }) => ({
       ...state,
       existNameError,
+    }),
+    [UPDATE_NAME_SUCCESS]: (state, { payload: updateUser }) => ({
+      ...state,
+      updateUser,
+    }),
+    [UPDATE_NAME_FAILURE]: (state, { payload: updateUserError }) => ({
+      ...state,
+      updateUserError,
+    }),
+    [INITIALIZE_UPDATE_NAME]: (state) => ({
+      ...state,
+      updateUser: null,
+      updateUserError: null,
     }),
   },
   initialState,

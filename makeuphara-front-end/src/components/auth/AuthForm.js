@@ -161,7 +161,6 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     requestUrl += '&client_id=' + client_id;
     requestUrl += '&redirect_uri=' + redirect_uri;
     requestUrl += '&state=' + state;
-    console.log(requestUrl);
     window.location = requestUrl;
   };
 

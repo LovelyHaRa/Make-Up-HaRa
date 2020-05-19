@@ -56,6 +56,11 @@ export const ProfileBlock = styled.div`
     color: ${({ theme }) => theme.errorText};
     margin-top: 0.5rem;
   }
+  .success-message {
+    font-weight: 300;
+    color: ${({ theme }) => theme.categoryBorder};
+    margin-top: 0.5rem;
+  }
 `;
 
 const StyleInput = styled.input`
@@ -81,10 +86,13 @@ const Profile = ({
   user,
   form,
   onChange,
+  onSubmit,
   validName,
   nameMessage,
   existNameError,
   equalName,
+  submitMessage,
+  errorMessage,
 }) => {
   if (!user) {
     return null;
@@ -126,7 +134,7 @@ const Profile = ({
           </div>
         </div>
         <hr />
-        <form className="profile-form">
+        <form className="profile-form" onSubmit={onSubmit}>
           <div className="profile-info">
             <span className="profile-info-title">DISPLAY NAME</span>
             <span className="profile-info-explain">
@@ -138,11 +146,17 @@ const Profile = ({
               className={
                 !equalName && (validName === true ? 'possible' : 'impossible')
               }
-              value={form && form.name}
+              value={form.name ? form.name : ''}
               onChange={onChange}
             />
             {validName === false && (
               <span className="invaild-message">{nameMessage}</span>
+            )}
+            {submitMessage !== '' && (
+              <span className="success-message">{submitMessage}</span>
+            )}
+            {errorMessage !== '' && (
+              <span className="invaild-message">{errorMessage}</span>
             )}
           </div>
           <ButtonWithMarginTop themeColor fullWidth>

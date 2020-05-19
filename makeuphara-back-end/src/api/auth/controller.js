@@ -186,7 +186,6 @@ export const loginWithKakao = async (ctx) => {
     return;
   }
   const { access_token } = data;
-  console.log(access_token);
 
   // 프로필 요청
   let profile;
