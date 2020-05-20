@@ -71,10 +71,10 @@ const StyleInput = styled.input`
   background-color: ${({ theme }) => theme.profileInfoValueBody};
   color: ${({ theme }) => theme.text};
   outline: none;
-  border: none;
+  border: 2px solid ${({ theme }) => theme.body};
 `;
 
-const ButtonWithMarginTop = styled(Button)`
+const ProfileSubmitButton = styled(Button)`
   margin-top: 1.5rem;
 `;
 
@@ -159,9 +159,13 @@ const Profile = ({
               <span className="invaild-message">{errorMessage}</span>
             )}
           </div>
-          <ButtonWithMarginTop themeColor fullWidth>
+          <ProfileSubmitButton
+            themeColor
+            fullWidth
+            disabled={!validName || equalName}
+          >
             수정
-          </ButtonWithMarginTop>
+          </ProfileSubmitButton>
         </form>
       </div>
     </ProfileBlock>

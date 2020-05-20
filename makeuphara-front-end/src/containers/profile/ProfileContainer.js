@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Profile from '../../components/profile/Profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -33,6 +33,7 @@ const ProfileContainer = ({ history }) => {
   const [nameMessage, setNameMessage] = useState(''); // 검증 실패 메시지
   const [submitMessage, setSubmitMessage] = useState(''); // submit 결과 메시지
   const [errorMessage, setErrorMessage] = useState(''); // submit 에러 메시지
+  const loadingForm = useRef(true);
 
   if (!user) {
     history.replace('/login');
@@ -67,11 +68,7 @@ const ProfileContainer = ({ history }) => {
   }, [existName]);
 
   useEffect(() => {
-    const { name } = user ? user : '';
-    dispatch(changeField({ form: 'profile', key: 'name', value: name }));
-  }, [dispatch, user]);
-
-  useEffect(() => {
+    if (loadingForm.current) return;
     const { name } = form;
     const loginName = user ? user.name : '';
     // 이름이 현재 사용자 이름이랑 다르면
@@ -89,6 +86,12 @@ const ProfileContainer = ({ history }) => {
       }
     }
   }, [dispatch, form, user]);
+
+  useEffect(() => {
+    const { name } = user ? user : '';
+    dispatch(changeField({ form: 'profile', key: 'name', value: name }));
+    loadingForm.current = false;
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (updateUser) {

@@ -1,5 +1,6 @@
 import User from '../../database/models/user';
 import Joi from '@hapi/joi';
+import bcrypt from 'bcrypt';
 
 // 이름 검색
 const isExistName = async (ctx, name) => {
@@ -46,7 +47,7 @@ export const checkName = async (ctx) => {
 
 /**
  * 마이페이지 이름 수정
- * PATCH /api/user/updateName
+ * PATCH /api/user/profile
  */
 export const updateName = async (ctx) => {
   /* validate */
@@ -87,6 +88,53 @@ export const updateName = async (ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
     });
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+/**
+ * 마이페이지 비밀번호 변경
+ * PATCH /api/user/password
+ */
+export const changePassword = async (ctx) => {
+  /* validate */
+  const schema = Joi.object().keys({
+    id: Joi.string().required(),
+    password: Joi.string().min(8).required(),
+    newPassword: Joi.string().min(8).required(),
+  });
+  /* validate result */
+  const result = schema.validate(ctx.request.body);
+  /* validate failure */
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+  }
+  const { id, password, newPassword } = ctx.request.body;
+  const { _id } = ctx.state.user;
+  if (_id !== id) {
+    ctx.status = 401;
+    return;
+  }
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      ctx.status = 401;
+      return;
+    }
+    const vaild = await user.checkPassword(password);
+    if (!vaild) {
+      ctx.status = 412;
+      return;
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const updateUser = await User.findByIdAndUpdate(
+      id,
+      { hashedPassword },
+      { new: true },
+    );
+    ctx.body = updateUser.serialize();
   } catch (error) {
     ctx.throw(500, error);
   }

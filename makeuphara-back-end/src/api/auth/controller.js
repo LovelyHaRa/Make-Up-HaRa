@@ -5,7 +5,7 @@ import axios from 'axios';
 export const register = async (ctx) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(3).max(20).required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(8).required(),
   });
   const result = schema.validate(ctx.request.body);
   if (result.error) {

@@ -26,6 +26,10 @@ export const buttonStyle = css`
   &[disabled] {
     cursor: default;
     background: ${({ theme }) => theme.btnDisableBody};
+    color: ${({ theme }) => theme.btnDisableColor};
+    &:hover{
+      background: ${({ theme }) => theme.btnDisableBody};
+    }
   }
 
   ${(props) =>

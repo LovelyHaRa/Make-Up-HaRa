@@ -13,7 +13,7 @@ const PasswordInput = styled.input`
   background-color: ${({ theme }) => theme.profileInfoValueBody};
   color: ${({ theme }) => theme.text};
   outline: none;
-  border: none;
+  border: 2px solid ${({ theme }) => theme.body};
   width: 20rem;
   &::placeholder {
     font-weight: lighter;
