@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Profile from '../../components/profile/Profile';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import {
   changeField,
   checkExistName,
@@ -10,7 +9,7 @@ import {
   updateName,
 } from '../../module/redux/user';
 
-const ProfileContainer = ({ history }) => {
+const ProfileContainer = () => {
   const dispatch = useDispatch();
   const {
     user,
@@ -35,9 +34,6 @@ const ProfileContainer = ({ history }) => {
   const [errorMessage, setErrorMessage] = useState(''); // submit 에러 메시지
   const loadingForm = useRef(true);
 
-  if (!user) {
-    history.replace('/login');
-  }
   // input 상태 반영
   const onChange = (e) => {
     setNameMessage('');
@@ -68,9 +64,11 @@ const ProfileContainer = ({ history }) => {
   }, [existName]);
 
   useEffect(() => {
+    if (!user) return;
     if (loadingForm.current) return;
     const { name } = form;
     const loginName = user ? user.name : '';
+    if (name === undefined) return;
     // 이름이 현재 사용자 이름이랑 다르면
     if (name && name.toLowerCase() !== loginName.toLowerCase()) {
       // 이름이 사용 가능한지 비동기로 요청
@@ -82,6 +80,7 @@ const ProfileContainer = ({ history }) => {
         setEqualName(true); // 상태 갱신
       } else {
         // 공백일 때
+        console.log('실행');
         dispatch(checkExistName(name)); // 요청해서 공백일 떄의 결과 값을 갱신 한다
       }
     }
@@ -104,6 +103,12 @@ const ProfileContainer = ({ history }) => {
     }
   }, [dispatch, updateUser, updateUserError]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(initializeUpdateName());
+    };
+  }, [dispatch]);
+
   return (
     <Profile
       user={user}
@@ -120,4 +125,4 @@ const ProfileContainer = ({ history }) => {
   );
 };
 
-export default withRouter(ProfileContainer);
+export default ProfileContainer;

@@ -51,7 +51,7 @@ export const ProfileBlock = styled.div`
   .impossible {
     border: 2px solid ${({ theme }) => theme.profileInputInValid};
   }
-  .invaild-message {
+  .invalid-message {
     font-weight: 300;
     color: ${({ theme }) => theme.errorText};
     margin-top: 0.5rem;
@@ -78,7 +78,7 @@ const ProfileSubmitButton = styled(Button)`
   margin-top: 1.5rem;
 `;
 
-const ProfileErrorBlock = styled(ErrorBlock)`
+export const ProfileErrorBlock = styled(ErrorBlock)`
   margin: 2rem;
 `;
 
@@ -95,7 +95,11 @@ const Profile = ({
   errorMessage,
 }) => {
   if (!user) {
-    return null;
+    return (
+      <ProfileErrorBlock>
+        <span className="error-title">로그인 정보가 없어요...ㅠ</span>
+      </ProfileErrorBlock>
+    );
   }
   if (existNameError) {
     return (
@@ -156,7 +160,7 @@ const Profile = ({
               <span className="success-message">{submitMessage}</span>
             )}
             {errorMessage !== '' && (
-              <span className="invaild-message">{errorMessage}</span>
+              <span className="invalid-message">{errorMessage}</span>
             )}
           </div>
           <ProfileSubmitButton
