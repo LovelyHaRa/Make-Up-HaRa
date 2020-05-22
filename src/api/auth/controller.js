@@ -5,7 +5,7 @@ import axios from 'axios';
 export const register = async (ctx) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(3).max(20).required(),
-    password: Joi.string().required(),
+    password: Joi.string().min(8).required(),
   });
   const result = schema.validate(ctx.request.body);
   if (result.error) {
@@ -87,6 +87,7 @@ export const loginWithGoogle = async (ctx) => {
     if (!user) {
       user = new User({
         username: email,
+        name: email,
         provider: 'google',
       });
       await user.save();
@@ -145,6 +146,7 @@ export const loginWithNaver = async (ctx) => {
   if (!user) {
     user = new User({
       username: email,
+      name: email,
       provider: 'naver',
     });
     await user.save();
@@ -184,7 +186,6 @@ export const loginWithKakao = async (ctx) => {
     return;
   }
   const { access_token } = data;
-  console.log(access_token);
 
   // 프로필 요청
   let profile;
@@ -210,6 +211,7 @@ export const loginWithKakao = async (ctx) => {
   if (!user) {
     user = new User({
       username: email,
+      name: email,
       provider: 'kakao',
     });
     await user.save();

@@ -208,3 +208,14 @@ export const getRandomDocument = async (ctx) => {
     ctx.throw(500, error);
   }
 };
+
+export const getDocumentCount = async (ctx) => {
+  const { username } = ctx.request.body;
+  const query = { 'publisher.username': username };
+  try {
+    const documentCount = await Document.countDocuments(query);
+    ctx.body = documentCount;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};

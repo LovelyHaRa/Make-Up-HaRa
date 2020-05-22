@@ -5,7 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 import SanitizeOption from '../../lib/sanitize-html/SanitizeOption';
 
 // html 태그 필터링
-const removeHtmlAndShorten = body => {
+const removeHtmlAndShorten = (body) => {
   const filtered = sanitizeHtml(body, { allowedTags: [] });
   return filtered.length < 150 ? filtered : `${filtered.slice(0, 150)}...`;
 };
@@ -14,7 +14,7 @@ const removeHtmlAndShorten = body => {
  * 포스트 작성 API
  * GET /api/post/list
  */
-export const list = async ctx => {
+export const list = async (ctx) => {
   /* parameter 설정 */
   const page = parseInt(ctx.query.page || '1', 10);
   const block = parseInt(ctx.query.block || '10', 10);
@@ -36,8 +36,9 @@ export const list = async ctx => {
       .limit(block)
       .lean();
     const postCount = await Post.countDocuments(query);
-    ctx.set('Post-Last-Page', Math.ceil(postCount / 10));
-    ctx.body = postList.map(post => ({
+    ctx.set('Makeuphara-Post-Count', postCount);
+    ctx.set('Makeuphara-Post-Last-Page', Math.ceil(postCount / 10));
+    ctx.body = postList.map((post) => ({
       ...post,
       title:
         post.title.length < 50 ? post.title : `${post.title.slice(0, 150)}...`,
@@ -89,7 +90,7 @@ export const isPublisher = (ctx, next) => {
  * 특정 포스트 불러오기 API
  * POST /api/post/:id
  */
-export const read = async ctx => {
+export const read = async (ctx) => {
   ctx.body = ctx.state.post;
 };
 
@@ -97,7 +98,7 @@ export const read = async ctx => {
  * 포스트 작성 API
  * POST /api/post/write
  */
-export const write = async ctx => {
+export const write = async (ctx) => {
   /* validate */
   const schema = Joi.object().keys({
     title: Joi.string().required(),
@@ -132,7 +133,7 @@ export const write = async ctx => {
  * 포스트 수정 API
  * PATCH /api/post/:id
  */
-export const update = async ctx => {
+export const update = async (ctx) => {
   /* params */
   const { id } = ctx.params;
   /* validate */
@@ -153,6 +154,7 @@ export const update = async ctx => {
   if (nextData.body) {
     nextData.body = sanitizeHtml(nextData.body, SanitizeOption);
   }
+  nextData.publisher = ctx.state.user;
   try {
     const post = await Post.findByIdAndUpdate(id, nextData, {
       new: true,
@@ -171,7 +173,7 @@ export const update = async ctx => {
  * 포스트 삭제 API
  * DELETE /api/post/:id
  */
-export const remove = async ctx => {
+export const remove = async (ctx) => {
   const { id } = ctx.params;
   try {
     // remove는 이전 버전에서 사용
