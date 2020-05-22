@@ -64,6 +64,12 @@ const [
   GET_RANDOM_TITLE_SUCCESS,
   GET_RANDOM_TITLE_FAILURE,
 ] = createRequestActionTypes('wiki/GET_RANDOM_TITLE');
+// api - document count
+const [
+  GET_DOCUMENT_COUNT,
+  GET_DOCUMENT_COUNT_SUCCESS,
+  GET_DOCUMENT_COUNT_FAILURE,
+] = createRequestActionTypes('wiki/GET_DOCUMENT_COUNT');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -107,6 +113,10 @@ export const getDirectTitle = createAction(GET_DIRECT_TITLE, ({ query }) => ({
   query,
 }));
 export const getRandomTitle = createAction(GET_RANDOM_TITLE);
+export const getDocumentCount = createAction(
+  GET_DOCUMENT_COUNT,
+  ({ username }) => ({ username }),
+);
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -141,6 +151,10 @@ export const getRandomTitleSaga = createRequestSaga(
   GET_RANDOM_TITLE,
   wikiAPI.getRandomTitle,
 );
+export const getDocumentCountSaga = createRequestSaga(
+  GET_DOCUMENT_COUNT,
+  wikiAPI.getDocumentCount,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
@@ -151,6 +165,7 @@ export function* wikiSaga() {
   yield takeLatest(GET_SEARCH_LIST, getSearchListSaga);
   yield takeLatest(GET_DIRECT_TITLE, getDirectTitleSaga);
   yield takeLatest(GET_RANDOM_TITLE, getRandomTitleSaga);
+  yield takeLatest(GET_DOCUMENT_COUNT, getDocumentCountSaga);
 }
 
 /* initialize state */
@@ -175,6 +190,8 @@ const initialState = {
   directError: null,
   randomTitle: null,
   randomTitleError: null,
+  documentCount: 0,
+  documentCountError: null,
 };
 
 /* reducer */
@@ -281,6 +298,14 @@ const wiki = handleActions(
     [GET_RANDOM_TITLE_FAILURE]: (state, { payload: randomTitleError }) => ({
       ...state,
       randomTitleError,
+    }),
+    [GET_DOCUMENT_COUNT_SUCCESS]: (state, { payload: documentCount }) => ({
+      ...state,
+      documentCount,
+    }),
+    [GET_DOCUMENT_COUNT_FAILURE]: (state, { payload: documentCountError }) => ({
+      ...state,
+      documentCountError,
     }),
   },
   initialState,

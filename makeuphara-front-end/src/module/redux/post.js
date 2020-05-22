@@ -42,14 +42,14 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
   key,
   value,
 }));
-export const setOriginalPost = createAction(SET_ORIGINAL_POST, post => post);
+export const setOriginalPost = createAction(SET_ORIGINAL_POST, (post) => post);
 export const unloadPost = createAction(UNLOAD_POST);
 export const writePost = createAction(WRITE_POST, ({ title, body, tags }) => ({
   title,
   body,
   tags,
 }));
-export const readPost = createAction(READ_POST, id => id);
+export const readPost = createAction(READ_POST, (id) => id);
 export const updatePost = createAction(
   UPDATE_POST,
   ({ id, title, body, tags }) => ({ id, title, body, tags }),
@@ -89,6 +89,7 @@ const initialState = {
   postError: null,
   postList: [],
   lastPage: 1,
+  postCount: 0,
   postListError: null,
   targetPostId: null,
 };
@@ -108,12 +109,12 @@ const post = handleActions(
       tags: post.tags,
       targetPostId: post._id,
     }),
-    [UNLOAD_POST]: state => ({
+    [UNLOAD_POST]: (state) => ({
       ...state,
       post: null,
       postError: null,
     }),
-    [WRITE_POST]: state => ({
+    [WRITE_POST]: (state) => ({
       ...state,
       editPost: null,
       neditPosttError: null,
@@ -145,13 +146,14 @@ const post = handleActions(
     [GET_LIST_SUCCESS]: (state, { payload: postList, meta: response }) => ({
       ...state,
       postList,
-      lastPage: parseInt(response.headers['post-last-page'], '10'),
+      postCount: parseInt(response.headers['makeuphara-post-count'], '10'),
+      lastPage: parseInt(response.headers['makeuphara-post-last-page'], '10'),
     }),
     [GET_LIST_FAILURE]: (state, { payload: postListError }) => ({
       ...state,
       postListError,
     }),
-    [UNLOAD_LIST]: state => ({
+    [UNLOAD_LIST]: (state) => ({
       ...state,
       postList: null,
       postListError: null,

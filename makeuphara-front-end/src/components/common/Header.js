@@ -259,10 +259,10 @@ const SearchDropDown = ({ state }) => {
 const ProfileInfo = ({ user }) => {
   return (
     <div className="profile-menu">
-      <p>{user.username}</p>
+      <p>{user.name}</p>
       <ul>
         <Link to={'/mypage'}>
-          <li>My Page(구현 중...)</li>
+          <li>My Page</li>
         </Link>
       </ul>
     </div>

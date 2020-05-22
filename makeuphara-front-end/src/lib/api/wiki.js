@@ -29,3 +29,6 @@ export const getDirectTitle = ({ query }) => {
 };
 
 export const getRandomTitle = () => client.get('/api/wiki/search/random');
+
+export const getDocumentCount = ({ username }) =>
+  client.post('/api/wiki/doc/count', { username });
