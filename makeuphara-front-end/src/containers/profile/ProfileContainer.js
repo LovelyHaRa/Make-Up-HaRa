@@ -37,6 +37,8 @@ const ProfileContainer = () => {
   // input 상태 반영
   const onChange = (e) => {
     setNameMessage('');
+    setSubmitMessage('');
+    setErrorMessage('');
     const { value, name } = e.target;
     dispatch(changeField({ form: 'profile', key: name, value }));
   };
@@ -60,7 +62,6 @@ const ProfileContainer = () => {
       setEqualName(false);
       setNameMessage(existName ? existName.message : ''); // 메시지 저장
     }
-    setSubmitMessage('');
   }, [existName]);
 
   useEffect(() => {

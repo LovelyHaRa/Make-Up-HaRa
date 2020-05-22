@@ -75,7 +75,7 @@ const StyleInput = styled.input`
 `;
 
 const ProfileSubmitButton = styled(Button)`
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 `;
 
 export const ProfileErrorBlock = styled(ErrorBlock)`
@@ -154,7 +154,7 @@ const Profile = ({
               onChange={onChange}
             />
             {validName === false && (
-              <span className="invaild-message">{nameMessage}</span>
+              <span className="invalid-message">{nameMessage}</span>
             )}
             {submitMessage !== '' && (
               <span className="success-message">{submitMessage}</span>
