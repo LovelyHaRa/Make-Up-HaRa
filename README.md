@@ -6,10 +6,11 @@
 
 ##### Features Implemented
 
-- Blog
+- Blog (CRUD)
 - Local Login/Social Login(Google, Naver, Kakao)
 - Dark Theme
-- WIKI
+- WIKI (CRUD)
+- My Page (Change Name / Password, Activity Logs)
 
 
 
@@ -20,7 +21,6 @@
 - To Do List For User
 - Shopping Search
 - Trending Search keywords list
-- My Page
 
 
 
