@@ -2,6 +2,16 @@ import User from '../../database/models/user';
 import Joi from '@hapi/joi';
 import bcrypt from 'bcrypt';
 
+const isExistUsername = async (ctx, username) => {
+  try {
+    const exists = await User.findByName(username);
+    const existsid = await User.findByUsername(username);
+    return !!exists || !!existsid;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
 // 이름 검색
 const isExistName = async (ctx, name) => {
   try {
@@ -14,18 +24,43 @@ const isExistName = async (ctx, name) => {
 };
 
 /**
- * 마이페이지 이름 중복 체크
- * POST /api/user/checkName
+ * ID 중복 체크
+ * POST /api/user/check/username
+ */
+export const checkUsername = async (ctx) => {
+  const { username } = ctx.request.body;
+  let existUserName = {};
+  const reg = /^[A-Za-z0-9_]{4,20}$/;
+  try {
+    const exists = await isExistUsername(ctx, username);
+    existUserName.result = exists ? false : true;
+    if (exists) {
+      existUserName.message = '사용할 수 없는 ID입니다.';
+    } else if (!exists) {
+      if (!reg.test(username)) {
+        existUserName.result = false;
+        existUserName.message =
+          '4자 이상 20자 이하, 영문/숫자/_을 조합하여 사용할 수 있습니다';
+      }
+    }
+    ctx.body = existUserName;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+/**
+ * 이름 중복 체크
+ * POST /api/user/check/name
  */
 export const checkName = async (ctx) => {
-  const { name } = ctx.request.body;
-  const { username } = ctx.state.user;
+  const { username, name } = ctx.request.body;
   let existName = {};
   try {
     const exists = await isExistName(ctx, name);
     existName.result = exists ? false : true;
     if (exists) {
-      if (name === username) {
+      if (name === username && name !== '') {
         existName.result = true;
       } else {
         existName.message = '이미 사용중인 이름입니다.';

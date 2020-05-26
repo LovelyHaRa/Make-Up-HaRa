@@ -6,6 +6,7 @@ export const register = async (ctx) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(3).max(20).required(),
     password: Joi.string().min(8).required(),
+    name: Joi.string().min(2).required(),
   });
   const result = schema.validate(ctx.request.body);
   if (result.error) {
@@ -14,7 +15,7 @@ export const register = async (ctx) => {
     return;
   }
 
-  const { username, password } = ctx.request.body;
+  const { username, password, name } = ctx.request.body;
   try {
     const exists = await User.findByUsername(username);
     if (exists) {
@@ -23,6 +24,7 @@ export const register = async (ctx) => {
     }
     const user = new User({
       username,
+      name,
       provider: 'local',
     });
     await user.setPassword(password);
