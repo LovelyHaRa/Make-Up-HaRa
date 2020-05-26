@@ -4,7 +4,8 @@ import isLoggedIn from '../../lib/middleware/isLoggedIn';
 
 const user = new Router();
 
-user.post('/checkName', isLoggedIn, UserController.checkName);
+user.post('/check/username', UserController.checkUsername);
+user.post('/check/name', UserController.checkName);
 user.patch('/profile', isLoggedIn, UserController.updateName);
 user.patch('/password', isLoggedIn, UserController.changePassword);
 

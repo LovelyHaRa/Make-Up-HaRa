@@ -4,7 +4,8 @@ import {
 } from '../../lib/createRequest';
 import { createAction, handleActions } from 'redux-actions';
 import * as authAPI from '../../lib/api/auth';
-import { takeLatest } from 'redux-saga/effects';
+import * as userAPI from '../../lib/api/user';
+import { takeLatest, debounce } from 'redux-saga/effects';
 import produce from 'immer';
 
 /* action type */
@@ -32,6 +33,18 @@ const [
   LOGIN_WITH_KAKAO_SUCCESS,
   LOGIN_WITH_KAKAO_FAILURE,
 ] = createRequestActionTypes('auth/LOGIN_WITH_KAKAO');
+// api - check username
+const [
+  CHECK_EXIST_USERNAME,
+  CHECK_EXIST_USERNAME_SUCCESS,
+  CHECK_EXIST_USERNAME_FAILURE,
+] = createRequestActionTypes('auth/CHECK_EXIST_USERNAME');
+// api - check name
+const [
+  CHECK_EXIST_NAME,
+  CHECK_EXIST_NAME_SUCCESS,
+  CHECK_EXIST_NAME_FAILURE,
+] = createRequestActionTypes('auth/CHECK_EXIST_NAME');
 
 /* action */
 export const changeFieid = createAction(
@@ -43,10 +56,14 @@ export const changeFieid = createAction(
   }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-export const register = createAction(REGISTER, ({ username, password }) => ({
-  username,
-  password,
-}));
+export const register = createAction(
+  REGISTER,
+  ({ username, password, name }) => ({
+    username,
+    password,
+    name,
+  }),
+);
 export const login = createAction(LOGIN, ({ username, password }) => ({
   username,
   password,
@@ -73,6 +90,14 @@ export const loginWithKakao = createAction(
     redirect_uri,
   }),
 );
+export const checkExistUsername = createAction(
+  CHECK_EXIST_USERNAME,
+  (username) => username,
+);
+export const checkExistName = createAction(
+  CHECK_EXIST_NAME,
+  ({ username, name }) => ({ username, name }),
+);
 
 /* redux-saga */
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
@@ -89,6 +114,14 @@ const loginWithKakaoSaga = createRequestSaga(
   LOGIN_WITH_KAKAO,
   authAPI.loginWithKakao,
 );
+const checkExistUsernameSaga = createRequestSaga(
+  CHECK_EXIST_USERNAME,
+  userAPI.checkExistUsername,
+);
+const checkExistNameSaga = createRequestSaga(
+  CHECK_EXIST_NAME,
+  userAPI.checkExistName,
+);
 
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
@@ -96,6 +129,8 @@ export function* authSaga() {
   yield takeLatest(LOGIN_WITH_GOOGLE, loginWithGoogleSaga);
   yield takeLatest(LOGIN_WITH_NAVER, loginWithNaverSaga);
   yield takeLatest(LOGIN_WITH_KAKAO, loginWithKakaoSaga);
+  yield debounce(500, CHECK_EXIST_USERNAME, checkExistUsernameSaga);
+  yield debounce(500, CHECK_EXIST_NAME, checkExistNameSaga);
 }
 
 /* initialize state */
@@ -104,13 +139,20 @@ const initialState = {
     username: '',
     password: '',
     passwordConfirm: '',
+    name: '',
   },
   login: {
     username: '',
     password: '',
   },
+  checkExistUsernameResult: null,
+  checkExistUsernameResultError: null,
+  checkExistNameResult: null,
+  checkExistNameResultError: null,
   auth: null,
   authError: null,
+  registerResult: null,
+  registerResultError: null,
 };
 
 /* reducer */
@@ -123,17 +165,21 @@ const auth = handleActions(
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
-      auth: null,
-      authError: null, // 폼 전환 시 회원인증 에러 초기화
+      checkExistUsernameResult: null,
+      checkExistUsernameResultError: null,
+      checkExistNameResult: null,
+      checkExistNameResultError: null,
+      registerResult: null,
+      registerResultError: null, // 폼 전환 시 회원인증 에러 초기화
     }),
-    [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+    [REGISTER_SUCCESS]: (state, { payload: registerResult }) => ({
       ...state,
-      authError: null,
-      auth,
+      registerResultError: null,
+      registerResult,
     }),
-    [REGISTER_FAILURE]: (state, { payload: error }) => ({
+    [REGISTER_FAILURE]: (state, { payload: registerResultError }) => ({
       ...state,
-      authError: error,
+      registerResultError,
     }),
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
@@ -170,6 +216,35 @@ const auth = handleActions(
     [LOGIN_WITH_KAKAO_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
+    }),
+    [CHECK_EXIST_USERNAME_SUCCESS]: (
+      state,
+      { payload: checkExistUsernameResult },
+    ) => ({
+      ...state,
+      checkExistUsernameResult,
+      checkExistUsernameResultError: null,
+    }),
+    [CHECK_EXIST_USERNAME_FAILURE]: (
+      state,
+      { payload: checkExistUsernameResultError },
+    ) => ({
+      ...state,
+      checkExistUsernameResult: null,
+      checkExistUsernameResultError,
+    }),
+    [CHECK_EXIST_NAME_SUCCESS]: (state, { payload: checkExistNameResult }) => ({
+      ...state,
+      checkExistNameResult,
+      checkExistNameResultError: null,
+    }),
+    [CHECK_EXIST_NAME_FAILURE]: (
+      state,
+      { payload: checkExistNameResultError },
+    ) => ({
+      ...state,
+      checkExistNameResult: null,
+      checkExistNameResultError,
     }),
   },
   initialState,

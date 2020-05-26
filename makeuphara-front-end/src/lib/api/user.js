@@ -1,9 +1,10 @@
 import client from './client';
 
-export const checkExistName = (name) => {
-  console.log(name);
-  return client.post('/api/user/checkName', { name });
-};
+export const checkExistUsername = ({ username }) =>
+  client.post('/api/user/check/username', { username });
+
+export const checkExistName = ({ username, name }) =>
+  client.post('/api/user/check/name', { username, name });
 
 export const updateName = ({ id, name }) =>
   client.patch('/api/user/profile', { id, name });
