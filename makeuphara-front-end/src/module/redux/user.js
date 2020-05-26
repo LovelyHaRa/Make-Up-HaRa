@@ -14,13 +14,14 @@ const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
 );
 const LOGOUT = 'user/LOGOUT';
 const TEMP_SET_USER = 'user/TEMP_SET_USER';
-// api - change name
+// api - check name
 const [
   CHECK_EXIST_NAME,
   CHECK_EXIST_NAME_SUCCESS,
   CHECK_EXIST_NAME_FAILURE,
 ] = createRequestActionTypes('user/CHECK_EXIST_NAME');
 const CHANGE_FIELD = 'user/CHANGE_FIELD';
+// api- update name
 const [
   UPDATE_NAME,
   UPDATE_NAME_SUCCESS,
@@ -39,7 +40,10 @@ const INITIALIZE_CHANGE_PASSWORD = 'user/INITIALIZE_CHANGE_PASSWORD';
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 export const tempSetUser = createAction(TEMP_SET_USER);
-export const checkExistName = createAction(CHECK_EXIST_NAME, (name) => name);
+export const checkExistName = createAction(
+  CHECK_EXIST_NAME,
+  ({ username, name }) => ({ username, name }),
+);
 export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({ form, key, value }),
@@ -107,8 +111,8 @@ const initialState = {
     newPassword: '',
     confirmPassword: '',
   },
-  existName: null,
-  existNameError: null,
+  checkExistNameResult: null,
+  checkExistNameResultError: null,
   updateUser: null,
   updateUserError: null,
   changePasswordResult: null,
@@ -140,13 +144,16 @@ export default handleActions(
       produce(state, (draft) => {
         draft[form][key] = value;
       }),
-    [CHECK_EXIST_NAME_SUCCESS]: (state, { payload: existName }) => ({
+    [CHECK_EXIST_NAME_SUCCESS]: (state, { payload: checkExistNameResult }) => ({
       ...state,
-      existName,
+      checkExistNameResult,
     }),
-    [CHECK_EXIST_NAME_FAILURE]: (state, { payload: existNameError }) => ({
+    [CHECK_EXIST_NAME_FAILURE]: (
+      state,
+      { payload: checkExistNameResultError },
+    ) => ({
       ...state,
-      existNameError,
+      checkExistNameResultError,
     }),
     [UPDATE_NAME_SUCCESS]: (state, { payload: updateUser }) => ({
       ...state,
@@ -160,8 +167,8 @@ export default handleActions(
       ...state,
       updateUser: null,
       updateUserError: null,
-      existName: null,
-      existNameError: null,
+      checkExistNameResult: null,
+      checkExistNameResultError: null,
     }),
     [CHANGE_PASSWORD_SUCCESS]: (state, { payload: changePasswordResult }) => ({
       ...state,

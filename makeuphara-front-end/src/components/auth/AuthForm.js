@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import Button, { buttonStyle } from '../common/Button';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,16 @@ const AuthFormBlock = styled.div`
     a + button {
       margin-top: 0.5rem;
     }
+  }
+  input.possible {
+    border-bottom: 2px solid ${({ theme }) => theme.profileInputValid};
+  }
+  input.impossible {
+    border-bottom: 2px solid ${({ theme }) => theme.profileInputInValid};
+  }
+  .invalid-message {
+    color: ${({ theme }) => theme.errorText};
+    font-size: 0.75rem;
   }
 `;
 
@@ -49,7 +59,7 @@ const StyledInput = styled.input`
 `;
 
 const Footer = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: right;
   a {
     color: ${({ theme }) => theme.text};
@@ -109,7 +119,16 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
+const AuthForm = ({
+  type,
+  form,
+  onChange,
+  onSubmit,
+  error,
+  onSocialLogin,
+  validUsername,
+  validName,
+}) => {
   const text = textMap[type];
 
   // Login with Google
@@ -117,7 +136,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
   const auth2 = useRef(null);
 
   // Config Google Login API
-  const loadGoogleLoginApi = () => {
+  const loadGoogleLoginApi = useCallback(() => {
     // 로그인 버튼 이벤트 주입
     const prepareLoginButton = () => {
       auth2.current.attachClickHandler(
@@ -135,7 +154,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
           onSocialLogin({ id_token });
         },
         (error) => {
-          console.log(JSON.stringify(error, undefined, 2));
+          // console.log(JSON.stringify(error, undefined, 2));
         },
       );
     };
@@ -150,9 +169,9 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
         prepareLoginButton();
       });
     };
-  };
+  }, [onSocialLogin]);
 
-  const onNaverLoginClick = () => {
+  const onNaverLoginClick = useCallback(() => {
     const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_NAVER_LOGIN_REDIRECT_URI;
     const state = process.env.REACT_APP_NAVER_LOGIN_STATE;
@@ -162,9 +181,9 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     requestUrl += '&redirect_uri=' + redirect_uri;
     requestUrl += '&state=' + state;
     window.location = requestUrl;
-  };
+  }, []);
 
-  const onKakaoLoginClick = () => {
+  const onKakaoLoginClick = useCallback(() => {
     const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
     const state = process.env.REACT_APP_KAKAO_LOGIN_STATE;
@@ -174,10 +193,10 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     requestUrl += '&redirect_uri=' + redirect_uri;
     requestUrl += '&state=' + state;
     window.location = requestUrl;
-  };
+  }, []);
 
   // Load Script
-  const loadScript = (document, script, id, srcValue) => {
+  const loadScript = useCallback((document, script, id, srcValue) => {
     const referenceNode = document.getElementsByTagName(script)[0];
     if (document.getElementById(id)) {
       return;
@@ -186,9 +205,9 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     googlejssdkNode.id = id;
     googlejssdkNode.src = srcValue;
     referenceNode.parentNode.insertBefore(googlejssdkNode, referenceNode);
-  };
+  }, []);
 
-  const removeApiScript = () => {
+  const removeApiScript = useCallback(() => {
     const removeTag = (tagName, targetId) => {
       const targetNode = document.getElementsByTagName(tagName);
       [...targetNode].map(
@@ -207,7 +226,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     };
 
     removeJssdk('google-jssdk');
-  };
+  }, []);
 
   useEffect(() => {
     loadScript(
@@ -221,36 +240,89 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
     return () => {
       removeApiScript();
     };
-  });
-
+  }, [loadScript, removeApiScript, loadGoogleLoginApi]);
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         <StyledInput
           autoComplete="username"
+          className={
+            type === 'register' &&
+            (validUsername.result === true
+              ? 'possible'
+              : validUsername.message !== '' && 'impossible')
+          }
           name="username"
           placeholder="계정 이름"
           value={form.username}
           onChange={onChange}
         />
+        {type === 'register' &&
+          validUsername.message &&
+          validUsername.message !== '' && (
+            <span className="invalid-message">{validUsername.message}</span>
+          )}
         <StyledInput
           type="password"
           autoComplete="new-password"
+          className={
+            type === 'register' &&
+            (form.password.length >= 8
+              ? 'possible'
+              : form.password !== '' && 'impossible')
+          }
           name="password"
           placeholder="비밀번호"
           value={form.password}
           onChange={onChange}
         />
+        {type === 'register' &&
+          form.password.length < 8 &&
+          form.password.length > 0 && (
+            <span className="invalid-message">8자 이상 입력해야 합니다.</span>
+          )}
         {type === 'register' && (
-          <StyledInput
-            type="password"
-            autoComplete="new-password"
-            name="passwordConfirm"
-            placeholder="비밀번호 확인"
-            value={form.passwordConfirm}
-            onChange={onChange}
-          />
+          <>
+            <StyledInput
+              type="password"
+              autoComplete="new-password"
+              className={
+                form.passwordConfirm.length >= 8 &&
+                form.passwordConfirm === form.password
+                  ? 'possible'
+                  : form.passwordConfirm !== '' && 'impossible'
+              }
+              name="passwordConfirm"
+              placeholder="비밀번호 확인"
+              value={form.passwordConfirm}
+              onChange={onChange}
+            />
+            {form.passwordConfirm.length >= 8 &&
+              form.passwordConfirm !== form.password && (
+                <span className="invalid-message">
+                  비밀번호가 일치하지 않습니다.
+                </span>
+              )}
+            <StyledInput
+              type="text"
+              className={
+                type === 'register' &&
+                (validName.result === true
+                  ? 'possible'
+                  : validName.message !== '' && 'impossible')
+              }
+              name="name"
+              placeholder="활동명"
+              value={form.name}
+              onChange={onChange}
+            />
+            {type === 'register' &&
+              validName.message &&
+              validName.message !== '' && (
+                <span className="invalid-message">{validName.message}</span>
+              )}
+          </>
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ButtonWithMarginTop cyan fullWidth>
@@ -277,6 +349,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error, onSocialLogin }) => {
               alt="kakao-login-btn"
             />
           </KakaoLoginButton>
+          <hr />
         </div>
       )}
 

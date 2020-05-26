@@ -14,15 +14,15 @@ const ProfileContainer = () => {
   const {
     user,
     form,
-    existName,
-    existNameError,
+    isNotExistName,
+    isNotExistNameError,
     updateUser,
     updateUserError,
   } = useSelector(({ user }) => ({
     user: user.user,
     form: user.profile,
-    existName: user.existName,
-    existNameError: user.existNameError,
+    isNotExistName: user.checkExistNameResult,
+    isNotExistNameError: user.checkExistNameResultError,
     updateUser: user.updateUser,
     updateUserError: user.updateUserError,
   }));
@@ -54,15 +54,15 @@ const ProfileContainer = () => {
 
   useEffect(() => {
     // 중복되지 않은 이름일 때
-    if (!existName || (existName && existName.result)) {
+    if (!isNotExistName || (isNotExistName && isNotExistName.result)) {
       setValidName(true);
     } else {
       // 상태 업데이트
       setValidName(false);
       setEqualName(false);
-      setNameMessage(existName ? existName.message : ''); // 메시지 저장
+      setNameMessage(isNotExistName ? isNotExistName.message : ''); // 메시지 저장
     }
-  }, [existName]);
+  }, [isNotExistName]);
 
   useEffect(() => {
     if (!user) return;
@@ -73,7 +73,7 @@ const ProfileContainer = () => {
     // 이름이 현재 사용자 이름이랑 다르면
     if (name && name.toLowerCase() !== loginName.toLowerCase()) {
       // 이름이 사용 가능한지 비동기로 요청
-      dispatch(checkExistName(name));
+      dispatch(checkExistName({ username: user.username, name }));
       setEqualName(false);
     } else {
       // 이름이 같으면
@@ -82,7 +82,7 @@ const ProfileContainer = () => {
       } else {
         // 공백일 때
         console.log('실행');
-        dispatch(checkExistName(name)); // 요청해서 공백일 떄의 결과 값을 갱신 한다
+        dispatch(checkExistName({ username: user.username, name })); // 요청해서 공백일 떄의 결과 값을 갱신 한다
       }
     }
   }, [dispatch, form, user]);
@@ -118,7 +118,7 @@ const ProfileContainer = () => {
       onSubmit={onSubmit}
       validName={validName}
       nameMessage={nameMessage}
-      existNameError={existNameError}
+      isNotExistNameError={isNotExistNameError}
       equalName={equalName}
       submitMessage={submitMessage}
       errorMessage={errorMessage}
