@@ -64,6 +64,7 @@ const PostList = ({
     <Responsive>
       <PostListBlock>
         <Helmet>
+          <title>MAKE UP HARA :: BLOG</title>
           {username && <title>{username} - MAKE UP HARA :: BLOG</title>}
           {tag && <title>#{tag} - MAKE UP HARA :: BLOG</title>}
           {username && tag && (

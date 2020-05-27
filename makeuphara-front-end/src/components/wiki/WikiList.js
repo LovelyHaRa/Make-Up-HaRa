@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ErrorBlock from '../common/ErrorBlock';
+import { Helmet } from 'react-helmet-async';
 
 const WikiListBlock = styled.div`
   margin: 2rem;
@@ -78,6 +79,9 @@ const WikiList = ({ documentList, error, loading }) => {
   }
   return (
     <WikiListBlock>
+      <Helmet>
+        <title>WIKI LIST - MAKE UP HARA</title>
+      </Helmet>
       {!loading && documentList && (
         <div>
           {documentList.map((document) => (

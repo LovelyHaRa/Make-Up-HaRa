@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const WikiSearchBlock = styled.div`
+  margin-top: 0.125rem;
   border-bottom: 1px solid ${({ theme }) => theme.wikiMenuBorder};
 `;
 

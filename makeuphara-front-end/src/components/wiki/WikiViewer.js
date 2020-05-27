@@ -4,6 +4,7 @@ import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ErrorBlock from '../common/ErrorBlock';
+import { Helmet } from 'react-helmet-async';
 
 const WikiViewerBlock = styled.div``;
 
@@ -141,6 +142,11 @@ const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
 
   return (
     <WikiViewerBlock>
+      {title && (
+        <Helmet>
+          <title>{title.name} - MAKE UP HARA</title>
+        </Helmet>
+      )}
       <DocumentMenuBlock>
         <DocumentMenu onEdit={onEdit} docName={docName} />
       </DocumentMenuBlock>
