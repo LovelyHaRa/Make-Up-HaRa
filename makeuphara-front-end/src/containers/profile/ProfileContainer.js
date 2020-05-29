@@ -81,7 +81,6 @@ const ProfileContainer = () => {
         setEqualName(true); // 상태 갱신
       } else {
         // 공백일 때
-        console.log('실행');
         dispatch(checkExistName({ username: user.username, name })); // 요청해서 공백일 떄의 결과 값을 갱신 한다
       }
     }

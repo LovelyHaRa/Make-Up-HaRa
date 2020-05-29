@@ -39,6 +39,7 @@ const App = () => {
       throw error;
     }
   }, [dispatch]);
+
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <>

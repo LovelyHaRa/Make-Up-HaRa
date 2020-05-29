@@ -32,7 +32,7 @@ export const list = async (ctx) => {
   try {
     const postList = await Post.find(query)
       .sort({ _id: -1 })
-      .skip((page - 1) * 10)
+      .skip((page - 1) * block)
       .limit(block)
       .lean();
     const postCount = await Post.countDocuments(query);

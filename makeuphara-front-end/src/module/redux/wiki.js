@@ -102,11 +102,13 @@ export const getHistoryList = createAction(GET_HISTORY_LIST, ({ id }) => ({
 }));
 export const getSearchList = createAction(
   GET_SEARCH_LIST,
-  ({ query, oldest, shortest, longest }) => ({
+  ({ query, oldest, shortest, longest, page, block }) => ({
     query,
     oldest,
     shortest,
     longest,
+    page,
+    block,
   }),
 );
 export const getDirectTitle = createAction(GET_DIRECT_TITLE, ({ query }) => ({

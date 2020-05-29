@@ -73,7 +73,7 @@ const BlogSection = ({ postList, loading, postError }) => {
   }
   return (
     <BlogSectionBlock>
-      <h3>블로그</h3>
+      <h3>최근 등록된 포스트</h3>
       {!loading && postList && (
         <div>
           {postList.map((post) => (

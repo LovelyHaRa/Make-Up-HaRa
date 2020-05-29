@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const WikiListBlock = styled.div`
   margin: 2rem;
@@ -39,17 +40,23 @@ const DocumentBlock = styled.div`
   }
 `;
 
-const DocumentItem = ({ document }) => {
-  const { name } = document;
+const DocumentItem = forwardRef((props, ref) => {
+  const { name } = props.document;
   return (
-    <DocumentBlock>
+    <DocumentBlock ref={ref}>
       <Link to={`/w/${name}`}>{name}</Link>
       <div className="wiki-info"></div>
     </DocumentBlock>
   );
-};
+});
 
-const WikiList = ({ documentList, error, loading }) => {
+const WikiList = ({
+  documentList,
+  isLastPage,
+  error,
+  loading,
+  lastDocumentRef,
+}) => {
   if (error) {
     return (
       <WikiListErrorBlock>
@@ -64,7 +71,7 @@ const WikiList = ({ documentList, error, loading }) => {
       </WikiListErrorBlock>
     );
   }
-  if (loading || !documentList) {
+  if (loading && !documentList) {
     return null;
   }
   if (!loading && documentList && !documentList.length) {
@@ -77,16 +84,26 @@ const WikiList = ({ documentList, error, loading }) => {
       </WikiListErrorBlock>
     );
   }
+
   return (
     <WikiListBlock>
       <Helmet>
         <title>WIKI LIST - MAKE UP HARA</title>
       </Helmet>
-      {!loading && documentList && (
+      {documentList && (
         <div>
-          {documentList.map((document) => (
-            <DocumentItem document={document} key={document._id} />
-          ))}
+          {documentList.map((document, index) =>
+            index !== documentList.length - 1 ? (
+              <DocumentItem document={document} key={document._id} />
+            ) : (
+              <DocumentItem
+                document={document}
+                key={document._id}
+                ref={lastDocumentRef}
+              />
+            ),
+          )}
+          {isLastPage && <LinearProgress />}
         </div>
       )}
     </WikiListBlock>

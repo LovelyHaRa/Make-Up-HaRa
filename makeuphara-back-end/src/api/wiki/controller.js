@@ -167,6 +167,10 @@ export const getHistory = async (ctx) => {
 
 export const searchDocument = async (ctx, next) => {
   let { query, oldest, shortest, longest } = ctx.query;
+  /* parameter 설정 */
+  const page = parseInt(ctx.query.page || '1', 10);
+  const block = parseInt(ctx.query.block || '25', 10);
+
   if (query === undefined) {
     query = '';
   }
@@ -187,6 +191,8 @@ export const searchDocument = async (ctx, next) => {
       lately: { $gt: 0 },
     })
       .sort(sortObj)
+      .skip((page - 1) * block)
+      .limit(block)
       .lean();
     ctx.body = documentList;
     const reqUrl = ctx.request.url;
