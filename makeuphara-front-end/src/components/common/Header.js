@@ -11,6 +11,7 @@ import {
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
+import { makeStyles } from '@material-ui/core/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -46,12 +47,18 @@ const HeaderBlock = styled.nav`
     margin-right: 0.25rem;
     font-size: 1rem;
     letter-spacing: 0.5px;
+    font-family: 'DancingScript';
+    font-weight: 700;
     color: ${({ theme }) => theme.text};
   }
   .menu {
     color: ${({ theme }) => theme.text};
     display: flex;
     align-items: center;
+  }
+  .main-menu {
+    font-family: 'Raleway';
+    font-weight: 400;
   }
   .menu div > a:hover {
     color: ${({ theme }) => theme.hoverText};
@@ -62,7 +69,8 @@ const HeaderBlock = styled.nav`
     }
     .all-menu p {
       margin: 0.5rem 0.5rem 0;
-      color: ${palette.gray[5]};
+      color: ${({ theme }) => theme.hoverText};
+      font-family: 'Raleway';
       font-weight: 600;
     }
     .all-menu li {
@@ -127,14 +135,26 @@ const HeaderBlock = styled.nav`
     width: 16rem;
     right: 0.5rem;
   }
+  .etc-menu,
+  .logout-menu {
+    font-family: 'NanumBarunGothic';
+  }
   .profile-menu p {
     margin: 0.5rem 0.5rem 0;
     color: ${({ theme }) => theme.text};
+    font-family: 'Raleway';
     font-weight: 600;
   }
   .profile-menu li {
     margin: 0;
     padding: 0.25rem 0.5rem;
+  }
+  .profile-menu-mypage {
+    font-family: 'Raleway';
+    font-weight: 400;
+  }
+  .logout-menu {
+    font-size: 0.9rem;
   }
   .dropdown.dropdown-search-input {
     display: flex;
@@ -200,6 +220,7 @@ const SearchInput = styled.input`
   background: ${({ theme }) => theme.inputBody};
   color: ${({ theme }) => theme.text};
   &::placeholder {
+    font-family: 'NanumBarunGothic';
     color: ${({ theme }) => theme.placeholder};
   }
   &:focus {
@@ -237,7 +258,7 @@ const EtcDropDown = ({ state }) => {
           </ul>
           <hr />
         </div>
-        <ul>
+        <ul className="etc-menu">
           <Link to="/wiki/request">
             <li>작성이 필요한 문서[WIKI]</li>
           </Link>
@@ -252,8 +273,15 @@ const EtcDropDown = ({ state }) => {
 };
 const MemoizedEtcDropDown = React.memo(EtcDropDown);
 
-const SearchDropDown = ({ state }) => {
-  return state && <SearchInputPackage type="dropdown dropdown-search-input" />;
+const SearchDropDown = ({ state, currentPath }) => {
+  return (
+    state && (
+      <SearchInputPackage
+        type="dropdown dropdown-search-input"
+        currentPath={currentPath}
+      />
+    )
+  );
 };
 
 const ProfileInfo = ({ user }) => {
@@ -262,7 +290,7 @@ const ProfileInfo = ({ user }) => {
       <p>{user.name}</p>
       <ul>
         <Link to={'/mypage'}>
-          <li>My Page</li>
+          <li className="profile-menu-mypage">My Page</li>
         </Link>
       </ul>
     </div>
@@ -270,6 +298,10 @@ const ProfileInfo = ({ user }) => {
 };
 
 const OptionMenu = ({ isDarkTheme }) => {
+  const useStyles = makeStyles(() => ({
+    darkTheme: { fontFamily: 'Raleway' },
+  }));
+  const classes = useStyles();
   const [darkTheme, setDarkTheme] = useState(false);
   const dispatch = useDispatch();
   const handleDarkThemeToggle = () => {
@@ -303,7 +335,9 @@ const OptionMenu = ({ isDarkTheme }) => {
               letterSpacing: '0',
             }}
           >
-            <Grid item>Dark Theme</Grid>
+            <Grid className={classes.darkTheme} item>
+              DARK THEME
+            </Grid>
             <Grid item>
               <DarkThemeSwitch
                 checked={darkTheme}
@@ -320,7 +354,7 @@ const OptionMenu = ({ isDarkTheme }) => {
 };
 
 const LogoutMenu = ({ onLogout, currentPath }) => (
-  <ul>
+  <ul className="logout-menu">
     <Link to={currentPath} onClick={onLogout}>
       <li>로그아웃</li>
     </Link>
@@ -455,7 +489,7 @@ const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
                 >
                   <FontAwesomeIcon icon="search" />
                 </Link>
-                <SearchDropDown state={search} />
+                <SearchDropDown state={search} currentPath={currentPath} />
               </div>
             </ClickAwayListener>
           </SearchResponsive>

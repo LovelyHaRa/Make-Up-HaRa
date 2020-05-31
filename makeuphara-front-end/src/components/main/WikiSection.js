@@ -6,7 +6,8 @@ import ErrorBlock from '../common/ErrorBlock';
 
 const WikiSectionBlock = styled.div`
   h3 {
-    font-weight: 500;
+    font-family: 'NanumBarunGothic';
+    font-weight: 600;
   }
   & > span {
     display: flex;
@@ -16,6 +17,9 @@ const WikiSectionBlock = styled.div`
       color: ${({ theme }) => theme.hoverText};
     }
   }
+  .footer {
+    font-family: 'Raleway';
+  }
 `;
 
 const DocumentBlock = styled.div`
@@ -23,6 +27,7 @@ const DocumentBlock = styled.div`
   align-items: center;
   border-top: 1px solid ${({ theme }) => theme.wikiBorder};
   padding: 0.5rem 0.25rem;
+  font-family: 'NanumBarunGothic';
   &:last-of-type {
     border-bottom: 1px solid ${({ theme }) => theme.wikiBorder};
   }
@@ -73,7 +78,7 @@ const WikiSection = ({ documentList, loading, error }) => {
         </div>
       )}
 
-      <span>
+      <span className="footer">
         <Link to="/wiki/list">MORE WIKI...</Link>
       </span>
     </WikiSectionBlock>

@@ -11,6 +11,7 @@ export const buttonStyle = css`
   border: none;
   border-radius: 2px;
   font-size: 1rem;
+  font-family:'NanumBarunGothic';
   font-weight: normal;
   padding: 0.25rem 1rem;
   color: ${({ theme }) => theme.btnText};

@@ -20,7 +20,8 @@ const PostHead = styled.div`
   padding-bottom: 2rem;
   h1 {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-family: 'Raleway', 'NanumGothic';
+    font-weight: 600;
     color: ${({ theme }) => theme.text};
   }
 `;

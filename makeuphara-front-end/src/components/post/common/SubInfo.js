@@ -10,6 +10,10 @@ const SubInfoBlock = styled.div`
       margin-top: 1rem;
     `}
   color: ${({ theme }) => theme.postSubInfoText};
+  .username {
+    font-family:'Raleway';
+    font-weight:600;
+  }
   .username:hover {
     color: ${({ theme }) => theme.postSubInfoHoverText};
   }
@@ -18,6 +22,10 @@ const SubInfoBlock = styled.div`
   span + span:before {
     padding: 0 0.25rem;
     content: '\\B7'; /* 가운뎃점 문자 */
+  }
+
+  .publishedDate {
+    font-family: 'NanumBarunGothic';
   }
 `;
 

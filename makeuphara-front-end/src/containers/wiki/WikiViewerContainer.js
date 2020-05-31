@@ -31,7 +31,7 @@ const WikiViewerContainer = ({ location, match, history }) => {
     if (docName) {
       dispatch(readDocument({ id: docName, r }));
     } else {
-      history.push('/w/MAKE UP HARA WIKI: 대문');
+      history.replace('/w/MAKE UP HARA WIKI: 대문');
     }
     // 언마운트 될 때 포스트 데이터 제거
     return () => {

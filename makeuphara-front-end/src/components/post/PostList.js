@@ -21,6 +21,8 @@ const TitleWrapper = styled.div`
   margin-bottom: 1rem;
   .title {
     font-size: 1.25rem;
+    font-family: 'Raleway';
+    font-weight: 600;
     color: ${({ theme }) => theme.text};
   }
   .sub-title {

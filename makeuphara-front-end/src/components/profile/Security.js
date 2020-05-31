@@ -27,7 +27,7 @@ const PasswordInput = styled.input`
   border: 2px solid ${({ theme }) => theme.body};
   width: 20rem;
   &::placeholder {
-    font-weight: lighter;
+    font-family: 'NanumGothic';
     color: ${({ theme }) => theme.hoverText};
   }
 `;

@@ -17,3 +17,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* WEB FONTS */
+@font-face {
+  font-family: 'Raleway';
+  font-weight: 300;
+  src: url('lib/styles/fonts/Raleway/Raleway-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-weight: 300;
+  font-style: italic;
+  src: url('lib/styles/fonts/Raleway/Raleway-LightItalic.ttf')
+    format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-weight: 400;
+  src: url('lib/styles/fonts/Raleway/Raleway-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-weight: 400;
+  font-style: italic;
+  src: url('lib/styles/fonts/Raleway/Raleway-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DancingScript';
+  font-weight: 700;
+  src: url('lib/styles/fonts/DancingScript/DancingScript-Bold.ttf')
+    format('truetype');
+}
+@font-face {
+  font-family: 'NanumBarunGothic';
+  font-weight: 300;
+  src: url('lib/styles/fonts/NanumBarunGothic/NanumBarunGothicLight.ttf')
+    format('truetype');
+}

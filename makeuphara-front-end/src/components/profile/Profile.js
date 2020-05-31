@@ -16,12 +16,13 @@ export const ProfileBlock = styled.div`
     margin-bottom: 1rem;
   }
   .profile-info-title {
-    font-weight: lighter;
+    font-weight: 300;
     font-size: 1.5rem;
+    font-family: 'Raleway', 'NanumGothic';
   }
   .profile-info-explain {
-    font-weight: lighter;
     font-size: 1rem;
+    font-family: 'NanumGothic';
     margin-top: 0.25rem;
     color: ${({ theme }) => theme.categoryBorder};
   }
@@ -30,6 +31,7 @@ export const ProfileBlock = styled.div`
     span {
       padding: 0.25rem 0.5rem;
       font-size: 1.125rem;
+      font-family: 'Raleway', 'NanumGothic';
       border-radius: 0.25rem;
       background-color: ${({ theme }) => theme.profileInfoValueBody};
     }
@@ -67,6 +69,7 @@ const StyleInput = styled.input`
   margin-top: 1.25rem;
   padding: 0.5rem 0.75rem;
   font-size: 1.125rem;
+  font-family: 'Raleway', 'NanumGothic';
   border-radius: 0.25rem;
   background-color: ${({ theme }) => theme.profileInfoValueBody};
   color: ${({ theme }) => theme.text};

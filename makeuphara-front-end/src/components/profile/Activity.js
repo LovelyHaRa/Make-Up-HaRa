@@ -40,7 +40,7 @@ const ActivityBlock = styled.div`
     margin-bottom: 2rem;
   }
   .profile-info-title {
-    font-weight: lighter;
+    font-family: 'Raleway', 'NanumGothic';
     font-size: 1.5rem;
   }
   .profile-info-content {
@@ -57,10 +57,12 @@ const ActivityBlock = styled.div`
   .content-title {
     margin-right: 1rem;
     font-size: 1rem;
+    font-family: 'NanumGothic';
   }
   .content-value {
     padding: 0.25rem 0.5rem;
     font-size: 1rem;
+    font-family: 'Raleway', 'NanumGothic';
     border-radius: 0.25rem;
     background-color: ${({ theme }) => theme.profileInfoValueBody};
   }
@@ -85,6 +87,9 @@ const PostBlock = styled.div`
     margin: 0;
     display: flex;
   }
+  & > a {
+    font-family: 'NanumGothic';
+  }
   a {
     display: flex;
   }
@@ -93,6 +98,7 @@ const PostBlock = styled.div`
     margin-left: auto;
     display: flex;
     align-items: center;
+    font-family: 'NanumGothic';
     .tags + .subinfo {
       margin-left: 1rem;
     }

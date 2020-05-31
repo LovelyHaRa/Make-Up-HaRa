@@ -31,6 +31,7 @@ const NavMenu = styled(NavLink)`
     color: ${({ theme }) => theme.categoryBorder};
   }
   .menu-name {
+    font-family: 'NanumBarunGothic';
     padding: 0 0.5rem;
   }
 `;

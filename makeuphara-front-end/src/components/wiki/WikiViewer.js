@@ -63,9 +63,11 @@ const DocumentBlock = styled(Responsive)`
 
 const TitleBlock = styled.div`
   h2 {
-    font-weight: 500;
+    font-family: 'NanumBarunGothic';
+    font-weight: 600;
   }
   p {
+    font-family: 'NanumBarunGothic';
     text-align: right;
   }
   hr {

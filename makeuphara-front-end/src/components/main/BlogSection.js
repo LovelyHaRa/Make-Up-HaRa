@@ -7,7 +7,8 @@ import ErrorBlock from '../common/ErrorBlock';
 
 const BlogSectionBlock = styled.div`
   h3 {
-    font-weight: 500;
+    font-family: 'NanumBarunGothic';
+    font-weight: 600;
   }
   & > span {
     display: flex;
@@ -16,6 +17,9 @@ const BlogSectionBlock = styled.div`
     & > a:hover {
       color: ${({ theme }) => theme.hoverText};
     }
+  }
+  .footer {
+    font-family: 'Raleway';
   }
 `;
 
@@ -26,6 +30,9 @@ const PostBlock = styled.div`
   padding: 0.5rem 0.25rem;
   &:last-of-type {
     border-bottom: 1px solid ${({ theme }) => theme.postBorder};
+  }
+  & > a {
+    font-family: 'NanumBarunGothic';
   }
   .tags,
   .subinfo {
@@ -81,7 +88,7 @@ const BlogSection = ({ postList, loading, postError }) => {
           ))}
         </div>
       )}
-      <span>
+      <span className="footer">
         <Link to="/blog">MORE POST...</Link>
       </span>
     </BlogSectionBlock>

@@ -12,6 +12,9 @@ const EditorFooterBlock = styled.div`
   align-items: center;
   justify-content: space-between;
   background: ${({ theme }) => theme.body};
+  font-family: 'Raleway';
+  font-weight: 600;
+  letter-spacing: 1px;
 
   .title > a {
     color: ${({ theme }) => theme.footerText};

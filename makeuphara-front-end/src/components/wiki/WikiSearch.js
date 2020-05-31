@@ -39,6 +39,10 @@ const SearchInput = styled.input`
   font-size: 0.875rem;
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
+  ::placeholder {
+    font-family: 'NanumBarunGothic';
+    color: ${({ theme }) => theme.hoverText};
+  }
 `;
 
 const SearchButton = styled.button`

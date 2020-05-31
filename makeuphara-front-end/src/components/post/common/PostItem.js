@@ -7,6 +7,7 @@ import Tags from './Tags';
 const PostItemBlock = styled.div`
   padding-top: 1rem;
   padding-bottom: 1rem;
+
   &:first-child {
     padding-top: 0;
   }
@@ -15,6 +16,7 @@ const PostItemBlock = styled.div`
   }
   h2 {
     font-size: 1.5rem;
+    font-family: 'NanumBarunGothic';
     font-weight: 500;
     color: ${({ theme }) => theme.text};
     &:hover {
@@ -32,6 +34,9 @@ const PostItemBlock = styled.div`
       color: ${({ theme }) => theme.hoverText};
     }
   }
+  .item-body {
+    font-family: 'NanumBarunGothic';
+  }
 `;
 
 const PostItem = ({ post, username }) => {
@@ -43,7 +48,9 @@ const PostItem = ({ post, username }) => {
       </h2>
       <SubInfo username={publisher.username} publishedDate={publishedDate} />
       <Tags tags={tags} username={username} />
-      <Link to={`/blog/@${publisher.username}/${_id}`}>{body}</Link>
+      <Link className="item-body" to={`/blog/@${publisher.username}/${_id}`}>
+        {body}
+      </Link>
     </PostItemBlock>
   );
 };

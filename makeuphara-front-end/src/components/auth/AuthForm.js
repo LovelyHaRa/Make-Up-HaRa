@@ -11,7 +11,8 @@ const AuthFormBlock = styled.div`
     margin: 0;
     color: ${({ theme }) => theme.text};
     margin-bottom: 1rem;
-    font-weight: normal;
+    font-weight: 600;
+    font-family: 'NanumBarunGothic';
   }
   hr {
     border: 0.5px solid ${({ theme }) => theme.loginInputBorder};
@@ -33,6 +34,7 @@ const AuthFormBlock = styled.div`
   .invalid-message {
     color: ${({ theme }) => theme.errorText};
     font-size: 0.75rem;
+    font-family: 'NanumBarunGothic';
   }
 `;
 
@@ -54,7 +56,8 @@ const StyledInput = styled.input`
     margin-top: 1rem;
   }
   &::placeholder {
-    font-weight: normal;
+    font-weight: 300;
+    font-family: 'NanumBarunGothic';
   }
 `;
 
