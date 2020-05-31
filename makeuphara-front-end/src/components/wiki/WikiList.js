@@ -50,6 +50,15 @@ const DocumentItem = forwardRef((props, ref) => {
   );
 });
 
+const LoadingProgress = styled(LinearProgress)`
+  &.MuiLinearProgress-colorPrimary {
+    background-color: ${({ theme }) => theme.progressBar};
+  }
+  .MuiLinearProgress-barColorPrimary {
+    background-color: ${({ theme }) => theme.progressBody};
+  }
+`;
+
 const WikiList = ({
   documentList,
   isLastPage,
@@ -103,7 +112,7 @@ const WikiList = ({
               />
             ),
           )}
-          {isLastPage && <LinearProgress />}
+          {isLastPage && <LoadingProgress />}
         </div>
       )}
     </WikiListBlock>

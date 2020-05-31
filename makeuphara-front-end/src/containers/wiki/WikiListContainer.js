@@ -64,7 +64,7 @@ const WikiListContainer = ({ location, history }) => {
             page: page.current,
           }),
         );
-      }, 1000);
+      }, 2000);
     }
   });
 

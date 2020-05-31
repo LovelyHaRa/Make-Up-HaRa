@@ -8,6 +8,8 @@ export const lightTheme = {
   categoryBorder: palette.cyan[7],
   themeColorBody: palette.cyan[7],
   themeColorHoverBody: palette.cyan[5],
+  progressBar: palette.cyan[3],
+  progressBody: palette.cyan[1],
   /* Header */
   hoverList: palette.gray[2],
   inputBody: palette.gray[1],
@@ -74,6 +76,8 @@ export const darkTheme = {
   categoryBorder: palette.violet[5],
   themeColorBody: palette.violet[5],
   themeColorHoverBody: palette.violet[3],
+  progressBar: palette.violet[3],
+  progressBody: palette.violet[1],
   /* Header */
   hoverList: palette.gray[7],
   inputBody: palette.gray[7],
