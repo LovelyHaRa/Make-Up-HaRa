@@ -5,11 +5,10 @@ import Button from './Button';
 
 const PaginationBlock = styled.div`
   width: 320px;
-  margin: 0 auto;
+  margin: 2rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
   span {
     margin: 0 0.25rem;
     color: ${({ theme }) => theme.text};
@@ -155,7 +154,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
   return (
     <PaginationBlock>
       {pageNumber.front &&
-        pageNumber.front.map(number => (
+        pageNumber.front.map((number) => (
           <PageButton
             disabled={page === number}
             to={buildLink({ username, tag, page: number })}
@@ -166,7 +165,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
         ))}
       {pageNumber.front && <span />}
       {pageNumber.mid &&
-        pageNumber.mid.map(number => (
+        pageNumber.mid.map((number) => (
           <PageButton
             disabled={page === number}
             to={buildLink({ username, tag, page: number })}
@@ -177,7 +176,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
         ))}
       {pageNumber.end && <span />}
       {pageNumber.end &&
-        pageNumber.end.map(number => (
+        pageNumber.end.map((number) => (
           <PageButton
             disabled={page === number}
             to={buildLink({ username, tag, page: number })}

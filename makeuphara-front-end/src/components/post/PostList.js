@@ -5,9 +5,22 @@ import Button from '../common/Button';
 import PostItem from './common/PostItem';
 import { Helmet } from 'react-helmet-async';
 import ErrorBlock from '../common/ErrorBlock';
+import { PageSlider } from '../common/CustomSlider';
+import Typography from '@material-ui/core/Typography';
 
 const PostListBlock = styled.div`
   margin-top: 3rem;
+  .page-block {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    color: ${({ theme }) => theme.text};
+    .MuiTypography-root {
+      font-family: 'NanumBarunGothic';
+      flex: 1;
+    }
+  }
 `;
 
 const PostListErrorBlock = styled(ErrorBlock)`
@@ -43,6 +56,24 @@ const WritePostButton = ({ isDarkTheme }) => {
   return btn;
 };
 
+const PageBlock = ({ block, handlePageBlock }) => {
+  return (
+    <div className="page-block">
+      <Typography>페이지당 포스트 개수</Typography>
+      <PageSlider
+        valueLabelDisplay="auto"
+        defaultValue={10}
+        marks
+        min={10}
+        max={50}
+        step={10}
+        value={block}
+        onChange={handlePageBlock}
+      />
+    </div>
+  );
+};
+
 const PostList = ({
   postList,
   loading,
@@ -51,6 +82,8 @@ const PostList = ({
   isDarkTheme,
   username,
   tag,
+  block,
+  handlePageBlock,
 }) => {
   if (error) {
     return (
@@ -100,7 +133,8 @@ const PostList = ({
           </span>
           {showWriteButton && <WritePostButton isDarkTheme={isDarkTheme} />}
         </TitleWrapper>
-        {!loading && postList && (
+        <PageBlock handlePageBlock={handlePageBlock} />
+        {postList && (
           <div>
             {postList.map((post) => (
               <PostItem post={post} username={username} key={post._id} />

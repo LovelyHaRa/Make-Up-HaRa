@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
@@ -24,15 +24,21 @@ const PostListContainer = ({ location, match }) => {
   const { tag, page } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
+  const [block, setBlock] = useState(10);
+  const handlePageBlock = (e, newValue) => {
+    setBlock(newValue);
+  };
+
   const pagination = useRef(false);
   useEffect(() => {
-    dispatch(getList({ username, tag, page }));
+    pagination.current = false;
+    dispatch(getList({ username, tag, page, block }));
     pagination.current = true;
     return () => {
       dispatch(unloadList());
       pagination.current = false;
-    }
-  }, [dispatch, tag, page, username]);
+    };
+  }, [dispatch, tag, page, username, block]);
 
   return (
     <>
@@ -44,6 +50,8 @@ const PostListContainer = ({ location, match }) => {
         isDarkTheme={isDarkTheme}
         username={username}
         tag={tag}
+        block={block}
+        handlePageBlock={handlePageBlock}
       />
       {pagination.current && !error && <PaginationContainer />}
     </>
