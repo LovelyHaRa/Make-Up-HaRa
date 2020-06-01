@@ -37,7 +37,7 @@ export const list = async (ctx) => {
       .lean();
     const postCount = await Post.countDocuments(query);
     ctx.set('Makeuphara-Post-Count', postCount);
-    ctx.set('Makeuphara-Post-Last-Page', Math.ceil(postCount / 10));
+    ctx.set('Makeuphara-Post-Last-Page', Math.ceil(postCount / block));
     ctx.body = postList.map((post) => ({
       ...post,
       title:
