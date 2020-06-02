@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
+import InputBarcodeModal from './InputBarcodeModal';
 
 const WikiViewerBlock = styled.div``;
 
@@ -20,8 +21,8 @@ const DocumentMenuBlock = styled.div`
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
   border-bottom: 1px solid ${({ theme }) => theme.wikiMenuBorder};
-  button,
-  a {
+  & > button,
+  & > a {
     padding: 0.25rem 0.75rem;
     outline: none;
     border: none;
@@ -34,7 +35,7 @@ const DocumentMenuBlock = styled.div`
       color: ${({ theme }) => theme.hoverText};
     }
   }
-  a {
+  & > a {
     padding-top: 0.3rem;
     font-size: 0.8rem;
     align-items: center;
@@ -45,11 +46,41 @@ const DocumentMenuBlock = styled.div`
 `;
 
 const DocumentMenu = ({ onEdit, docName }) => {
+  const [modal, setModal] = useState(false);
+  const handleInputCodeButtonClick = () => {
+    setModal(true);
+  };
+  const onCancel = () => {
+    setModal(false);
+  };
+
+  /* 모달 영역 밖 클릭시 모달 닫기 */
+  useEffect(() => {
+    window.onclick = (event) => {
+      if (
+        !!event.target.className.includes &&
+        event.target.className.includes('modal')
+      ) {
+        setModal(false);
+      }
+    };
+    // 언마운트시 이벤트 제거
+    return () => {
+      window.onclick = () => {};
+    };
+  }, []);
+
   return (
     <>
-      <button>코드 등록</button>
+      <button onClick={handleInputCodeButtonClick}>코드 등록</button>
       <button onClick={onEdit}>편집</button>
       <Link to={`/wiki/history/${docName}`}>역사</Link>
+      <InputBarcodeModal
+        className="modal"
+        visible={modal}
+        onSubmit={null}
+        onCancel={onCancel}
+      />
     </>
   );
 };
