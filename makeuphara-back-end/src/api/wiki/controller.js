@@ -230,3 +230,23 @@ export const getDocumentCount = async (ctx) => {
     ctx.throw(500, error);
   }
 };
+
+export const addBarcodeNumber = async (ctx) => {
+  const title = { ...ctx.state.wikititle };
+  const { code } = ctx.request.body;
+  const codeExists = await WikiTitle.find({ code });
+  if (codeExists.length) {
+    ctx.status = 400;
+    ctx.body = { message: '이미 등록된 바코드입니다.' };
+    return;
+  }
+  title.code = [...title.code, code];
+  try {
+    const updateTitle = await WikiTitle.findByIdAndUpdate(title._id, title, {
+      new: true,
+    });
+    ctx.body = updateTitle;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
