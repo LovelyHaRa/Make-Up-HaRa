@@ -36,12 +36,23 @@ const WikiListContainer = ({ location, history }) => {
   });
   const page = useRef(1);
   const [documentList, setDocumentList] = useState([]);
+  const [isLastPage, setIsLastPage] = useState(false);
+  const [active, setActive] = useState(false);
+
   // 이벤트 정의하기
+  useEffect(() => {
+    if (searchList && active && !loading) {
+      setIsLastPage(searchList.length === 0 ? true : false);
+      setDocumentList((element) => [...element, ...searchList]);
+    }
+  }, [searchList, active, loading]);
+
   useEffect(() => {
     if (isValidQuery(oldest, shortest, longest)) {
       page.current = 1;
-      setDocumentList([]);
       dispatch(getSearchList({ query, oldest, shortest, longest }));
+      console.log('출발');
+      setActive(true);
     } else {
       history.replace(`/wiki/list?query=${query}`);
     }
@@ -54,7 +65,9 @@ const WikiListContainer = ({ location, history }) => {
       observer.unobserve(lastDocument.target);
       lastDocumentRef.current = null;
       setTimeout(() => {
-        page.current += 1;
+        if (!isLastPage) {
+          page.current += 1;
+        }
         dispatch(
           getSearchList({
             query,
@@ -75,26 +88,22 @@ const WikiListContainer = ({ location, history }) => {
   }, [lastDocumentRef, intersectionObserver]);
 
   useEffect(() => {
-    if (searchList) {
-      setDocumentList((element) => [...element, ...searchList]);
-    }
-  }, [searchList]);
-
-  useEffect(() => {
     return () => {
+      setIsLastPage(false);
+      setActive(false);
       setDocumentList([]);
     };
   }, []);
-
+  console.log(documentList);
   return (
     <>
       <Categories />
       <WikiList
         documentList={documentList}
-        isLastPage={searchList && searchList.length !== 0}
         error={error}
         loading={loading}
         lastDocumentRef={lastDocumentRef}
+        isLastPage={isLastPage}
       />
     </>
   );
