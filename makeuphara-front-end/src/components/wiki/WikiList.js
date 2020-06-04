@@ -61,10 +61,10 @@ const LoadingProgress = styled(LinearProgress)`
 
 const WikiList = ({
   documentList,
-  isLastPage,
   error,
   loading,
   lastDocumentRef,
+  isLastPage,
 }) => {
   if (error) {
     return (
@@ -112,7 +112,7 @@ const WikiList = ({
               />
             ),
           )}
-          {isLastPage && <LoadingProgress />}
+          {documentList.length > 0 && !isLastPage && <LoadingProgress />}
         </div>
       )}
     </WikiListBlock>
