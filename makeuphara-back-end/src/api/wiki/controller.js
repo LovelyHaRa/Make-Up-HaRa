@@ -170,7 +170,7 @@ export const searchDocument = async (ctx, next) => {
   /* parameter 설정 */
   const page = parseInt(ctx.query.page || '1', 10);
   const block = parseInt(ctx.query.block || '25', 10);
-
+  console.log(page);
   if (query === undefined) {
     query = '';
   }
