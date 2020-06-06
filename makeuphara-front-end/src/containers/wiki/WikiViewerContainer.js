@@ -15,13 +15,14 @@ const WikiViewerContainer = ({ location, match, history }) => {
   const dispatch = useDispatch();
   // 전역 상태 불러오기
   const { docName } = match.params;
-  const { document, error, loading, result, resultError } = useSelector(
-    ({ wiki, loading }) => ({
+  const { document, error, loading, result, resultError, user } = useSelector(
+    ({ wiki, user, loading }) => ({
       document: wiki.document,
       error: wiki.documentError,
       loading: loading['wiki/READ_DOCUMENT'],
       result: wiki.addBarcodeNumberResult,
       resultError: wiki.addBarcodeNumberResultError,
+      user: user.user,
     }),
   );
   const { r } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -32,6 +33,7 @@ const WikiViewerContainer = ({ location, match, history }) => {
     success: '',
     failure: '',
   });
+  const [availableBarcode, setAvailableBarcode] = useState(false);
 
   // 이벤트 정의
   const onEdit = () => {
@@ -77,6 +79,11 @@ const WikiViewerContainer = ({ location, match, history }) => {
   }, [dispatch, history, docName, r]);
 
   useEffect(() => {
+    if (user) setAvailableBarcode(true);
+    else setAvailableBarcode(false);
+  }, [user]);
+
+  useEffect(() => {
     if (result == null && resultError == null) {
       return;
     }
@@ -93,10 +100,17 @@ const WikiViewerContainer = ({ location, match, history }) => {
         });
       }
     } else if (resultError) {
-      setResultMessage({
-        success: '',
-        failure: resultError.message,
-      });
+      if (resultError.response.status === 401) {
+        setResultMessage({
+          success: '',
+          failure: '로그인 후 등록할 수 있습니다.',
+        });
+      } else {
+        setResultMessage({
+          success: '',
+          failure: resultError.message,
+        });
+      }
     }
   }, [result, resultError]);
 
@@ -112,6 +126,8 @@ const WikiViewerContainer = ({ location, match, history }) => {
       barcode={barcode}
       inputBarcodeError={inputBarcodeError}
       resultMessage={resultMessage}
+      user={user}
+      availableBarcode={availableBarcode}
     />
   );
 };

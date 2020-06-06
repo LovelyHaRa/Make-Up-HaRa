@@ -53,6 +53,7 @@ const DocumentMenu = ({
   barcode,
   inputBarcodeError,
   resultMessage,
+  availableBarcode,
 }) => {
   const [modal, setModal] = useState(false);
   const handleInputCodeButtonClick = () => {
@@ -80,7 +81,9 @@ const DocumentMenu = ({
 
   return (
     <>
-      <button onClick={handleInputCodeButtonClick}>코드 등록</button>
+      {availableBarcode && (
+        <button onClick={handleInputCodeButtonClick}>코드 등록</button>
+      )}
       <button onClick={onEdit}>편집</button>
       <Link to={`/wiki/history/${docName}`}>역사</Link>
       <InputBarcodeModal
@@ -162,6 +165,7 @@ const WikiViewer = ({
   barcode,
   inputBarcodeError,
   resultMessage,
+  availableBarcode,
 }) => {
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -212,6 +216,7 @@ const WikiViewer = ({
           barcode={barcode}
           inputBarcodeError={inputBarcodeError}
           resultMessage={resultMessage}
+          availableBarcode={availableBarcode}
         />
       </DocumentMenuBlock>
       <DocumentBlock>
