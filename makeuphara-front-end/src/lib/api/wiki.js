@@ -46,3 +46,6 @@ export const getRandomTitle = () => client.get('/api/wiki/search/random');
 
 export const getDocumentCount = ({ username }) =>
   client.post('/api/wiki/doc/count', { username });
+
+export const addBarcodeNumber = ({ title, code }) =>
+  client.patch(`/api/wiki/${title}/barcode`, { code });

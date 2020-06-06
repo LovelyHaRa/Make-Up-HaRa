@@ -70,6 +70,12 @@ const [
   GET_DOCUMENT_COUNT_SUCCESS,
   GET_DOCUMENT_COUNT_FAILURE,
 ] = createRequestActionTypes('wiki/GET_DOCUMENT_COUNT');
+// api = add barcode to document
+const [
+  ADD_BARCODE_NUMBER,
+  ADD_BARCODE_NUMBER_SUCCESS,
+  ADD_BARCODE_NUMBER_FAILURE,
+] = createRequestActionTypes('wiki/ADD_BARCODE_NUMBER');
 
 /* action */
 export const getRequestList = createAction(GET_REQUEST_LIST);
@@ -119,6 +125,10 @@ export const getDocumentCount = createAction(
   GET_DOCUMENT_COUNT,
   ({ username }) => ({ username }),
 );
+export const addBarcodeNumber = createAction(
+  ADD_BARCODE_NUMBER,
+  ({ title, code }) => ({ title, code }),
+);
 
 /* redux-saga */
 const getRequestListSaga = createRequestSaga(
@@ -157,6 +167,10 @@ export const getDocumentCountSaga = createRequestSaga(
   GET_DOCUMENT_COUNT,
   wikiAPI.getDocumentCount,
 );
+export const addBarcodeNumberSaga = createRequestSaga(
+  ADD_BARCODE_NUMBER,
+  wikiAPI.addBarcodeNumber,
+);
 
 export function* wikiSaga() {
   yield takeLatest(GET_REQUEST_LIST, getRequestListSaga);
@@ -168,6 +182,7 @@ export function* wikiSaga() {
   yield takeLatest(GET_DIRECT_TITLE, getDirectTitleSaga);
   yield takeLatest(GET_RANDOM_TITLE, getRandomTitleSaga);
   yield takeLatest(GET_DOCUMENT_COUNT, getDocumentCountSaga);
+  yield takeLatest(ADD_BARCODE_NUMBER, addBarcodeNumberSaga);
 }
 
 /* initialize state */
@@ -194,6 +209,8 @@ const initialState = {
   randomTitleError: null,
   documentCount: 0,
   documentCountError: null,
+  addBarcodeNumberResult: null,
+  addBarcodeNumberResultError: null,
 };
 
 /* reducer */
@@ -308,6 +325,20 @@ const wiki = handleActions(
     [GET_DOCUMENT_COUNT_FAILURE]: (state, { payload: documentCountError }) => ({
       ...state,
       documentCountError,
+    }),
+    [ADD_BARCODE_NUMBER_SUCCESS]: (
+      state,
+      { payload: addBarcodeNumberResult },
+    ) => ({
+      ...state,
+      addBarcodeNumberResult,
+    }),
+    [ADD_BARCODE_NUMBER_FAILURE]: (
+      state,
+      { payload: addBarcodeNumberResultError },
+    ) => ({
+      ...state,
+      addBarcodeNumberResultError,
     }),
   },
   initialState,

@@ -170,7 +170,7 @@ export const searchDocument = async (ctx, next) => {
   /* parameter 설정 */
   const page = parseInt(ctx.query.page || '1', 10);
   const block = parseInt(ctx.query.block || '25', 10);
-  console.log(page);
+
   if (query === undefined) {
     query = '';
   }
@@ -234,18 +234,23 @@ export const getDocumentCount = async (ctx) => {
 export const addBarcodeNumber = async (ctx) => {
   const title = { ...ctx.state.wikititle };
   const { code } = ctx.request.body;
-  const codeExists = await WikiTitle.find({ code });
-  if (codeExists.length) {
-    ctx.status = 400;
-    ctx.body = { message: '이미 등록된 바코드입니다.' };
-    return;
-  }
-  title.code = [...title.code, code];
+  const reg = /^[0-9]{13}$/;
   try {
+    const codeExists = await WikiTitle.find({ code });
+    if (codeExists.length) {
+      ctx.body = { error: true, message: '이미 등록된 바코드입니다.' };
+      return;
+    } else {
+      if (!reg.test(code)) {
+        ctx.body = { error: true, message: '유효한 바코드 번호가 아닙니다.' };
+        return;
+      }
+    }
+    title.code = [...title.code, code];
     const updateTitle = await WikiTitle.findByIdAndUpdate(title._id, title, {
       new: true,
     });
-    ctx.body = updateTitle;
+    ctx.body = { ...updateTitle.toJSON(), error: false };
   } catch (error) {
     ctx.throw(500, error);
   }

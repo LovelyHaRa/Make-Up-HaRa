@@ -45,7 +45,15 @@ const DocumentMenuBlock = styled.div`
   }
 `;
 
-const DocumentMenu = ({ onEdit, docName }) => {
+const DocumentMenu = ({
+  onEdit,
+  docName,
+  handleBarcodeChange,
+  handleBarcodeSubmit,
+  barcode,
+  inputBarcodeError,
+  resultMessage,
+}) => {
   const [modal, setModal] = useState(false);
   const handleInputCodeButtonClick = () => {
     setModal(true);
@@ -78,8 +86,12 @@ const DocumentMenu = ({ onEdit, docName }) => {
       <InputBarcodeModal
         className="modal"
         visible={modal}
-        onSubmit={null}
+        onSubmit={handleBarcodeSubmit}
+        onChange={handleBarcodeChange}
+        value={barcode}
         onCancel={onCancel}
+        error={inputBarcodeError}
+        resultMessage={resultMessage}
       />
     </>
   );
@@ -139,7 +151,18 @@ const DocumentContent = styled.div`
   }
 `;
 
-const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
+const WikiViewer = ({
+  document,
+  error,
+  loading,
+  onEdit,
+  docName,
+  handleBarcodeChange,
+  handleBarcodeSubmit,
+  barcode,
+  inputBarcodeError,
+  resultMessage,
+}) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return (
@@ -181,7 +204,15 @@ const WikiViewer = ({ document, error, loading, onEdit, docName }) => {
         </Helmet>
       )}
       <DocumentMenuBlock>
-        <DocumentMenu onEdit={onEdit} docName={docName} />
+        <DocumentMenu
+          onEdit={onEdit}
+          docName={docName}
+          handleBarcodeChange={handleBarcodeChange}
+          handleBarcodeSubmit={handleBarcodeSubmit}
+          barcode={barcode}
+          inputBarcodeError={inputBarcodeError}
+          resultMessage={resultMessage}
+        />
       </DocumentMenuBlock>
       <DocumentBlock>
         <TitleBlock>

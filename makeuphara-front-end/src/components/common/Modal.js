@@ -72,6 +72,15 @@ const SingleInputModalBlock = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+  .result {
+    font-size: 0.9rem;
+  }
+  .result.success {
+    color: ${({ theme }) => theme.themeColorBody};
+  }
+  .result.failure {
+    color: ${({ theme }) => theme.errorText};
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -105,6 +114,9 @@ const StyledTextField = styled(TextField)`
   }
   .MuiInputBase-input {
     color: ${({ theme }) => theme.text};
+  }
+  .MuiInputBase-input::placeholder {
+    font-size: 0.8rem;
   }
 `;
 
@@ -146,10 +158,15 @@ export const SingleInputModal = ({
   inputLabel,
   inputName,
   submitText = '확인',
-  cancelText = '취소',
+  cancelText = '닫기',
   onSubmit,
   onCancel,
+  onChange,
+  value,
+  error,
+  resultMessage,
 }) => {
+  const { success, failure } = resultMessage;
   return (
     visible && (
       <Fade in={visible}>
@@ -164,6 +181,10 @@ export const SingleInputModal = ({
                   label={inputLabel}
                   name={inputName}
                   require="true"
+                  onChange={onChange}
+                  value={value}
+                  error={error}
+                  placeholder="13자리 바코드 번호"
                 />
                 <div className="buttons">
                   <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
@@ -172,6 +193,12 @@ export const SingleInputModal = ({
                   </StyledButton>
                 </div>
               </div>
+              {success !== '' && (
+                <span className="result success">{success}</span>
+              )}
+              {failure !== '' && (
+                <span className="result failure">{failure}</span>
+              )}
             </form>
           </SingleInputModalBlock>
         </FullScreen>

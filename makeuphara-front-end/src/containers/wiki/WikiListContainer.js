@@ -51,7 +51,6 @@ const WikiListContainer = ({ location, history }) => {
     if (isValidQuery(oldest, shortest, longest)) {
       page.current = 1;
       dispatch(getSearchList({ query, oldest, shortest, longest }));
-      console.log('출발');
       setActive(true);
     } else {
       history.replace(`/wiki/list?query=${query}`);
@@ -94,7 +93,7 @@ const WikiListContainer = ({ location, history }) => {
       setDocumentList([]);
     };
   }, []);
-  console.log(documentList);
+
   return (
     <>
       <Categories />

@@ -33,7 +33,7 @@ wiki.get('/search/random', WikiController.getRandomDocument);
 const document = new Router();
 document.get('/', WikiController.readDocument);
 document.get('/history', WikiController.getHistory);
-document.patch('/barcode', WikiController.addBarcodeNumber);
+document.patch('/barcode', isLoggedIn, WikiController.addBarcodeNumber);
 wiki.use('/:id', WikiController.getTitleByName, document.routes());
 
 export default wiki;

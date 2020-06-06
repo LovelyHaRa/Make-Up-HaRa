@@ -1,7 +1,16 @@
 import React from 'react';
 import { SingleInputModal } from '../common/Modal';
 
-const InputBarcodeModal = ({ className, visible, onSubmit, onCancel }) => {
+const InputBarcodeModal = ({
+  className,
+  visible,
+  onSubmit,
+  onCancel,
+  onChange,
+  value,
+  error,
+  resultMessage,
+}) => {
   return (
     <SingleInputModal
       className={className}
@@ -13,6 +22,10 @@ const InputBarcodeModal = ({ className, visible, onSubmit, onCancel }) => {
       submitText="코드 등록"
       onSubmit={onSubmit}
       onCancel={onCancel}
+      onChange={onChange}
+      value={value}
+      error={error}
+      resultMessage={resultMessage}
     />
   );
 };
