@@ -28,6 +28,7 @@ const HeaderBlock = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 10;
   li {
     list-style-type: none !important;
   }
@@ -93,7 +94,7 @@ const HeaderBlock = styled.nav`
   }
   .dropdown {
     position: fixed;
-    z-index: 100;
+    z-index: 2000;
   }
   .dropdown.dropdown-menu {
     width: 14rem;

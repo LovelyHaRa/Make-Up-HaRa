@@ -255,3 +255,24 @@ export const addBarcodeNumber = async (ctx) => {
     ctx.throw(500, error);
   }
 };
+
+export const getTitleByBarcode = async (ctx) => {
+  const { code } = ctx.query;
+  if (!code || code === '') {
+    ctx.status = 400;
+    return;
+  }
+  try {
+    const title = await WikiTitle.findOne({ code });
+    if (title) {
+      ctx.body = { ...title.toJSON(), error: false };
+    } else {
+      ctx.body = {
+        error: true,
+        message: '바코드에 해당하는 문서를 찾지 못했습니다.',
+      };
+    }
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};

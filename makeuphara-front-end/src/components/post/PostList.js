@@ -15,6 +15,12 @@ const PostListBlock = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 50%;
+    @media screen and (max-width: 700px) {
+      width: 70%;
+    }
+    @media screen and (max-width: 500px) {
+      width: 90%;
+    }
     color: ${({ theme }) => theme.text};
     .MuiTypography-root {
       font-family: 'NanumBarunGothic';

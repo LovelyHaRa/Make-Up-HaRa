@@ -26,6 +26,8 @@ wiki.get(
   WikiController.readDocument,
 );
 
+wiki.get('/search/barcode', WikiController.getTitleByBarcode);
+
 wiki.post('/doc/count', WikiController.getDocumentCount);
 
 wiki.get('/search/random', WikiController.getRandomDocument);
