@@ -256,7 +256,7 @@ export const addBarcodeNumber = async (ctx) => {
   }
 };
 
-export const getTitleByBarcode = async (ctx) => {
+export const getTitleByBarcode = async (ctx, next) => {
   const { code } = ctx.query;
   if (!code || code === '') {
     ctx.status = 400;
@@ -265,7 +265,8 @@ export const getTitleByBarcode = async (ctx) => {
   try {
     const title = await WikiTitle.findOne({ code });
     if (title) {
-      ctx.body = { ...title.toJSON(), error: false };
+      ctx.state.wikititle = title.toJSON(); // 타이틀 상태 저장
+      return next();
     } else {
       ctx.body = {
         error: true,

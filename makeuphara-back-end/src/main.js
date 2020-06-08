@@ -40,6 +40,8 @@ app.use(async (ctx) => {
 const { PORT } = process.env;
 
 app.listen(PORT || 4000, () => {
+  const banner = 'MAKE UP HARA';
+  console.log(banner);
   console.log('Listening to port ' + PORT);
   initDatabase();
 });

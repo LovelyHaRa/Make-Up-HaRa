@@ -139,35 +139,32 @@ const writeDocumentSaga = createRequestSaga(
   WRITE_DOCUMENT,
   wikiAPI.writeDocument,
 );
-export const readDocumentSaga = createRequestSaga(
-  READ_DOCUMENT,
-  wikiAPI.readDocument,
-);
-export const getDocumentListSaga = createRequestSaga(
+const readDocumentSaga = createRequestSaga(READ_DOCUMENT, wikiAPI.readDocument);
+const getDocumentListSaga = createRequestSaga(
   GET_DOCUMENT_LIST,
   wikiAPI.getDocumentList,
 );
-export const getHistoryListSaga = createRequestSaga(
+const getHistoryListSaga = createRequestSaga(
   GET_HISTORY_LIST,
   wikiAPI.getHistoryList,
 );
-export const getSearchListSaga = createRequestSaga(
+const getSearchListSaga = createRequestSaga(
   GET_SEARCH_LIST,
   wikiAPI.getSearchList,
 );
-export const getDirectTitleSaga = createRequestSaga(
+const getDirectTitleSaga = createRequestSaga(
   GET_DIRECT_TITLE,
   wikiAPI.getDirectTitle,
 );
-export const getRandomTitleSaga = createRequestSaga(
+const getRandomTitleSaga = createRequestSaga(
   GET_RANDOM_TITLE,
   wikiAPI.getRandomTitle,
 );
-export const getDocumentCountSaga = createRequestSaga(
+const getDocumentCountSaga = createRequestSaga(
   GET_DOCUMENT_COUNT,
   wikiAPI.getDocumentCount,
 );
-export const addBarcodeNumberSaga = createRequestSaga(
+const addBarcodeNumberSaga = createRequestSaga(
   ADD_BARCODE_NUMBER,
   wikiAPI.addBarcodeNumber,
 );
