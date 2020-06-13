@@ -159,7 +159,12 @@ export const getHistory = async (ctx) => {
     const documentList = await Document.find({ title: _id })
       .sort({ _id: -1 })
       .populate('title');
-    ctx.body = documentList;
+    ctx.body = documentList.map((document) => ({
+      _id: document._id,
+      title: document.toJSON().title,
+      revision: document.toJSON().revision,
+      publishedDate: document.toJSON().publishedDate,
+    }));
   } catch (error) {
     ctx.throw(500, error);
   }
