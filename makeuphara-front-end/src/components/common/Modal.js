@@ -4,6 +4,10 @@ import Button from './Button';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
 
+/**
+ * 공통 모달 컴포넌트
+ */
+
 const FullScreen = styled.div`
   position: fixed;
   z-index: 30;
@@ -19,6 +23,9 @@ const FullScreen = styled.div`
   align-items: center;
 `;
 
+/**
+ * 확인/취소 모달 스타일
+ */
 const AskModalBlock = styled.div`
   width: 320px;
   background: ${({ theme }) => theme.body};
@@ -44,6 +51,9 @@ const AskModalBlock = styled.div`
   }
 `;
 
+/**
+ * 싱글 input 모달 스타일
+ */
 const SingleInputModalBlock = styled.div`
   width: 320px;
   background: ${({ theme }) => theme.body};
@@ -83,6 +93,7 @@ const SingleInputModalBlock = styled.div`
   }
 `;
 
+// 공통 버튼
 const StyledButton = styled(Button)`
   height: 2rem;
   & + & {
@@ -90,6 +101,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
+// input 텍스트필드
 const StyledTextField = styled(TextField)`
   &.MuiTextField-root {
     margin-bottom: 1rem;
@@ -157,6 +169,7 @@ export const SingleInputModal = ({
   description,
   inputLabel,
   inputName,
+  placeholder,
   submitText = '확인',
   cancelText = '닫기',
   onSubmit,
@@ -184,7 +197,7 @@ export const SingleInputModal = ({
                   onChange={onChange}
                   value={value}
                   error={error}
-                  placeholder="13자리 바코드 번호"
+                  placeholder={placeholder}
                 />
                 <div className="buttons">
                   <StyledButton onClick={onCancel}>{cancelText}</StyledButton>

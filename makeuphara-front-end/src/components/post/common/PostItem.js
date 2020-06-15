@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import SubInfo from './SubInfo';
 import Tags from './Tags';
 
+/**
+ * 포스팅 정보를 담고있는 아이템 컴포넌트
+ */
+
 const PostItemBlock = styled.div`
   padding-top: 1rem;
   padding-bottom: 1rem;

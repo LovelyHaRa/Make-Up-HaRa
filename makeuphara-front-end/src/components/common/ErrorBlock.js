@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+/**
+ * 에러를 보여주기 위한 컴포넌트
+ */
+
 const ErrorBlock = styled.div`
   display: flex;
   flex-direction: column;

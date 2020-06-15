@@ -43,23 +43,27 @@ const WikiViewerContainer = ({ location, match, history }) => {
 
   const handleBarcodeChange = (event) => {
     const data = event.target.value;
+    // 14자 이후로는 허용 안함
     if (data.length < 14) {
       setBarcode(event.target.value);
     }
+    // 검증
     if ((data.length > 0 && data.length < 13) || isNaN(data)) {
       setInputBarcodeError(true);
     } else {
       setInputBarcodeError(false);
     }
+    // 결과 메시지 초기화
     setResultMessage({
       success: '',
       failure: '',
     });
   };
 
+  // 바코드 등록 submit 이벤트
   const handleBarcodeSubmit = (event) => {
     event.preventDefault();
-    console.log();
+    // 검증 성공시 액션 디스패치
     if (!inputBarcodeError && barcode !== '') {
       dispatch(addBarcodeNumber({ title: document.title.name, code: barcode }));
     }

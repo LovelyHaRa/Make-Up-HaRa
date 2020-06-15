@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { ProfileBlock, ProfileErrorBlock } from './Profile';
 import Button from '../common/Button';
 
+/**
+ * 보안 컴포넌트
+ * 기능: 비밀번호 변경
+ */
+
 const SecurityBlock = styled(ProfileBlock)`
   .password-input-section {
     display: flex;

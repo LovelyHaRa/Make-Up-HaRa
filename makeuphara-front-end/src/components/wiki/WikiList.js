@@ -5,6 +5,11 @@ import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+/**
+ * 위키 검색결과 리스트 컴포넌트
+ * 인피니티 스크롤 구현
+ */
+
 const WikiListBlock = styled.div`
   margin: 2rem;
   margin-top: 0;

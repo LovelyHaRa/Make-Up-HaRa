@@ -6,6 +6,7 @@ import qs from 'qs';
 import { withRouter } from 'react-router-dom';
 import Categories from '../../components/wiki/Categories';
 
+// 한가지 조건만 쿼리요청할 수 있도록 제어
 const isValidQuery = (oldest, shortest, longest) => {
   if (oldest !== undefined && shortest !== undefined) {
     return false;
@@ -35,11 +36,12 @@ const WikiListContainer = ({ location, history }) => {
     ignoreQueryPrefix: true,
   });
   const page = useRef(1);
-  const [documentList, setDocumentList] = useState([]);
-  const [isLastPage, setIsLastPage] = useState(false);
-  const [active, setActive] = useState(false);
+  const [documentList, setDocumentList] = useState([]); // 검색 결과 문서 리스트
+  const [isLastPage, setIsLastPage] = useState(false); // 마지막 페이지 여부
+  const [active, setActive] = useState(false); // 언마운트시 API 요청 결과를 무시한다
 
   // 이벤트 정의하기
+  // 문서 리스트 업데이트
   useEffect(() => {
     if (searchList && active && !loading) {
       setIsLastPage(searchList.length === 0 ? true : false);
@@ -47,6 +49,7 @@ const WikiListContainer = ({ location, history }) => {
     }
   }, [searchList, active, loading]);
 
+  // 쿼리 요청
   useEffect(() => {
     if (isValidQuery(oldest, shortest, longest)) {
       page.current = 1;
@@ -57,6 +60,7 @@ const WikiListContainer = ({ location, history }) => {
     }
   }, [dispatch, history, query, oldest, shortest, longest]);
 
+  // 인피니티 스크롤 핸들링
   const lastDocumentRef = useRef(null);
   const intersectionObserver = new IntersectionObserver((entries, observer) => {
     const lastDocument = entries[0];
@@ -79,13 +83,13 @@ const WikiListContainer = ({ location, history }) => {
       }, 2000);
     }
   });
-
   useEffect(() => {
     if (lastDocumentRef.current) {
       intersectionObserver.observe(lastDocumentRef.current);
     }
   }, [lastDocumentRef, intersectionObserver]);
 
+  // 언마운트시 처리
   useEffect(() => {
     return () => {
       setIsLastPage(false);

@@ -8,6 +8,11 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * 위키 검색 컴포넌트
+ * 랜덤 문서 이동, 다이렉트 이동 구현
+ */
+
 const WikiSearchBlock = styled.div`
   margin-top: 0.125rem;
   border-bottom: 1px solid ${({ theme }) => theme.wikiMenuBorder};

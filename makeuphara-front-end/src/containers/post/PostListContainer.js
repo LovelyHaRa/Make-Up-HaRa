@@ -20,7 +20,9 @@ const PostListContainer = ({ location, match }) => {
       isDarkTheme: theme.isDarkTheme,
     }),
   );
+  // 유저 정보는 path에서 불러오기
   const { username } = match.params;
+  // tag, page는 쿼리에서 불러오기
   const { tag, page } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });

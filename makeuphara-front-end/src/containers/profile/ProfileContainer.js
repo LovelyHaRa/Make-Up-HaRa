@@ -10,7 +10,9 @@ import {
 } from '../../module/redux/user';
 
 const ProfileContainer = () => {
+  // 액션 함수 불러오기
   const dispatch = useDispatch();
+  // 전역 상태 불러오기
   const {
     user,
     form,

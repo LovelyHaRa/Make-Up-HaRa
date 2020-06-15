@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+/**
+ * 에디터 하단 Footer
+ */
+
 const EditorFooterBlock = styled.div`
   position: fixed;
   bottom: 0;

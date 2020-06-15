@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import Slider from '@material-ui/core/Slider';
 
+/**
+ * 커스텀 페이지 슬라이더
+ */
+
 export const PageSlider = styled(Slider)`
   &.MuiSlider-root {
     flex: 1;

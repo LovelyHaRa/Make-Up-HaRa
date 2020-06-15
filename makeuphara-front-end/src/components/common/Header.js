@@ -19,6 +19,7 @@ import { DarkThemeSwitch } from './CustomSwitch';
 import { useDispatch } from 'react-redux';
 import { setTheme } from '../../module/redux/theme';
 
+// Header 컴포넌트의 css 정의
 const HeaderBlock = styled.nav`
   position: fixed;
   width: 100%;
@@ -170,6 +171,7 @@ const HeaderBlock = styled.nav`
   }
 `;
 
+// 메뉴 영역 컴포넌트
 const Menu = styled.div`
   &:first-child {
     margin-left: 1rem;
@@ -181,6 +183,8 @@ const Menu = styled.div`
     margin-right: 1rem;
   }
 `;
+
+// 반응형 검색 컴포넌트
 const SearchResponsive = styled.div`
   @media screen and (min-width: 769px) {
     .search-input {
@@ -205,12 +209,15 @@ const SearchResponsive = styled.div`
   }
 `;
 
+// 검색 컴포넌트 Wrapper
 const SearchInputWrapper = styled.div`
   height: 2rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;
 `;
+
+// 검색 컴포넌트의 input style 정의
 const SearchInput = styled.input`
   height: 1.875rem;
   border: none;
@@ -228,6 +235,8 @@ const SearchInput = styled.input`
     outline: 2px solid ${palette.indigo[9]};
   }
 `;
+
+// 검색 컴포넌트 드롭다운 버튼
 const SearchBtn = styled(Link)`
   width: 2rem;
   height: 2rem;
@@ -243,6 +252,7 @@ const SearchBtn = styled(Link)`
   }
 `;
 
+// 기타메뉴 드롭다운 컴포넌트
 const EtcDropDown = ({ state }) => {
   return (
     state && (
@@ -263,10 +273,10 @@ const EtcDropDown = ({ state }) => {
           <Link to="/wiki/request">
             <li>작성이 필요한 문서[WIKI]</li>
           </Link>
-          <li>외부사이트 검색(구현 중...)</li>
+          {/* <li>외부사이트 검색(구현 중...)</li>
           <li>바코드 / QR코드 만들기(구현 중...)</li>
           <li>실시간 검색어 순위(구현 중...)</li>
-          <li>TODO(구현 중...)</li>
+          <li>TODO(구현 중...)</li> */}
         </ul>
       </div>
     )
@@ -274,6 +284,7 @@ const EtcDropDown = ({ state }) => {
 };
 const MemoizedEtcDropDown = React.memo(EtcDropDown);
 
+// 검색 컴포넌트 드롭다운 처리
 const SearchDropDown = ({ state, currentPath }) => {
   return (
     state && (
@@ -285,6 +296,7 @@ const SearchDropDown = ({ state, currentPath }) => {
   );
 };
 
+// 유저 정보 드롭다운
 const ProfileInfo = ({ user }) => {
   return (
     <div className="profile-menu">
@@ -298,16 +310,20 @@ const ProfileInfo = ({ user }) => {
   );
 };
 
+// 옵션 메뉴 드롭다운
 const OptionMenu = ({ isDarkTheme }) => {
   const useStyles = makeStyles(() => ({
     darkTheme: { fontFamily: 'Raleway' },
   }));
   const classes = useStyles();
+  // 다크 모드 상태 저장
   const [darkTheme, setDarkTheme] = useState(false);
+  // 다크모드 액션 적용
   const dispatch = useDispatch();
   const handleDarkThemeToggle = () => {
     dispatch(setTheme(!darkTheme));
     try {
+      // 로컬스토리지에 다크모드 상태값 저장
       localStorage.setItem('darkTheme', !darkTheme + '');
     } catch (error) {
       throw error;
@@ -354,6 +370,7 @@ const OptionMenu = ({ isDarkTheme }) => {
   );
 };
 
+// 로그아웃 메뉴
 const LogoutMenu = ({ onLogout, currentPath }) => (
   <ul className="logout-menu">
     <Link to={currentPath} onClick={onLogout}>
@@ -362,6 +379,7 @@ const LogoutMenu = ({ onLogout, currentPath }) => (
   </ul>
 );
 
+// 로그인 상태일 때 옵션 메뉴
 const UserDropDown = ({ state, user, onLogout, isDarkTheme, currentPath }) => {
   return (
     state && (
@@ -376,6 +394,7 @@ const UserDropDown = ({ state, user, onLogout, isDarkTheme, currentPath }) => {
   );
 };
 
+// 비로그인 상태일 때 옵션 메뉴
 const NoneUserDropDown = ({ state, isDarkTheme }) => {
   return (
     state && (
@@ -386,6 +405,7 @@ const NoneUserDropDown = ({ state, isDarkTheme }) => {
   );
 };
 
+// 검색 input과 액션 버튼을 패키징
 const SearchInputPackage = ({ type, currentPath }) => (
   <div className={type} tabIndex="-1">
     <SearchInputWrapper>
@@ -397,45 +417,39 @@ const SearchInputPackage = ({ type, currentPath }) => (
   </div>
 );
 
+// Header는 position 처리했으므로 공간을 띄워준다
 const Spacer = styled.div`
   height: 3rem;
 `;
 
 const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
   library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
+  // 드롭다운 관련 핸들러
   const [etc, setEtc] = useState(false);
   const [search, setSearch] = useState(false);
   const [userinfo, setUserinfo] = useState(false);
   const [noneuser, setNoneUser] = useState(false);
-
   const handleEtcToggle = () => {
     setEtc((prevOpen) => !prevOpen);
   };
-
   const handleEtcClose = () => {
     setEtc(false);
   };
-
   const handleSearchToggle = () => {
     setSearch((prevOpen) => !prevOpen);
   };
-
   const handleSearchClose = () => {
     setSearch(false);
   };
-
   const handleUserInfoToggle = () => {
     setUserinfo((prevOpen) => !prevOpen);
   };
-
   const handleUserInfoClose = () => {
     setUserinfo(false);
   };
-
   const handleNoneUserToggle = () => {
     setNoneUser((prevOpen) => !prevOpen);
   };
-
   const handleNoneUserClose = () => {
     setNoneUser(false);
   };

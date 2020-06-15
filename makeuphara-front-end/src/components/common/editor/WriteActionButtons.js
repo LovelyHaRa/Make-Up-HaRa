@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
 
+/**
+ * 에디터 작성버튼
+ */
+
 const WriteActionButtonsBlock = styled.div`
   margin-top: 1rem;
   margin-bottom: 4rem;

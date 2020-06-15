@@ -5,7 +5,9 @@ import { getList, unloadList } from '../../module/redux/post';
 import { getDocumentCount } from '../../module/redux/wiki';
 
 const ActivityContainer = () => {
+  // 액션 함수 불러오기
   const dispatch = useDispatch();
+  // 전역 상태 불러오기
   const {
     user,
     postList,
@@ -26,6 +28,7 @@ const ActivityContainer = () => {
     loadingWiki: loading['wiki/GET_DOCUMENT_COUNT'],
   }));
 
+  // 이벤트 정의
   const { username } = user;
   useEffect(() => {
     if (username) {

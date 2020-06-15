@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 import ErrorBlock from '../common/ErrorBlock';
 
+/**
+ * 프로필 컴포넌트
+ * 기능: 이름 변경
+ */
+
 export const ProfileBlock = styled.div`
   margin-top: 2rem;
   margin-left: 1rem;

@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+/**
+ * 로그인/회원가입 공통 컴포넌트
+ */
+
 const AuthTemplateBlock = styled.div`
   position: absolute;
   left: 0;
@@ -24,16 +28,14 @@ const ContentBox = styled.div`
     letter-spacing: 1px;
   }
   .logo-area > a {
-      color: ${({theme}) => theme.text}
+    color: ${({ theme }) => theme.text};
   }
   .logo-area > a:hover {
-      color: ${({theme}) => theme.hoverText}
+    color: ${({ theme }) => theme.hoverText};
   }
   box-shadow: 0 0 8px
     ${({ theme }) =>
-      theme.body === '#fff'
-        ? 'rgba(0, 0, 0, 0.25)'
-        : 'rgba(0, 0, 0, 0.5)'};
+      theme.body === '#fff' ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.5)'};
   padding: 2rem;
   width: 360px;
   background: ${({ theme }) => theme.body};

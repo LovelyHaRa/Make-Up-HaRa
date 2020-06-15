@@ -3,6 +3,10 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
+/**
+ *  포스트의 부가정보(작성자, 작성일자)를 출력하는 컴포넌트
+ */
+
 const SubInfoBlock = styled.div`
   ${(props) =>
     props.hasMarginTop &&

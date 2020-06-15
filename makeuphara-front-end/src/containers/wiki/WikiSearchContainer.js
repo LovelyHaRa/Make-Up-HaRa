@@ -40,6 +40,7 @@ const WikiSearchContainer = ({ history }) => {
     dispatch(getRandomTitle());
   };
 
+  // 다이렉트 이동
   useEffect(() => {
     if (directName) {
       history.push(`/w/${directName}`);
@@ -47,6 +48,7 @@ const WikiSearchContainer = ({ history }) => {
     }
   }, [dispatch, history, directName]);
 
+  // 랜덤 문서 이동
   useEffect(() => {
     if (randomTitle) {
       history.push(`/w/${randomTitle}`);

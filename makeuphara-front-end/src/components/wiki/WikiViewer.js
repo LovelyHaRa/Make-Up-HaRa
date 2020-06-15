@@ -7,6 +7,10 @@ import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import InputBarcodeModal from './InputBarcodeModal';
 
+/**
+ * 위키 뷰어 컴포넌트
+ */
+
 const WikiViewerBlock = styled.div``;
 
 const WikiViewerErrorBlock = styled(ErrorBlock)`

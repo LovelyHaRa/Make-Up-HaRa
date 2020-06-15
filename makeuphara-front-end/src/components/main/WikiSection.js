@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ErrorBlock from '../common/ErrorBlock';
 
+/**
+ * 최근 변경된 위키문서 리스트
+ */
+
 const WikiSectionBlock = styled.div`
   h3 {
     font-family: 'NanumBarunGothic';

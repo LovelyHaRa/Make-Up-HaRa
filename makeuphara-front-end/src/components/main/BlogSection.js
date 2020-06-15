@@ -5,6 +5,10 @@ import Tags from '../post/common/Tags';
 import SubInfo from '../post/common/SubInfo';
 import ErrorBlock from '../common/ErrorBlock';
 
+/**
+ * 최근 등록된 포스트 리스트
+ */
+
 const BlogSectionBlock = styled.div`
   h3 {
     font-family: 'NanumBarunGothic';

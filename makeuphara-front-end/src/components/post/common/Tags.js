@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import qs from 'qs';
 
+/**
+ * 포스트의 태그를 출력하는 컴포넌트
+ */
+
 const TagsBlock = styled.div`
   margin-top: 0.5rem;
   .tag {
@@ -35,7 +39,7 @@ const Tags = ({ tags, username, limit = 0 }) => {
         )}
       {limit > 0 && limit < tags.length && <span>...</span>}
       {!limit &&
-        tags.map(tag => (
+        tags.map((tag) => (
           <Link className="tag" to={buildLink({ username, tag })} key={tag}>
             #{tag}
           </Link>

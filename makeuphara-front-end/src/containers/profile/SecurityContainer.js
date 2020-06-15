@@ -8,7 +8,9 @@ import {
 } from '../../module/redux/user';
 
 const SecurityContainer = () => {
+  // 액션 상태 불러오기
   const dispatch = useDispatch();
+  // 전역 상태 불러오기
   const { user, form, changePasswordResult, changePasswordError } = useSelector(
     ({ user }) => ({
       user: user.user,
@@ -18,22 +20,26 @@ const SecurityContainer = () => {
     }),
   );
 
+  // 검증 정보
   const [valid, setValid] = useState({
     curPassword: false,
     newPassword: false,
     confirmPassword: false,
   });
+  // 검증 메시지
   const [validMessage, setValidMessage] = useState({
     curPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
+  // 비밀번호 변경 처리결과
   const [submitPassword, setSubmitPassword] = useState({
     result: false,
     message: '',
   });
   const MIN_LENGTH = 8;
 
+  // 폼 데이터 변경시 메시지 초기화
   const onChange = (e) => {
     const { value, name } = e.target;
     if (name === 'curPassword') {
@@ -51,6 +57,7 @@ const SecurityContainer = () => {
     dispatch(changeField({ form: 'password', key: name, value }));
   };
 
+  // submit 이벤트
   const onSubmit = (e) => {
     e.preventDefault();
     const {
@@ -60,6 +67,7 @@ const SecurityContainer = () => {
     } = valid;
     const { _id } = user;
     const { curPassword, newPassword } = form;
+    // 검증 통과시 액션 수행
     if (curValid && newValid && confirmValid) {
       dispatch(changePassword({ id: _id, password: curPassword, newPassword }));
     }
@@ -67,6 +75,7 @@ const SecurityContainer = () => {
 
   const stateValidMessage = useRef(validMessage);
 
+  // 비동기 검증 수행
   useEffect(() => {
     const isValidNewPassword =
       form.newPassword && form.newPassword.length >= MIN_LENGTH;
@@ -81,6 +90,7 @@ const SecurityContainer = () => {
         form.newPassword !== form.curPassword,
       confirmPassword: form.confirmPassword !== '' && isValidConfirmPassword,
     });
+    // 검증 실패 시 처리
     if (!isValidNewPassword && form.newPassword !== '') {
       setValidMessage({
         ...stateValidMessage.current,
@@ -113,6 +123,7 @@ const SecurityContainer = () => {
     }
   }, [form, stateValidMessage]);
 
+  // 비밀번호 변경 처리 결과에 따른 메시지 저장
   useEffect(() => {
     if (changePasswordResult) {
       setSubmitPassword({
@@ -148,6 +159,7 @@ const SecurityContainer = () => {
     }
   }, [dispatch, changePasswordResult, changePasswordError]);
 
+  // 언마운트시 작업
   useEffect(() => {
     return () => {
       dispatch(initializeChangePassword());

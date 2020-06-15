@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ErrorBlock from '../common/ErrorBlock';
 
+/**
+ * 위키 문서 역사 리스트 컴포넌트
+ */
+
 const WikiHistoryBlock = styled(Responsive)`
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};

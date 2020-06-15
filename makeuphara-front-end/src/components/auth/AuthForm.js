@@ -174,6 +174,7 @@ const AuthForm = ({
     };
   }, [onSocialLogin]);
 
+  // 네이버 로그인 클릭 이벤트
   const onNaverLoginClick = useCallback(() => {
     const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_NAVER_LOGIN_REDIRECT_URI;
@@ -186,6 +187,7 @@ const AuthForm = ({
     window.location = requestUrl;
   }, []);
 
+  // 카카오 로그인 클릭 이벤트
   const onKakaoLoginClick = useCallback(() => {
     const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
@@ -210,6 +212,7 @@ const AuthForm = ({
     referenceNode.parentNode.insertBefore(googlejssdkNode, referenceNode);
   }, []);
 
+  // 언마운트시 API 스크립트 제거
   const removeApiScript = useCallback(() => {
     const removeTag = (tagName, targetId) => {
       const targetNode = document.getElementsByTagName(tagName);
@@ -231,6 +234,8 @@ const AuthForm = ({
     removeJssdk('google-jssdk');
   }, []);
 
+  // 컴포넌트 업데이트시 소셜로그인 스크립트 로딩
+  // 언마운트시 스크립트 제거
   useEffect(() => {
     loadScript(
       document,
@@ -244,6 +249,7 @@ const AuthForm = ({
       removeApiScript();
     };
   }, [loadScript, removeApiScript, loadGoogleLoginApi]);
+
   return (
     <AuthFormBlock>
       <h3>{text}</h3>

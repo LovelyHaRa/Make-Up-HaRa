@@ -40,6 +40,7 @@ const RegisterForm = ({ history }) => {
     message: '',
   });
 
+  // 폼 데이터 변경 이벤트
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(changeFieid({ form: 'register', key: name, value }));
@@ -57,6 +58,7 @@ const RegisterForm = ({ history }) => {
     }
   };
 
+  // submit 이벤트
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password, passwordConfirm, name } = form;

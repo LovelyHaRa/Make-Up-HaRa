@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
+/**
+ * 카테고리 컴포넌트
+ */
+
 const Category = styled(NavLink)`
   font-size: 0.9rem;
   cursor: pointer;

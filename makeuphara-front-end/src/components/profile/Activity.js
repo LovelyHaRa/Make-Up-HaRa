@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 import Tags from '../post/common/Tags';
 import PaginationContainer from '../../containers/post/PaginationContainer';
 
+/**
+ * 활동정보 컴포넌트
+ * 위키문서/블로그 포스팅 카운트 확인
+ * 작성한 블로그 포스트 리스트 출력
+ */
+
 const ActivityBlock = styled.div`
   margin-top: 2rem;
   margin-left: 1rem;
@@ -108,6 +114,7 @@ const PostBlock = styled.div`
   }
 `;
 
+// 활동 정보 내의 유저가 작성한 블로그 포스트 리스트 아이템
 const PostItem = ({ post }) => {
   const { _id, title, tags, publisher } = post;
   return (

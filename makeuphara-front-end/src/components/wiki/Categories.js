@@ -4,6 +4,10 @@ import Category from '../common/Category';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
 
+/**
+ * 위키 검색결과 정렬 카테고리
+ */
+
 const categories = [
   {
     name: 'normal',
@@ -41,6 +45,7 @@ const Categories = ({ location }) => {
   const { query, oldest, shortest, longest } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
+  // 카테고리 중 쿼리에 해당하는 것 하나만 활성화하기 위한 핸들링 함수
   const handleActive = (name) => {
     if (name === 'oldest' && oldest === 'true') return true;
     else if (name === 'shortest' && shortest === 'true') return true;

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import ErrorBlock from '../common/ErrorBlock';
 
+/**
+ * 작성 가능한 위키 문서 목록 컴포넌트
+ */
+
 const WikiRequestBlock = styled.div`
   background: ${({ theme }) => theme.body};
   color: ${({ theme }) => theme.text};
@@ -70,7 +74,9 @@ const WikiRequest = ({ requestList, loading, error, onEdit }) => {
     return (
       <Responsive>
         <WikiRequestErrorBlock>
-          <span className="error-title">지금 작성이 필요한 문서가 없습니다...ㅠ</span>
+          <span className="error-title">
+            지금 작성이 필요한 문서가 없습니다...ㅠ
+          </span>
         </WikiRequestErrorBlock>
       </Responsive>
     );

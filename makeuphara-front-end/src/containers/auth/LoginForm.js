@@ -20,12 +20,14 @@ const LoginForm = ({ history }) => {
     user: user.user,
   }));
 
+  // 폼 데이터 변경 이벤트
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(changeFieid({ form: 'login', key: name, value }));
     setError(null);
   };
 
+  // submit 이벤트
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password } = form;
@@ -36,11 +38,14 @@ const LoginForm = ({ history }) => {
     dispatch(login({ username, password }));
   };
 
+  // 구글 로그인 이벤트
   const onSocialLogin = ({ id_token }) => {
     dispatch(loginWithGoogle({ id_token }));
   };
 
+  // 로그인 성공/실페에 따른 처리
   useEffect(() => {
+    // 로그인 실패 시 에러 메시지 출력
     if (authError) {
       if (authError.response.status === 401) {
         setError('계정 또는 비밀번호가 일치하지 않습니다.');
@@ -50,15 +55,17 @@ const LoginForm = ({ history }) => {
         return;
       }
     }
+    // 로그인 성공 시 check 액션을 통해 유저 정보를 리덕스 상태에 업데이트
     if (auth) {
       dispatch(check());
-      dispatch(initializeForm());
+      dispatch(initializeForm()); // 폼 입력 초기화
     }
     return () => {
-      dispatch(initializeForm());
+      dispatch(initializeForm()); // 언마운트 시 폼 입력 초기화
     };
   }, [auth, authError, dispatch]);
 
+  // 로그인 성공시 유저 정보 세션에 저장 후 페이지 리다이렉션
   useEffect(() => {
     if (user) {
       history.replace('/');

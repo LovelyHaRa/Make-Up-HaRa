@@ -32,6 +32,7 @@ const EditorContainer = ({ history }) => {
     };
   }, [dispatch]);
 
+  // 세션스토리지를 이용하여 위키 타이틀 상태 저장
   if (!title && !sessionStorage.getItem('wiki-title')) {
     history.push('/wiki');
     return null;
