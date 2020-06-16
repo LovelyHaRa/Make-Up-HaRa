@@ -22,6 +22,7 @@ import WikiListPage from './pages/wiki/WikiListPage';
 import MyPage from './pages/profile/MyPage';
 import SecurityPage from './pages/profile/SecurityPage';
 import ActivityPage from './pages/profile/ActivityPage';
+import LocalSearchPage from './pages/search/LocalSearchPage';
 
 const App = () => {
   const { isDarkTheme } = useSelector(({ theme }) => ({
@@ -70,6 +71,7 @@ const App = () => {
         <Route component={MyPage} path={'/mypage'} exact />
         <Route component={SecurityPage} path={'/mypage/security'} exact />
         <Route component={ActivityPage} path={'/mypage/activity'} exact />
+        <Route component={LocalSearchPage} path={'/search'} exact />
       </>
     </ThemeProvider>
   );

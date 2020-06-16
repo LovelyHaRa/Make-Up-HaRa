@@ -5,15 +5,17 @@ import Header from '../../components/common/Header';
 import { withRouter } from 'react-router-dom';
 
 const HeaderContainer = ({ location }) => {
+  const dispatch = useDispatch();
   const { user, isDarkTheme } = useSelector(({ user, theme }) => ({
     user: user.user,
     isDarkTheme: theme.isDarkTheme,
   }));
-  const dispatch = useDispatch();
+
   const currentPath = location.pathname + location.search;
   const onLogout = () => {
     dispatch(logout());
   };
+
   return (
     <Header
       user={user}

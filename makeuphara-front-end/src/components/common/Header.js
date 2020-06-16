@@ -406,12 +406,21 @@ const NoneUserDropDown = ({ state, isDarkTheme }) => {
 };
 
 // 검색 input과 액션 버튼을 패키징
-const SearchInputPackage = ({ type, currentPath }) => (
+const SearchInputPackage = ({
+  type,
+  currentPath,
+  searchQuery,
+  handleSearchInput,
+}) => (
   <div className={type} tabIndex="-1">
     <SearchInputWrapper>
-      <SearchInput placeholder="검색" />
+      <SearchInput
+        placeholder="검색"
+        value={searchQuery}
+        onChange={handleSearchInput}
+      />
     </SearchInputWrapper>
-    <SearchBtn to={currentPath}>
+    <SearchBtn to={`/search?query=${searchQuery}`}>
       <FontAwesomeIcon icon="search" />
     </SearchBtn>
   </div>
@@ -454,6 +463,11 @@ const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
     setNoneUser(false);
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearchInput = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <>
       <HeaderBlock>
@@ -484,7 +498,12 @@ const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
         </div>
         <div className="header-mid">
           <SearchResponsive>
-            <SearchInputPackage type="search-input" currentPath={currentPath} />
+            <SearchInputPackage
+              type="search-input"
+              currentPath={currentPath}
+              searchQuery={searchQuery}
+              handleSearchInput={handleSearchInput}
+            />
           </SearchResponsive>
         </div>
         <div className="header-rigit">

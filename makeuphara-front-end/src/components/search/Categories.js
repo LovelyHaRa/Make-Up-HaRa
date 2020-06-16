@@ -5,26 +5,13 @@ import { withRouter } from 'react-router-dom';
 import qs from 'qs';
 
 /**
- * 위키 검색결과 정렬 카테고리
+ * 검색 결과 카테고리
  */
 
 const categories = [
-  {
-    name: 'normal',
-    text: '위키 문서',
-  },
-  {
-    name: 'oldest',
-    text: 'OLDEST',
-  },
-  {
-    name: 'shortest',
-    text: '짧은 내용',
-  },
-  {
-    name: 'longest',
-    text: '긴 내용',
-  },
+  { name: 'all', text: '통합검색', to: '/search?' },
+  { name: 'wiki', text: '위키검색', to: '/search?wiki=true' },
+  { name: 'blog', text: '블로그', to: '/search?blog=true' },
 ];
 
 const CategoriesBlock = styled.div`
@@ -32,8 +19,8 @@ const CategoriesBlock = styled.div`
   margin-bottom: 0;
   padding-top: 0.1rem;
   line-height: 3;
-  border-top: 1px solid ${({ theme }) => theme.wikiBorder};
-  border-bottom: 1px solid ${({ theme }) => theme.wikiBorder};
+  border-top: 1px solid ${({ theme }) => theme.searchBorder};
+  border-bottom: 1px solid ${({ theme }) => theme.searchBorder};
   color: ${({ theme }) => theme.text};
   display: flex;
   @media screen and (max-width: 768px) {
@@ -42,19 +29,17 @@ const CategoriesBlock = styled.div`
 `;
 
 const Categories = ({ location }) => {
-  const { query, oldest, shortest, longest } = qs.parse(location.search, {
+  const { query, wiki, blog } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
   // 카테고리 중 쿼리에 해당하는 것 하나만 활성화하기 위한 핸들링 함수
   const handleActive = (name) => {
-    if (name === 'oldest' && oldest === 'true') return true;
-    if (name === 'shortest' && shortest === 'true') return true;
-    if (name === 'longest' && longest === 'true') return true;
+    if (name === 'wiki' && wiki === 'true') return true;
+    if (name === 'blog' && blog === 'true') return true;
     if (
-      name === 'normal' &&
-      oldest === undefined &&
-      shortest === undefined &&
-      longest === undefined
+      name === 'all' &&
+      (wiki === undefined || wiki !== 'true') &&
+      (blog === undefined || blog !== 'true')
     ) {
       return true;
     }
@@ -69,13 +54,7 @@ const Categories = ({ location }) => {
           activeClassName="active"
           exact={true}
           isActive={() => handleActive(category.name)}
-          to={
-            category.name === 'normal'
-              ? `/wiki/list?${qs.stringify({ query: query })}`
-              : `/wiki/list?${qs.stringify({ query: query })}&${
-                  category.name
-                }=true`
-          }
+          to={category.to + '&query=' + query}
         >
           {category.text}
         </Category>

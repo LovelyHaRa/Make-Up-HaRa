@@ -68,6 +68,8 @@ export const lightTheme = {
   profileInfoValueBody: palette.cyan[0],
   profileInputValid: palette.cyan[2],
   profileInputInValid: palette.red[3],
+  /* Searck */
+  searchBorder: palette.gray[4],
 };
 
 export const darkTheme = {
@@ -138,4 +140,6 @@ export const darkTheme = {
   profileInfoValueBody: palette.violet[5],
   profileInputValid: palette.violet[3],
   profileInputInValid: palette.red[3],
+  /* Searck */
+  searchBorder: palette.gray[5],
 };
