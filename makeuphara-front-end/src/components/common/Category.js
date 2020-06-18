@@ -10,6 +10,7 @@ const Category = styled(NavLink)`
   cursor: pointer;
   white-space: pre;
   text-decoration: none;
+  font-family: 'NanumBarunGothic';
   font-weight: lighter;
 
   &.active {

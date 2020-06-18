@@ -9,7 +9,7 @@ import qs from 'qs';
  */
 
 const categories = [
-  { name: 'all', text: '통합검색', to: '/search?' },
+  { name: 'total', text: '통합검색', to: '/search?' },
   { name: 'wiki', text: '위키검색', to: '/search?wiki=true' },
   { name: 'blog', text: '블로그', to: '/search?blog=true' },
 ];
@@ -37,7 +37,7 @@ const Categories = ({ location }) => {
     if (name === 'wiki' && wiki === 'true') return true;
     if (name === 'blog' && blog === 'true') return true;
     if (
-      name === 'all' &&
+      name === 'total' &&
       (wiki === undefined || wiki !== 'true') &&
       (blog === undefined || blog !== 'true')
     ) {
