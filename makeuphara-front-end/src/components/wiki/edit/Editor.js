@@ -5,6 +5,7 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import ImageResize from 'quill-image-resize-module-react';
 
+Quill.debug('error');
 Quill.register('modules/imageResize', ImageResize);
 
 const EditorBlock = styled(Responsive)`

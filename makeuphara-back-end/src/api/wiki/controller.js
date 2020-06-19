@@ -192,7 +192,7 @@ export const searchDocument = async (ctx, next) => {
   }
   try {
     const documentList = await WikiTitle.find({
-      name: { $regex: '.*' + query + '.*' },
+      name: { $regex: '.*' + query + '.*', $options: 'i' },
       lately: { $gt: 0 },
     })
       .sort(sortObj)

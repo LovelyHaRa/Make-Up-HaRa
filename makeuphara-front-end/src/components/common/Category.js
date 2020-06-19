@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
  */
 
 const Category = styled(NavLink)`
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
   white-space: pre;
   text-decoration: none;

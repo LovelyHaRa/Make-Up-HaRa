@@ -23,14 +23,17 @@ export const list = async (ctx) => {
     return;
   }
   /* 필터링 정보 */
-  const { tag, username } = ctx.query;
-  const query = {
+  const { tag, username, query } = ctx.query;
+  const queryObj = {
     ...(username ? { 'publisher.username': username } : {}),
     ...(tag ? { tags: tag } : {}),
+    ...(query
+      ? { $or: [{ title: { $regex: '.*' + query + '.*', $options: 'i' } }] }
+      : {}),
   };
   /* 데이터베이스 검색 */
   try {
-    const postList = await Post.find(query)
+    const postList = await Post.find(queryObj)
       .sort({ _id: -1 })
       .skip((page - 1) * block)
       .limit(block)
