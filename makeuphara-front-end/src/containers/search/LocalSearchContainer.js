@@ -12,6 +12,12 @@ import { getList } from '../../module/redux/post';
 import BlogSearchResult from '../../components/search/BlogSearchResult';
 import { getSearchList } from '../../module/redux/wiki';
 import WikiSearchResult from '../../components/search/WikiSearchResult';
+import { initialize } from '../../module/redux/search';
+import {
+  TotalPaginationContainer,
+  WikiPaginationContainer,
+  BlogPaginationContainer,
+} from './PaginationContainer';
 
 const LocalSearchContainer = ({ location }) => {
   const dispatch = useDispatch();
@@ -30,15 +36,21 @@ const LocalSearchContainer = ({ location }) => {
     wikiListError: wiki.searchListError,
     wikiListLoading: loading['wiki/GET_SEARCH_LIST'],
   }));
-  const { query, blog, wiki } = qs.parse(location.search, {
+  const { query, blog, wiki, page } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
   useEffect(() => {
     if (query && query !== '') {
-      dispatch(getList({ query, block: 5 }));
-      dispatch(getSearchList({ query, block: 10 }));
+      dispatch(getList({ query, page, block: 5 }));
+      dispatch(getSearchList({ query, page, block: 10 }));
     }
-  }, [dispatch, query]);
+  }, [dispatch, query, page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initialize());
+    };
+  }, [dispatch]);
 
   return (
     <>
@@ -58,6 +70,7 @@ const LocalSearchContainer = ({ location }) => {
             wikiListError={wikiListError}
             wikiListLoading={wikiListLoading}
           />
+          <TotalPaginationContainer />
         </>
       )}
       {wiki && wiki === 'true' && (
@@ -69,6 +82,7 @@ const LocalSearchContainer = ({ location }) => {
             wikiListError={wikiListError}
             wikiListLoading={wikiListLoading}
           />
+          <WikiPaginationContainer />
         </>
       )}
       {blog && blog === 'true' && (
@@ -80,6 +94,7 @@ const LocalSearchContainer = ({ location }) => {
             postListError={postListError}
             postListLoading={postListLoading}
           />
+          <BlogPaginationContainer />
         </>
       )}
     </>

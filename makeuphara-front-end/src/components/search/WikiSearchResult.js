@@ -68,6 +68,9 @@ const WikiSearchResult = ({
   wikiListLoading,
   wikiListError,
 }) => {
+  if (wikiList && wikiList.length === 0) {
+    return null;
+  }
   return (
     <WikiSearchResultBlock>
       {includeTitle && <span className="title">위키</span>}

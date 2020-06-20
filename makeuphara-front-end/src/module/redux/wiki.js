@@ -200,6 +200,7 @@ const initialState = {
   query: '',
   searchList: null,
   searchListError: null,
+  lastPage: 1,
   directName: null,
   directError: null,
   randomTitle: null,
@@ -291,9 +292,13 @@ const wiki = handleActions(
       ...state,
       historyListError,
     }),
-    [GET_SEARCH_LIST_SUCCESS]: (state, { payload: searchList }) => ({
+    [GET_SEARCH_LIST_SUCCESS]: (
+      state,
+      { payload: searchList, meta: response },
+    ) => ({
       ...state,
       searchList,
+      lastPage: parseInt(response.headers['makeuphara-wiki-last-page'], '10'),
     }),
     [GET_SEARCH_LIST_FAILURE]: (state, { payload: searchListError }) => ({
       ...state,

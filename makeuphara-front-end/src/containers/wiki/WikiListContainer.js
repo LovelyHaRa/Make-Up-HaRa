@@ -51,6 +51,7 @@ const WikiListContainer = ({ location, history }) => {
 
   // 쿼리 요청
   useEffect(() => {
+    setDocumentList([]);
     if (isValidQuery(oldest, shortest, longest)) {
       page.current = 1;
       dispatch(getSearchList({ query, oldest, shortest, longest }));

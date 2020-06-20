@@ -191,14 +191,17 @@ export const searchDocument = async (ctx, next) => {
     delete sortObj.updateDate;
   }
   try {
-    const documentList = await WikiTitle.find({
+    const queryObj = {
       name: { $regex: '.*' + query + '.*', $options: 'i' },
       lately: { $gt: 0 },
-    })
+    };
+    const documentList = await WikiTitle.find(queryObj)
       .sort(sortObj)
       .skip((page - 1) * block)
       .limit(block)
       .lean();
+    const documentCount = await WikiTitle.countDocuments(queryObj);
+    ctx.set('Makeuphara-Wiki-Last-Page', Math.ceil(documentCount / block));
     ctx.body = documentList;
     const reqUrl = ctx.request.url;
     const isNext = reqUrl.indexOf('/direct');

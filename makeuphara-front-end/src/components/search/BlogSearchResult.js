@@ -27,6 +27,9 @@ const BlogSearchResult = ({
   postListLoading,
   postListError,
 }) => {
+  if (postList && postList.length === 0) {
+    return null;
+  }
   return (
     <BlogSearchResultBlock>
       {includeTitle && <span className="title">블로그</span>}

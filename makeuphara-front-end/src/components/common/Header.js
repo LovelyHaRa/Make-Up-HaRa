@@ -408,9 +408,9 @@ const NoneUserDropDown = ({ state, isDarkTheme }) => {
 // 검색 input과 액션 버튼을 패키징
 const SearchInputPackage = ({
   type,
-  currentPath,
   searchQuery,
   handleSearchInput,
+  handleSearchKeyUp,
 }) => (
   <div className={type} tabIndex="-1">
     <SearchInputWrapper>
@@ -418,6 +418,11 @@ const SearchInputPackage = ({
         placeholder="검색"
         value={searchQuery}
         onChange={handleSearchInput}
+        onKeyUp={(event) => {
+          if (event.keyCode === 13) {
+            handleSearchKeyUp(searchQuery);
+          }
+        }}
       />
     </SearchInputWrapper>
     <SearchBtn to={`/search?query=${searchQuery}`}>
@@ -431,7 +436,15 @@ const Spacer = styled.div`
   height: 3rem;
 `;
 
-const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
+const Header = ({
+  user,
+  onLogout,
+  isDarkTheme,
+  currentPath,
+  searchQuery,
+  handleSearchInput,
+  handleSearchKeyUp,
+}) => {
   library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
   // 드롭다운 관련 핸들러
   const [etc, setEtc] = useState(false);
@@ -461,11 +474,6 @@ const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
   };
   const handleNoneUserClose = () => {
     setNoneUser(false);
-  };
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const handleSearchInput = (event) => {
-    setSearchQuery(event.target.value);
   };
 
   return (
@@ -500,9 +508,9 @@ const Header = ({ user, onLogout, isDarkTheme, currentPath }) => {
           <SearchResponsive>
             <SearchInputPackage
               type="search-input"
-              currentPath={currentPath}
               searchQuery={searchQuery}
               handleSearchInput={handleSearchInput}
+              handleSearchKeyUp={handleSearchKeyUp}
             />
           </SearchResponsive>
         </div>

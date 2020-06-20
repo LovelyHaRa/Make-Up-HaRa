@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import qs from 'qs';
 import Button from './Button';
 
 const PaginationBlock = styled.div`
@@ -27,9 +26,10 @@ const PageButton = styled(Button)`
   }
 `;
 
-const buildLink = ({ username, tag, page }) => {
-  const query = qs.stringify({ tag, page });
-  return username ? `/blog/@${username}?${query}` : `/blog/?${query}`;
+const buildLink = ({ path, query, page }) => {
+  return query.length > 0
+    ? `${path}?${query}&page=${page}`
+    : `${path}?page=${page}`;
 };
 
 /* CONFIG */
@@ -149,7 +149,7 @@ const getPageNumber = (page, lastPage) => {
   return result;
 };
 
-const Pagination = ({ page, lastPage, username, tag }) => {
+const Pagination = ({ path, query, page, lastPage }) => {
   const pageNumber = getPageNumber(page, lastPage);
   return (
     <PaginationBlock>
@@ -157,7 +157,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
         pageNumber.front.map((number) => (
           <PageButton
             disabled={page === number}
-            to={buildLink({ username, tag, page: number })}
+            to={buildLink({ path, query, page: number })}
             key={number}
           >
             {number}
@@ -168,7 +168,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
         pageNumber.mid.map((number) => (
           <PageButton
             disabled={page === number}
-            to={buildLink({ username, tag, page: number })}
+            to={buildLink({ path, query, page: number })}
             key={number}
           >
             {number}
@@ -179,7 +179,7 @@ const Pagination = ({ page, lastPage, username, tag }) => {
         pageNumber.end.map((number) => (
           <PageButton
             disabled={page === number}
-            to={buildLink({ username, tag, page: number })}
+            to={buildLink({ path, query, page: number })}
             key={number}
           >
             {number}

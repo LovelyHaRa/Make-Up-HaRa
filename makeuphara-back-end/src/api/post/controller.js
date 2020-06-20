@@ -38,7 +38,7 @@ export const list = async (ctx) => {
       .skip((page - 1) * block)
       .limit(block)
       .lean();
-    const postCount = await Post.countDocuments(query);
+    const postCount = await Post.countDocuments(queryObj);
     ctx.set('Makeuphara-Post-Count', postCount);
     ctx.set('Makeuphara-Post-Last-Page', Math.ceil(postCount / block));
     ctx.body = postList.map((post) => ({

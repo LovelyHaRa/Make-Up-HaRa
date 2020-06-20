@@ -6,6 +6,7 @@ import user, { userSaga } from './user';
 import post, { postSaga } from './post';
 import wiki, { wikiSaga } from './wiki';
 import theme from './theme';
+import search from './search';
 
 /* root reducer */
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   theme,
   post,
   wiki,
+  search,
 });
 
 /* root saga */

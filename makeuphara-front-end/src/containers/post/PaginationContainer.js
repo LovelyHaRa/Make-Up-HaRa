@@ -20,11 +20,12 @@ const PaginationContainer = ({ location, match }) => {
   const { tag, page = 1 } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
+  const query = qs.stringify({ tag });
 
   return (
     <Pagination
-      tag={tag}
-      username={username}
+      path={username ? `/blog/@${username}` : `/blog`}
+      query={query}
       page={parseInt(page, 10)}
       lastPage={lastPage}
     />
