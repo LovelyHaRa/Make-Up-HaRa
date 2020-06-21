@@ -32,13 +32,15 @@ const BlogSearchResult = ({
   }
   return (
     <BlogSearchResultBlock>
-      {includeTitle && <span className="title">블로그</span>}
       {!postListLoading && postList && (
-        <div className="post-list">
-          {postList.map((post) => (
-            <PostItem post={post} key={post._id} />
-          ))}
-        </div>
+        <>
+          {includeTitle && <span className="title">블로그</span>}
+          <div className="post-list">
+            {postList.map((post) => (
+              <PostItem post={post} key={post._id} />
+            ))}
+          </div>
+        </>
       )}
     </BlogSearchResultBlock>
   );

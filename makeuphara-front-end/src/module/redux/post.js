@@ -56,12 +56,14 @@ export const updatePost = createAction(
 );
 export const getList = createAction(
   GET_LIST,
-  ({ page, tag, username, query, block }) => ({
+  ({ page, tag, username, query, block, oldest, day }) => ({
     page,
     tag,
     username,
     query,
     block,
+    oldest,
+    day,
   }),
 );
 export const unloadList = createAction(UNLOAD_LIST);

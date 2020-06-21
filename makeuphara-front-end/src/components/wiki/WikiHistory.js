@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
 
 /**
@@ -48,7 +48,7 @@ const HistoryItem = ({ document }) => {
   return (
     <div className="item">
       <span className="item-date">
-        {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+        {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
       </span>
       <Link to={`/w/${title.name}?r=${revision}`} className="item-link">
         (보기)

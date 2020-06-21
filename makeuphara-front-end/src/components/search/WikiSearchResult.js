@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 /**
  * 위키 검색결과
@@ -56,7 +56,7 @@ const DocumentItem = ({ document }) => {
     <DocumentBlock>
       <Link to={`/w/${name}`}>{name}</Link>
       <div className="wiki-info">
-        <span>{dayjs(updateDate).format('YYYY-MM-DD')}</span>
+        <span>{moment(updateDate).format('YYYY-MM-DD')}</span>
       </div>
     </DocumentBlock>
   );
@@ -73,13 +73,15 @@ const WikiSearchResult = ({
   }
   return (
     <WikiSearchResultBlock>
-      {includeTitle && <span className="title">위키</span>}
       {!wikiListLoading && wikiList && (
-        <div className="wiki-list">
-          {wikiList.map((document) => (
-            <DocumentItem document={document} key={document._id} />
-          ))}
-        </div>
+        <>
+          {includeTitle && <span className="title">위키</span>}
+          <div className="wiki-list">
+            {wikiList.map((document) => (
+              <DocumentItem document={document} key={document._id} />
+            ))}
+          </div>
+        </>
       )}
     </WikiSearchResultBlock>
   );

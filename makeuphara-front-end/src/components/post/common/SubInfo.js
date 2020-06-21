@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 /**
  *  포스트의 부가정보(작성자, 작성일자)를 출력하는 컴포넌트
@@ -43,7 +43,7 @@ const SubInfo = ({ username, publishedDate, hasMarginTop }) => {
       </span>
       {publishedDate && (
         <span className="publishedDate">
-          {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+          {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
         </span>
       )}
     </SubInfoBlock>

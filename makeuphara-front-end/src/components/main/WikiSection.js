@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
 
 /**
@@ -56,7 +56,7 @@ const DocumentItem = ({ document }) => {
     <DocumentBlock>
       <Link to={`/w/${name}`}>{name}</Link>
       <div className="wiki-info">
-        <span>{dayjs(publishedDate).format('YYYY-MM-DD')}</span>
+        <span>{moment(publishedDate).format('YYYY-MM-DD')}</span>
       </div>
     </DocumentBlock>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import InputBarcodeModal from './InputBarcodeModal';
@@ -227,7 +227,7 @@ const WikiViewer = ({
         <TitleBlock>
           <h2>{title && title.name}</h2>
           <p>
-            최근 수정시각: {dayjs(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+            최근 수정시각: {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
           </p>
           <hr />
         </TitleBlock>

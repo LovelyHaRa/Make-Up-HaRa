@@ -3,6 +3,7 @@ import Post from '../../database/models/post';
 import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
 import SanitizeOption from '../../lib/sanitize-html/SanitizeOption';
+import moment from 'moment';
 
 // html 태그 필터링
 const removeHtmlAndShorten = (body) => {
@@ -23,18 +24,30 @@ export const list = async (ctx) => {
     return;
   }
   /* 필터링 정보 */
-  const { tag, username, query } = ctx.query;
+  const { tag, username, query, oldest } = ctx.query;
+  const day = parseInt(ctx.query.day || '0', 10);
   const queryObj = {
     ...(username ? { 'publisher.username': username } : {}),
     ...(tag ? { tags: tag } : {}),
     ...(query
-      ? { $or: [{ title: { $regex: '.*' + query + '.*', $options: 'i' } }] }
+      ? {
+          $or: [
+            { title: { $regex: '.*' + query + '.*', $options: 'i' } },
+            { body: { $regex: '.*' + query + '.*', $options: 'i' } },
+          ],
+        }
       : {}),
+    ...(day > 0
+      ? { publishedDate: { $gte: moment().subtract(day, 'days') } }
+      : {}),
+  };
+  const sortObj = {
+    _id: oldest && oldest === 'true' ? 1 : -1,
   };
   /* 데이터베이스 검색 */
   try {
     const postList = await Post.find(queryObj)
-      .sort({ _id: -1 })
+      .sort(sortObj)
       .skip((page - 1) * block)
       .limit(block)
       .lean();

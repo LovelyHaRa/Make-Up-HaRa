@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
@@ -63,35 +63,7 @@ const CustomOption = ({ data, optionValue, handleChange }) => {
   );
 };
 
-export const TotalSearchOption = () => {
-  const [optionValue, setOptionValue] = useState({
-    sort: '',
-    term: '',
-  });
-  const handleChange = (event) => {
-    const key = event.target.name;
-    setOptionValue({ ...optionValue, [key]: event.target.value });
-  };
-  const optionData = [
-    {
-      name: 'sort',
-      text: '정렬',
-      item: [
-        { name: '최신순', value: 'lately' },
-        { name: '오래된순', value: 'oldest' },
-      ],
-    },
-    {
-      name: 'term',
-      text: '기간',
-      item: [
-        { name: '1일', value: '1' },
-        { name: '7일', value: '7' },
-        { name: '15일', value: '15' },
-        { name: '30일', value: '30' },
-      ],
-    },
-  ];
+export const TotalSearchOption = ({ option, optionData, handleChange }) => {
   return (
     <SearchOptionBlock>
       <div className="option-group">
@@ -99,7 +71,7 @@ export const TotalSearchOption = () => {
           <CustomOption
             key={data.name}
             data={data}
-            optionValue={optionValue[data.name]}
+            optionValue={option[data.name]}
             handleChange={handleChange}
           />
         ))}
@@ -108,33 +80,7 @@ export const TotalSearchOption = () => {
   );
 };
 
-export const WikiSearchOption = () => {
-  const [optionValue, setOptionValue] = useState({
-    sort: '',
-    length: '',
-  });
-  const handleChange = (event) => {
-    const key = event.target.name;
-    setOptionValue({ ...optionValue, [key]: event.target.value });
-  };
-  const optionData = [
-    {
-      name: 'sort',
-      text: '정렬',
-      item: [
-        { name: '최신순', value: 'lately' },
-        { name: '오래된순', value: 'oldest' },
-      ],
-    },
-    {
-      name: 'length',
-      text: '내용 길이',
-      item: [
-        { name: '짧은 내용', value: 'shortest' },
-        { name: '긴 내용', value: 'longest' },
-      ],
-    },
-  ];
+export const WikiSearchOption = ({ option, optionData, handleChange }) => {
   return (
     <SearchOptionBlock>
       <div className="option-group">
@@ -142,7 +88,7 @@ export const WikiSearchOption = () => {
           <CustomOption
             key={data.name}
             data={data}
-            optionValue={optionValue[data.name]}
+            optionValue={option[data.name]}
             handleChange={handleChange}
           />
         ))}
@@ -151,35 +97,7 @@ export const WikiSearchOption = () => {
   );
 };
 
-export const BlogSearchOption = () => {
-  const [optionValue, setOptionValue] = useState({
-    sort: '',
-    term: '',
-  });
-  const handleChange = (event) => {
-    const key = event.target.name;
-    setOptionValue({ ...optionValue, [key]: event.target.value });
-  };
-  const optionData = [
-    {
-      name: 'sort',
-      text: '정렬',
-      item: [
-        { name: '최신순', value: 'lately' },
-        { name: '오래된순', value: 'oldest' },
-      ],
-    },
-    {
-      name: 'term',
-      text: '기간',
-      item: [
-        { name: '1일', value: '1' },
-        { name: '7일', value: '7' },
-        { name: '15일', value: '15' },
-        { name: '30일', value: '30' },
-      ],
-    },
-  ];
+export const BlogSearchOption = ({ option, optionData, handleChange }) => {
   return (
     <SearchOptionBlock>
       <div className="option-group">
@@ -187,7 +105,7 @@ export const BlogSearchOption = () => {
           <CustomOption
             key={data.name}
             data={data}
-            optionValue={optionValue[data.name]}
+            optionValue={option[data.name]}
             handleChange={handleChange}
           />
         ))}

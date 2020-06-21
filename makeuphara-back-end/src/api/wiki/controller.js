@@ -179,16 +179,16 @@ export const searchDocument = async (ctx, next) => {
   if (query === undefined) {
     query = '';
   }
-  let sortObj = { updateDate: -1 };
-  if (oldest && oldest === 'true') {
-    sortObj.updateDate = 1;
-  }
+  let sortObj = {};
   if (shortest && shortest === 'true') {
     sortObj.documentLength = 1;
-    delete sortObj.updateDate;
   } else if (longest && longest === 'true') {
     sortObj.documentLength = -1;
-    delete sortObj.updateDate;
+  }
+  if (oldest && oldest === 'true') {
+    sortObj.updateDate = 1;
+  } else {
+    sortObj.updateDate = -1;
   }
   try {
     const queryObj = {

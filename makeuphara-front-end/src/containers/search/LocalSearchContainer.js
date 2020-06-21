@@ -3,10 +3,10 @@ import Categories from '../../components/search/Categories';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
 import {
-  BlogSearchOption,
-  WikiSearchOption,
-  TotalSearchOption,
-} from '../../components/search/SearchOption';
+  TotalSearchOptionContainer,
+  WikiSearchOptionContainer,
+  BlogSearchOptionContainer,
+} from './SearchOptionContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getList } from '../../module/redux/post';
 import BlogSearchResult from '../../components/search/BlogSearchResult';
@@ -36,15 +36,21 @@ const LocalSearchContainer = ({ location }) => {
     wikiListError: wiki.searchListError,
     wikiListLoading: loading['wiki/GET_SEARCH_LIST'],
   }));
-  const { query, blog, wiki, page } = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const { query, blog, wiki, page, oldest, day, longest, shortest } = qs.parse(
+    location.search,
+    {
+      ignoreQueryPrefix: true,
+    },
+  );
+
   useEffect(() => {
     if (query && query !== '') {
-      dispatch(getList({ query, page, block: 5 }));
-      dispatch(getSearchList({ query, page, block: 10 }));
+      dispatch(getList({ query, page, block: 5, oldest, day }));
+      dispatch(
+        getSearchList({ query, page, block: 10, oldest, longest, shortest }),
+      );
     }
-  }, [dispatch, query, page]);
+  }, [dispatch, query, page, oldest, day, longest, shortest]);
 
   useEffect(() => {
     return () => {
@@ -57,7 +63,7 @@ const LocalSearchContainer = ({ location }) => {
       <Categories />
       {!wiki && !blog && (
         <>
-          <TotalSearchOption />
+          <TotalSearchOptionContainer />
           <BlogSearchResult
             includeTitle
             postList={postList}
@@ -70,31 +76,31 @@ const LocalSearchContainer = ({ location }) => {
             wikiListError={wikiListError}
             wikiListLoading={wikiListLoading}
           />
-          <TotalPaginationContainer />
+          {!postListLoading && !wikiListLoading && <TotalPaginationContainer />}
         </>
       )}
       {wiki && wiki === 'true' && (
         <>
-          <WikiSearchOption />
+          <WikiSearchOptionContainer />
           <WikiSearchResult
             includeTitle
             wikiList={wikiList}
             wikiListError={wikiListError}
             wikiListLoading={wikiListLoading}
           />
-          <WikiPaginationContainer />
+          {!wikiListLoading && <WikiPaginationContainer />}
         </>
       )}
       {blog && blog === 'true' && (
         <>
-          <BlogSearchOption />
+          <BlogSearchOptionContainer />
           <BlogSearchResult
             includeTitle
             postList={postList}
             postListError={postListError}
             postListLoading={postListLoading}
           />
-          <BlogPaginationContainer />
+          {!postListLoading && <BlogPaginationContainer />}
         </>
       )}
     </>
