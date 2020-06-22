@@ -74,7 +74,10 @@ const LocalSearchContainer = ({ location }) => {
       {!wiki && !blog && (
         <>
           <TotalSearchOptionContainer />
-          {wikiList.length === 0 && postList.length === 0 ? (
+          {!wikiListLoading &&
+          !postListLoading &&
+          wikiList.length === 0 &&
+          postList.length === 0 ? (
             <NoResult query={query} />
           ) : (
             <>
@@ -100,7 +103,7 @@ const LocalSearchContainer = ({ location }) => {
       {wiki && wiki === 'true' && (
         <>
           <WikiSearchOptionContainer />
-          {wikiList.length === 0 ? (
+          {!wikiListLoading && wikiList.length === 0 ? (
             <NoResult query={query} />
           ) : (
             <WikiSearchResult
@@ -116,7 +119,7 @@ const LocalSearchContainer = ({ location }) => {
       {blog && blog === 'true' && (
         <>
           <BlogSearchOptionContainer />
-          {postList.length === 0 ? (
+          {!postListLoading && postList.length === 0 ? (
             <NoResult query={query} />
           ) : (
             <BlogSearchResult
