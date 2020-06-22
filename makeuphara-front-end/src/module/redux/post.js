@@ -158,7 +158,7 @@ const post = handleActions(
     }),
     [UNLOAD_LIST]: (state) => ({
       ...state,
-      postList: null,
+      postList: [],
       postListError: null,
     }),
   },

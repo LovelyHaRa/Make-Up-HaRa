@@ -198,7 +198,7 @@ const initialState = {
   historyList: null,
   historyListError: null,
   query: '',
-  searchList: null,
+  searchList: [],
   searchListError: null,
   lastPage: 1,
   directName: null,

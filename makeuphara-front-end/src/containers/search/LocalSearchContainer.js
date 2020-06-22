@@ -18,6 +18,7 @@ import {
   WikiPaginationContainer,
   BlogPaginationContainer,
 } from './PaginationContainer';
+import NoResult from '../../components/search/NoResult';
 
 const LocalSearchContainer = ({ location }) => {
   const dispatch = useDispatch();
@@ -45,12 +46,21 @@ const LocalSearchContainer = ({ location }) => {
 
   useEffect(() => {
     if (query && query !== '') {
-      dispatch(getList({ query, page, block: 5, oldest, day }));
       dispatch(
-        getSearchList({ query, page, block: 10, oldest, longest, shortest }),
+        getList({ query, page, block: blog === 'true' ? 10 : 5, oldest, day }),
+      );
+      dispatch(
+        getSearchList({
+          query,
+          page,
+          block: wiki === 'true' ? 10 : 25,
+          oldest,
+          longest,
+          shortest,
+        }),
       );
     }
-  }, [dispatch, query, page, oldest, day, longest, shortest]);
+  }, [dispatch, query, page, oldest, day, longest, shortest, blog, wiki]);
 
   useEffect(() => {
     return () => {
@@ -64,42 +74,58 @@ const LocalSearchContainer = ({ location }) => {
       {!wiki && !blog && (
         <>
           <TotalSearchOptionContainer />
-          <BlogSearchResult
-            includeTitle
-            postList={postList}
-            postListError={postListError}
-            postListLoading={postListLoading}
-          />
-          <WikiSearchResult
-            includeTitle
-            wikiList={wikiList}
-            wikiListError={wikiListError}
-            wikiListLoading={wikiListLoading}
-          />
+          {wikiList.length === 0 && postList.length === 0 ? (
+            <NoResult query={query} />
+          ) : (
+            <>
+              <BlogSearchResult
+                includeTitle
+                query={query}
+                postList={postList}
+                error={postListError}
+                postListLoading={postListLoading}
+              />
+              <WikiSearchResult
+                includeTitle
+                query={query}
+                wikiList={wikiList}
+                error={wikiListError}
+                wikiListLoading={wikiListLoading}
+              />
+            </>
+          )}
           {!postListLoading && !wikiListLoading && <TotalPaginationContainer />}
         </>
       )}
       {wiki && wiki === 'true' && (
         <>
           <WikiSearchOptionContainer />
-          <WikiSearchResult
-            includeTitle
-            wikiList={wikiList}
-            wikiListError={wikiListError}
-            wikiListLoading={wikiListLoading}
-          />
+          {wikiList.length === 0 ? (
+            <NoResult query={query} />
+          ) : (
+            <WikiSearchResult
+              query={query}
+              wikiList={wikiList}
+              error={wikiListError}
+              wikiListLoading={wikiListLoading}
+            />
+          )}
           {!wikiListLoading && <WikiPaginationContainer />}
         </>
       )}
       {blog && blog === 'true' && (
         <>
           <BlogSearchOptionContainer />
-          <BlogSearchResult
-            includeTitle
-            postList={postList}
-            postListError={postListError}
-            postListLoading={postListLoading}
-          />
+          {postList.length === 0 ? (
+            <NoResult query={query} />
+          ) : (
+            <BlogSearchResult
+              query={query}
+              postList={postList}
+              error={postListError}
+              postListLoading={postListLoading}
+            />
+          )}
           {!postListLoading && <BlogPaginationContainer />}
         </>
       )}

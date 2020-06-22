@@ -8,6 +8,7 @@ const ErrorBlock = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 3rem;
+  font-family: 'NanumBarunGothic';
   color: ${({ theme }) => theme.text};
   span + span {
     margin-top: 1rem;

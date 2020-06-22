@@ -26,6 +26,10 @@ export const TotalPaginationContainer = withRouter(({ location }) => {
     return null;
   }
 
+  if (postList.length === 0 && wikiList.length === 0) {
+    return null;
+  }
+
   // page가 없으면 1을 기본으로 사용
   const { query, page = 1 } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -60,6 +64,10 @@ export const WikiPaginationContainer = withRouter(({ location }) => {
     return null;
   }
 
+  if (wikiList.length === 0) {
+    return null;
+  }
+
   // page가 없으면 1을 기본으로 사용
   const { query, wiki, page = 1 } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -87,6 +95,10 @@ export const BlogPaginationContainer = withRouter(({ location }) => {
   );
 
   if (!postList || postListLoading) {
+    return null;
+  }
+
+  if (postList.length === 0 ) {
     return null;
   }
 
