@@ -11,16 +11,13 @@
 - Dark Theme
 - WIKI (CRUD)
 - My Page (Change Name / Password, Activity Logs)
+- Local Search (Total / Wiki / Blog)
 
 
 
 ##### To Do List
 
-- Search
-- Barcode / QRcode Maker
 - To Do List For User
-- Shopping Search
-- Trending Search keywords list
 
 
 
