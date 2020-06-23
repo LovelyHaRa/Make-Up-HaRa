@@ -19,6 +19,7 @@ import {
   BlogPaginationContainer,
 } from './PaginationContainer';
 import NoResult from '../../components/search/NoResult';
+import LoadingProgress from '../../components/common/LoadingProgress';
 
 const LocalSearchContainer = ({ location }) => {
   const dispatch = useDispatch();
@@ -67,6 +68,15 @@ const LocalSearchContainer = ({ location }) => {
       dispatch(initialize());
     };
   }, [dispatch]);
+
+  if (wikiListLoading || postListLoading) {
+    return (
+      <>
+        <Categories />
+        <LoadingProgress customHeight={75} />
+      </>
+    );
+  }
 
   return (
     <>

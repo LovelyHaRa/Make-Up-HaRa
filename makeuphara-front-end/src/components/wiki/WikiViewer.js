@@ -6,6 +6,7 @@ import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import InputBarcodeModal from './InputBarcodeModal';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 위키 뷰어 컴포넌트
@@ -200,7 +201,7 @@ const WikiViewer = ({
   }
 
   if (loading || !document) {
-    return null;
+    return <LoadingProgress customHeight={80} />;
   }
   const { title, body, publishedDate } = document;
 

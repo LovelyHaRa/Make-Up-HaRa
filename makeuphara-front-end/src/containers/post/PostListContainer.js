@@ -55,7 +55,7 @@ const PostListContainer = ({ location, match }) => {
         block={block}
         handlePageBlock={handlePageBlock}
       />
-      {pagination.current && !error && <PaginationContainer />}
+      {pagination.current && !loading && !error && <PaginationContainer />}
     </>
   );
 };

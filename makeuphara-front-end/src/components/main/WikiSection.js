@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 최근 변경된 위키문서 리스트
  */
 
 const WikiSectionBlock = styled.div`
+  margin: 2rem;
   h3 {
     font-family: 'NanumBarunGothic';
     font-weight: 600;
@@ -63,6 +65,9 @@ const DocumentItem = ({ document }) => {
 };
 
 const WikiSection = ({ documentList, loading, error }) => {
+  if (loading) {
+    return <LoadingProgress />;
+  }
   if (error) {
     return (
       <ErrorBlock>

@@ -10,6 +10,7 @@ import ErrorBlock from '../common/ErrorBlock';
  */
 
 const BlogSectionBlock = styled.div`
+  margin: 2rem;
   h3 {
     font-family: 'NanumBarunGothic';
     font-weight: 600;

@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import SubInfo from './common/SubInfo';
 import Tags from './common/Tags';
 import ErrorBlock from '../common/ErrorBlock';
+import LoadingProgress from '../common/LoadingProgress';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -76,7 +77,7 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
   }
   // 로딩 중이거나 아직 포스트 데이터가 없을 때
   if (loading || !post) {
-    return null;
+    return <LoadingProgress body />;
   }
   // 렌더링 데이터
   const { title, body, tags, publisher, publishedDate } = post;

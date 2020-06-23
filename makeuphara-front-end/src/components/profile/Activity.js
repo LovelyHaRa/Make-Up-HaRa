@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Tags from '../post/common/Tags';
 import PaginationContainer from '../../containers/post/PaginationContainer';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 활동정보 컴포넌트
@@ -138,6 +139,13 @@ const Activity = ({
   loadingPost,
   loadingWiki,
 }) => {
+  if (loadingPost || loadingWiki) {
+    return (
+      <ActivityBlock>
+        <LoadingProgress customHeight={70} />
+      </ActivityBlock>
+    );
+  }
   return (
     <ActivityBlock>
       <div className="activity-count-group">

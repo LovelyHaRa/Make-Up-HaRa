@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 위키 검색결과 리스트 컴포넌트
@@ -55,7 +56,7 @@ const DocumentItem = forwardRef((props, ref) => {
   );
 });
 
-const LoadingProgress = styled(LinearProgress)`
+const ScrollProgress = styled(LinearProgress)`
   &.MuiLinearProgress-colorPrimary {
     background-color: ${({ theme }) => theme.progressBar};
   }
@@ -85,8 +86,8 @@ const WikiList = ({
       </WikiListErrorBlock>
     );
   }
-  if (loading && !documentList) {
-    return null;
+  if (loading && documentList.length === 0) {
+    return <LoadingProgress customHeight={70} />;
   }
   if (!loading && documentList && !documentList.length) {
     return (
@@ -117,7 +118,7 @@ const WikiList = ({
               />
             ),
           )}
-          {documentList.length > 0 && !isLastPage && <LoadingProgress />}
+          {documentList.length > 0 && !isLastPage && <ScrollProgress />}
         </div>
       )}
     </WikiListBlock>

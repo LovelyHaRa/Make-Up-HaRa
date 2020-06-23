@@ -4,6 +4,7 @@ import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 위키 문서 역사 리스트 컴포넌트
@@ -76,7 +77,7 @@ const WikiHistory = ({ historyList, error, loading, docName }) => {
     );
   }
   if (!historyList || loading) {
-    return null;
+    return <LoadingProgress customHeight={80} />;
   }
 
   return (

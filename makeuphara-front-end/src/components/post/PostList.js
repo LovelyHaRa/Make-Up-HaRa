@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import ErrorBlock from '../common/ErrorBlock';
 import { PageSlider } from '../common/CustomSlider';
 import Typography from '@material-ui/core/Typography';
+import LoadingProgress from '../common/LoadingProgress';
 
 const PostListBlock = styled.div`
   margin-top: 3rem;
@@ -91,6 +92,9 @@ const PostList = ({
   block,
   handlePageBlock,
 }) => {
+  if (loading) {
+    return <LoadingProgress body />;
+  }
   if (error) {
     return (
       <Responsive>

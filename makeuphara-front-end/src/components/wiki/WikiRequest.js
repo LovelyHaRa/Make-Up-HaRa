@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import ErrorBlock from '../common/ErrorBlock';
+import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 작성 가능한 위키 문서 목록 컴포넌트
@@ -68,7 +69,7 @@ const WikiRequest = ({ requestList, loading, error, onEdit }) => {
     );
   }
   if (!requestList || loading) {
-    return null;
+    return <LoadingProgress body />;
   }
   if (!requestList.length) {
     return (
