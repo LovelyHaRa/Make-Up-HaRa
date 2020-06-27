@@ -11,6 +11,7 @@ import LoadingProgress from '../common/LoadingProgress';
 
 const WikiSectionBlock = styled.div`
   margin: 2rem;
+  color: ${({ theme }) => theme.text};
   h3 {
     font-family: 'NanumBarunGothic';
     font-weight: 600;
