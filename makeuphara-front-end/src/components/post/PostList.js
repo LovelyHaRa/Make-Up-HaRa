@@ -92,7 +92,7 @@ const PostList = ({
   block,
   handlePageBlock,
 }) => {
-  if (loading) {
+  if (loading && postList.length === 0) {
     return <LoadingProgress body />;
   }
   if (error) {
