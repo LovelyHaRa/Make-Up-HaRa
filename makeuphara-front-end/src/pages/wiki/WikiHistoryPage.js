@@ -1,9 +1,15 @@
 import React from 'react';
-import WikiHistoryContainer from '../../containers/wiki/WikiHistoryContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import BodyBlock from '../../components/common/BodyBlock';
-import WikiSearchContainer from '../../containers/wiki/WikiSearchContainer';
 import { Helmet } from 'react-helmet-async';
+import loadable from '@loadable/component';
+
+const WikiSearchContainer = loadable(() =>
+  import('../../containers/wiki/WikiSearchContainer'),
+);
+const WikiHistoryContainer = loadable(() =>
+  import('../../containers/wiki/WikiHistoryContainer'),
+);
 
 const WikiHistoryPage = () => {
   return (

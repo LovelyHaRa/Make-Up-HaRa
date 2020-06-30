@@ -1,13 +1,23 @@
 import React from 'react';
 import Responsive from '../../components/common/Responsive';
-import EditorFooter from '../../components/common/editor/EditorFooter';
 import BodyBlock from '../../components/common/BodyBlock';
-import EditorContainer from '../../containers/post/write/EditorContainer';
-import TagBoxContainer from '../../containers/post/write/TagBoxContainer';
-import WriteActionButtonsContainer from '../../containers/post/write/WriteActionButtonsContainer';
 import { Helmet } from 'react-helmet-async';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import loadable from '@loadable/component';
+
+const EditorContainer = loadable(() =>
+  import('../../containers/post/write/EditorContainer'),
+);
+const TagBoxContainer = loadable(() =>
+  import('../../containers/post/write/TagBoxContainer'),
+);
+const WriteActionButtonsContainer = loadable(() =>
+  import('../../containers/post/write/WriteActionButtonsContainer'),
+);
+const EditorFooter = loadable(() =>
+  import('../../components/common/editor/EditorFooter'),
+);
 
 const PostWritePage = ({ history }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));

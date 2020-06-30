@@ -1,7 +1,11 @@
 import React from 'react';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import BodyBlock from '../../components/common/BodyBlock';
-import LocalSearchContainer from '../../containers/search/LocalSearchContainer';
+import loadable from '@loadable/component';
+
+const LocalSearchContainer = loadable(() =>
+  import('../../containers/search/LocalSearchContainer'),
+);
 
 const LocalSearchPage = () => {
   return (

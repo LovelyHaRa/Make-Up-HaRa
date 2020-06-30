@@ -1,7 +1,11 @@
 import React from 'react';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import BodyBlock from '../../components/common/BodyBlock';
-import PostViewerContainer from '../../containers/post/PostViewerContainer';
+import loadable from '@loadable/component';
+
+const PostViewerContainer = loadable(() =>
+  import('../../containers/post/PostViewerContainer'),
+);
 
 const PostPage = () => {
   return (

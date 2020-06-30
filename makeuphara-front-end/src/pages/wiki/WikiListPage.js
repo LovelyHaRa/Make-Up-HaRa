@@ -1,8 +1,14 @@
 import React from 'react';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import BodyBlock from '../../components/common/BodyBlock';
-import WikiSearchContainer from '../../containers/wiki/WikiSearchContainer';
-import WikiListContainer from '../../containers/wiki/WikiListContainer';
+import loadable from '@loadable/component';
+
+const WikiSearchContainer = loadable(() =>
+  import('../../containers/wiki/WikiSearchContainer'),
+);
+const WikiListContainer = loadable(() =>
+  import('../../containers/wiki/WikiListContainer'),
+);
 
 const WikiListPage = () => {
   return (

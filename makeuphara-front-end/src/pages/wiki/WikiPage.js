@@ -1,8 +1,14 @@
 import React from 'react';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import BodyBlock from '../../components/common/BodyBlock';
-import WikiViewerContainer from '../../containers/wiki/WikiViewerContainer';
-import WikiSearchContainer from '../../containers/wiki/WikiSearchContainer';
+import loadable from '@loadable/component';
+
+const WikiViewerContainer = loadable(() =>
+  import('../../containers/wiki/WikiViewerContainer'),
+);
+const WikiSearchContainer = loadable(() =>
+  import('../../containers/wiki/WikiSearchContainer'),
+);
 
 const WikiPage = () => {
   return (
