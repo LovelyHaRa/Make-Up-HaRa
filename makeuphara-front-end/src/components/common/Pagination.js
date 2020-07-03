@@ -12,7 +12,7 @@ const PaginationBlock = styled.div`
     margin: 0 0.25rem;
     color: ${({ theme }) => theme.text};
   }
-  span:before {
+  span::before {
     content: '\\B7\\B7\\B7';
   }
 `;

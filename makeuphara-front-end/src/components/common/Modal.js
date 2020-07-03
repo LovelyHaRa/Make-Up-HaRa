@@ -115,13 +115,13 @@ const StyledTextField = styled(TextField)`
   .MuiFormLabel-root.Mui-focused {
     color: ${({ theme }) => theme.themeColorBody};
   }
-  .MuiInput-underline:hover:not(.Mui-disabled):before {
+  .MuiInput-underline:hover:not(.Mui-disabled)::before {
     border-bottom: 2px solid ${({ theme }) => theme.themeColorHoverBody};
   }
-  .MuiInput-underline:before {
+  .MuiInput-underline::before {
     border-bottom: 1px solid ${({ theme }) => theme.text};
   }
-  .MuiInput-underline:after {
+  .MuiInput-underline::after {
     border-bottom: 2px solid ${({ theme }) => theme.themeColorBody};
   }
   .MuiInputBase-input {

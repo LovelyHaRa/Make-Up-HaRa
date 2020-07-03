@@ -23,7 +23,7 @@ const SubInfoBlock = styled.div`
   }
 
   /* span 사이 가운뎃점 문자 출력 */
-  span + span:before {
+  span + span::before {
     padding: 0 0.25rem;
     content: '\\B7'; /* 가운뎃점 문자 */
   }

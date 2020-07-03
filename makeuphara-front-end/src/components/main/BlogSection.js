@@ -29,6 +29,11 @@ const BlogSectionBlock = styled.div`
   }
 `;
 
+const SectionErrorBlock = styled(ErrorBlock)`
+  margin-top: 2rem;
+  margin-left: 2rem;
+`;
+
 const PostBlock = styled.div`
   display: flex;
   align-items: center;
@@ -75,13 +80,13 @@ const PostItem = ({ post }) => {
   );
 };
 
-const BlogSection = ({ postList, loading, postError }) => {
-  if (postError) {
+const BlogSection = ({ postList, loading, error }) => {
+  if (error) {
     return (
-      <ErrorBlock>
+      <SectionErrorBlock>
         <span className="error-title">블로그 리스트 요청 실패.</span>
-        <span className="error-msg">ERROR MESSAGE: {postError.message}</span>
-      </ErrorBlock>
+        <span className="error-msg">ERROR MESSAGE: {error.message}</span>
+      </SectionErrorBlock>
     );
   }
   return (

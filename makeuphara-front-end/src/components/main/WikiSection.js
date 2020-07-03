@@ -29,6 +29,11 @@ const WikiSectionBlock = styled.div`
   }
 `;
 
+const SectionErrorBlock = styled(ErrorBlock)`
+  margin-top: 2rem;
+  margin-left: 2rem;
+`;
+
 const DocumentBlock = styled.div`
   display: flex;
   align-items: center;
@@ -71,10 +76,10 @@ const WikiSection = ({ documentList, loading, error }) => {
   }
   if (error) {
     return (
-      <ErrorBlock>
+      <SectionErrorBlock>
         <span className="error-title">WIKI 리스트 요청 실패.</span>
         <span className="error-msg">ERROR MESSAGE: {error.message}</span>
-      </ErrorBlock>
+      </SectionErrorBlock>
     );
   }
   return (

@@ -19,7 +19,7 @@ const SearchOptionBlock = styled.div`
     display: flex;
     flex-direction: row;
   }
-  .MuiInput-underline:hover:not(.Mui-disabled):before {
+  .MuiInput-underline:hover:not(.Mui-disabled)::before {
     border-bottom: 2px solid ${({ theme }) => theme.categoryBorder};
   }
   .MuiInputBase-root::after {
