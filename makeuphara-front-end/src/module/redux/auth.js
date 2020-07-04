@@ -179,6 +179,7 @@ const auth = handleActions(
     }),
     [REGISTER_FAILURE]: (state, { payload: registerResultError }) => ({
       ...state,
+      registerResult: null,
       registerResultError,
     }),
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
@@ -188,6 +189,7 @@ const auth = handleActions(
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      auth: null,
       authError: error,
     }),
     [LOGIN_WITH_GOOGLE_SUCCESS]: (state, { payload: auth }) => ({
@@ -197,6 +199,7 @@ const auth = handleActions(
     }),
     [LOGIN_WITH_GOOGLE_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      auth: null,
       authError: error,
     }),
     [LOGIN_WITH_NAVER_SUCCESS]: (state, { payload: auth }) => ({
@@ -206,6 +209,7 @@ const auth = handleActions(
     }),
     [LOGIN_WITH_NAVER_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      auth: null,
       authError: error,
     }),
     [LOGIN_WITH_KAKAO_SUCCESS]: (state, { payload: auth }) => ({
@@ -215,6 +219,7 @@ const auth = handleActions(
     }),
     [LOGIN_WITH_KAKAO_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      auth: null,
       authError: error,
     }),
     [CHECK_EXIST_USERNAME_SUCCESS]: (

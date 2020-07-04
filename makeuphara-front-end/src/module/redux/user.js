@@ -147,20 +147,24 @@ export default handleActions(
     [CHECK_EXIST_NAME_SUCCESS]: (state, { payload: checkExistNameResult }) => ({
       ...state,
       checkExistNameResult,
+      checkExistNameResultError: null,
     }),
     [CHECK_EXIST_NAME_FAILURE]: (
       state,
       { payload: checkExistNameResultError },
     ) => ({
       ...state,
+      checkExistNameResult: null,
       checkExistNameResultError,
     }),
     [UPDATE_NAME_SUCCESS]: (state, { payload: updateUser }) => ({
       ...state,
       updateUser,
+      updateUserError: null,
     }),
     [UPDATE_NAME_FAILURE]: (state, { payload: updateUserError }) => ({
       ...state,
+      updateUser: null,
       updateUserError,
     }),
     [INITIALIZE_UPDATE_NAME]: (state) => ({
@@ -173,6 +177,7 @@ export default handleActions(
     [CHANGE_PASSWORD_SUCCESS]: (state, { payload: changePasswordResult }) => ({
       ...state,
       changePasswordResult: !!changePasswordResult,
+      changePasswordError: null,
     }),
     [CHANGE_PASSWORD_FAILURE]: (state, { payload: changePasswordError }) => ({
       ...state,

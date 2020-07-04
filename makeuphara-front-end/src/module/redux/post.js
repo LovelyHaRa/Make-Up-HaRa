@@ -125,25 +125,31 @@ const post = handleActions(
     [WRITE_POST_SUCCESS]: (state, { payload: editPost }) => ({
       ...state,
       editPost,
+      editPostError: null,
     }),
     [WRITE_POST_FAILURE]: (state, { payload: editPostError }) => ({
       ...state,
+      editPost: null,
       editPostError,
     }),
     [READ_POST_SUCCESS]: (state, { payload: post }) => ({
       ...state,
       post,
+      postError: null,
     }),
     [READ_POST_FAILURE]: (state, { payload: postError }) => ({
       ...state,
+      post: null,
       postError,
     }),
     [UPDATE_POST_SUCCESS]: (state, { payload: editPost }) => ({
       ...state,
       editPost,
+      editPostError: null,
     }),
     [UPDATE_POST_FAILURE]: (state, { payload: editPostError }) => ({
       ...state,
+      editPost: null,
       editPostError,
     }),
     [GET_LIST_SUCCESS]: (state, { payload: postList, meta: response }) => ({
@@ -154,6 +160,7 @@ const post = handleActions(
     }),
     [GET_LIST_FAILURE]: (state, { payload: postListError }) => ({
       ...state,
+      postList: [],
       postListError,
     }),
     [UNLOAD_LIST]: (state) => ({

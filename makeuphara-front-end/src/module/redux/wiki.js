@@ -217,9 +217,11 @@ const wiki = handleActions(
     [GET_REQUEST_LIST_SUCCESS]: (state, { payload: requestList }) => ({
       ...state,
       requestList,
+      requestListError: null,
     }),
     [GET_REQUEST_LIST_FAILURE]: (state, { payload: requestListError }) => ({
       ...state,
+      requestList: [],
       requestListError,
     }),
     [SET_TITLE]: (state, { payload: title }) => ({
@@ -246,17 +248,21 @@ const wiki = handleActions(
     [WRITE_DOCUMENT_SUCCESS]: (state, { payload: editDocument }) => ({
       ...state,
       editDocument,
+      editDocumentError: null,
     }),
     [WRITE_DOCUMENT_FAILURE]: (state, { payload: editDocumentError }) => ({
       ...state,
+      editDocument: null,
       editDocumentError,
     }),
     [READ_DOCUMENT_SUCCESS]: (state, { payload: document }) => ({
       ...state,
       document,
+      documentError: null,
     }),
     [READ_DOCUMENT_FAILURE]: (state, { payload: documentError }) => ({
       ...state,
+      document: null,
       documentError,
     }),
     [UNLOAD_DOCUMENT]: (state) => ({
@@ -274,9 +280,11 @@ const wiki = handleActions(
     [GET_DOCUMENT_LIST_SUCCESS]: (state, { payload: documentList }) => ({
       ...state,
       documentList,
+      documentListError: null,
     }),
     [GET_DOCUMENT_LIST_FAILURE]: (state, { payload: documentListError }) => ({
       ...state,
+      documentList: null,
       documentListError,
     }),
     [UNLOAD_LIST]: (state) => ({
@@ -287,9 +295,11 @@ const wiki = handleActions(
     [GET_HISTORY_LIST_SUCCESS]: (state, { payload: historyList }) => ({
       ...state,
       historyList,
+      historyListError: null,
     }),
     [GET_HISTORY_LIST_FAILURE]: (state, { payload: historyListError }) => ({
       ...state,
+      historyList: null,
       historyListError,
     }),
     [GET_SEARCH_LIST_SUCCESS]: (
@@ -298,34 +308,42 @@ const wiki = handleActions(
     ) => ({
       ...state,
       searchList,
+      searchListError: null,
       lastPage: parseInt(response.headers['makeuphara-wiki-last-page'], '10'),
     }),
     [GET_SEARCH_LIST_FAILURE]: (state, { payload: searchListError }) => ({
       ...state,
+      searchList: [],
       searchListError,
     }),
     [GET_DIRECT_TITLE_SUCCESS]: (state, { payload: document }) => ({
       ...state,
       directName: document.title.name,
+      directError: null,
     }),
     [GET_DIRECT_TITLE_FAILURE]: (state, { payload: directError }) => ({
       ...state,
+      directName: null,
       directError,
     }),
     [GET_RANDOM_TITLE_SUCCESS]: (state, { payload: title }) => ({
       ...state,
       randomTitle: title.name,
+      randomTitleError: null,
     }),
     [GET_RANDOM_TITLE_FAILURE]: (state, { payload: randomTitleError }) => ({
       ...state,
+      randomTitle: null,
       randomTitleError,
     }),
     [GET_DOCUMENT_COUNT_SUCCESS]: (state, { payload: documentCount }) => ({
       ...state,
       documentCount,
+      documentCountError: null,
     }),
     [GET_DOCUMENT_COUNT_FAILURE]: (state, { payload: documentCountError }) => ({
       ...state,
+      documentCount: 0,
       documentCountError,
     }),
     [ADD_BARCODE_NUMBER_SUCCESS]: (
@@ -334,12 +352,14 @@ const wiki = handleActions(
     ) => ({
       ...state,
       addBarcodeNumberResult,
+      addBarcodeNumberResultError: null,
     }),
     [ADD_BARCODE_NUMBER_FAILURE]: (
       state,
       { payload: addBarcodeNumberResultError },
     ) => ({
       ...state,
+      addBarcodeNumberResult: null,
       addBarcodeNumberResultError,
     }),
   },
