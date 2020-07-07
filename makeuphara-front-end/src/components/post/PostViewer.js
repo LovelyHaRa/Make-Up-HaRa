@@ -28,7 +28,10 @@ const PostHead = styled.div`
 `;
 
 const PostContent = styled.div`
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
   color: ${({ theme }) => theme.text};
+  border-bottom: 1px solid ${({ theme }) => theme.postBorder};
   .ql-video {
     margin: 0 1%;
     width: 98%;

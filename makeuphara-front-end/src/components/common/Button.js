@@ -95,8 +95,8 @@ export const buttonStyle = css`
       color: ${({ theme }) => theme.text};
       border: 1px solid ${({ theme }) => theme.text};
       &:hover {
-        background: ${palette.gray[1]};
-        color: ${palette.gray[7]};
+        background: ${({ theme }) => theme.btnTransparentHoverBody};
+        color: ${({ theme }) => theme.btnTransparentHoverText};
       }
     `}
     
