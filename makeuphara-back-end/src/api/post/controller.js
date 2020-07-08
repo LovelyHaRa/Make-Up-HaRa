@@ -146,6 +146,13 @@ export const write = async (ctx) => {
 };
 
 /**
+ * ObjectId 일치 여부 확인 함수
+ */
+const isEqualObjectId = (a, b) => {
+  return JSON.stringify(a) === JSON.stringify(b);
+};
+
+/**
  * 포스트 수정 API
  * PATCH /api/post/:id
  */
@@ -164,6 +171,7 @@ export const update = async (ctx) => {
   if (result.error) {
     ctx.status = 400;
     ctx.body = result.error;
+    return;
   }
   /* data push */
   const nextData = { ...ctx.request.body };
@@ -172,14 +180,19 @@ export const update = async (ctx) => {
   }
   nextData.publisher = ctx.state.user;
   try {
-    const post = await Post.findByIdAndUpdate(id, nextData, {
+    const post = await Post.findById(id);
+    if (isEqualObjectId(post.publisher._id, nextData.publisher._id)) {
+      ctx.status = 400;
+      return;
+    }
+    const updatePost = await Post.findByIdAndUpdate(id, nextData, {
       new: true,
     });
-    if (!post) {
+    if (!updatePost) {
       ctx.status = 404;
       return;
     }
-    ctx.body = post;
+    ctx.body = updatePost;
   } catch (error) {
     ctx.throw(500, error);
   }
@@ -192,9 +205,165 @@ export const update = async (ctx) => {
 export const remove = async (ctx) => {
   const { id } = ctx.params;
   try {
+    const post = await Post.findById(id);
+    if (isEqualObjectId(post.publisher._id, ctx.state.user)) {
+      ctx.status = 400;
+      return;
+    }
     // remove는 이전 버전에서 사용
     await Post.findByIdAndDelete(id);
     ctx.status = 204;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+/**
+ * 포스트 댓글 작성 API
+ * POST /api/post/:id/comment
+ */
+export const writeComment = async (ctx) => {
+  /* params */
+  const { id } = ctx.params;
+  /* validate */
+  const schema = Joi.object().keys({
+    body: Joi.string().required(),
+  });
+  /* validate result */
+  const result = schema.validate(ctx.request.body);
+  /* validate failure */
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+  /* data push */
+  const { body } = ctx.request.body;
+  const newComment = {
+    body,
+    commenter: ctx.state.user,
+  };
+  try {
+    const post = await Post.findById(id);
+    const commentList = post.comment || [];
+    commentList.push(newComment);
+    const updatePost = await Post.findByIdAndUpdate(
+      id,
+      { comment: commentList },
+      { new: true },
+    );
+    ctx.body = updatePost;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+/**
+ * 포스트 댓글 수정 API
+ * PATCH /api/post/:id/comment
+ */
+export const updateComment = async (ctx) => {
+  /* params */
+  const { id } = ctx.params;
+  /* validate */
+  const schema = Joi.object().keys({
+    commentId: Joi.string().required(),
+    body: Joi.string().required(),
+  });
+  /* validate result */
+  const result = schema.validate(ctx.request.body);
+  /* validate failure */
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+  /* data push */
+  const { commentId, body } = ctx.request.body;
+  try {
+    const post = await Post.findById(id);
+    const commentList = post.comment || [];
+    // 기존 comment 검색
+    const findCommentIdx = commentList.findIndex(
+      (element) => JSON.stringify(element._id) === JSON.stringify(commentId),
+    );
+    // 찾을 수 없는 경우 리턴
+    if (findCommentIdx === -1) {
+      ctx.status = 400;
+      return;
+    }
+    // 작성자 일치여부 확인
+    const findComment = commentList[findCommentIdx].toJSON();
+    if (!isEqualObjectId(findComment.commenter._id, ctx.state.user._id)) {
+      ctx.status = 400;
+      return;
+    }
+    // comment 업데이트
+    const nextComment = {
+      ...commentList[findCommentIdx].toJSON(),
+      body,
+    };
+    commentList.splice(findCommentIdx, 1, nextComment);
+    // 데이터베이스 업데이트
+    const updatePost = await Post.findByIdAndUpdate(
+      id,
+      { comment: commentList },
+      { new: true },
+    );
+    ctx.body = updatePost;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
+
+/**
+ * 포스트 댓글 삭제 API
+ * DELETE /api/post/:id/comment
+ */
+export const deleteComment = async (ctx) => {
+  /* params */
+  const { id } = ctx.params;
+  /* validate */
+  const schema = Joi.object().keys({
+    commentId: Joi.string().required(),
+  });
+  /* validate result */
+  const result = schema.validate(ctx.request.body);
+  /* validate failure */
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+  /* data push */
+  const { commentId } = ctx.request.body;
+  try {
+    const post = await Post.findById(id);
+    const commentList = post.comment || [];
+    // 기존 comment 검색
+    const findCommentIdx = commentList.findIndex(
+      (element) => JSON.stringify(element._id) === JSON.stringify(commentId),
+    );
+    // 찾을 수 없는 경우 리턴
+    if (findCommentIdx === -1) {
+      ctx.status = 400;
+      return;
+    }
+    // 작성자 일치여부 확인
+    const findComment = commentList[findCommentIdx].toJSON();
+    if (!isEqualObjectId(findComment.commenter._id, ctx.state.user._id)) {
+      ctx.status = 400;
+      return;
+    }
+    // comment 삭제
+    commentList.splice(findCommentIdx, 1);
+    // 데이터베이스 업데이트
+    const updatePost = await Post.findByIdAndUpdate(
+      id,
+      { comment: commentList },
+      { new: true },
+    );
+    ctx.body = updatePost;
   } catch (error) {
     ctx.throw(500, error);
   }

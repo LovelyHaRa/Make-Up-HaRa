@@ -11,6 +11,9 @@ const postId = new Router();
 postId.patch('/', isLoggedIn, PostController.update);
 postId.delete('/', isLoggedIn, PostController.remove);
 postId.get('/', PostController.read);
+postId.post('/comment', isLoggedIn, PostController.writeComment);
+postId.patch('/comment', isLoggedIn, PostController.updateComment);
+postId.delete('/comment', isLoggedIn, PostController.deleteComment);
 
 post.use('/:id', PostController.getPostById, postId.routes());
 
