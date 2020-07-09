@@ -284,8 +284,8 @@ export const updateComment = async (ctx) => {
     const post = await Post.findById(id);
     const commentList = post.comment || [];
     // 기존 comment 검색
-    const findCommentIdx = commentList.findIndex(
-      (element) => JSON.stringify(element._id) === JSON.stringify(commentId),
+    const findCommentIdx = commentList.findIndex((element) =>
+      isEqualObjectId(element._id, commentId),
     );
     // 찾을 수 없는 경우 리턴
     if (findCommentIdx === -1) {

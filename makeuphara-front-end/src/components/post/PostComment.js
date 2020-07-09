@@ -64,7 +64,7 @@ const CommentList = styled.div`
     margin: 1rem;
     border-bottom: 1px solid ${({ theme }) => theme.postBorder};
   }
-  .publisher-info {
+  .commenter-info {
     margin-bottom: 1rem;
     span + span::before {
       padding: 0 0.25rem;
@@ -76,22 +76,22 @@ const CommentList = styled.div`
   }
 `;
 
-const CommentItem = ({ publisher, body }) => {
+const CommentItem = ({ commenter, commentDate, body }) => {
   return (
     <div className="list-item">
-      <div className="publisher-info">
-        <span>{publisher}</span>
-        <span>{moment().format('YYYY-MM-DD')}</span>
+      <div className="commenter-info">
+        <span>{commenter.username}</span>
+        <span>{moment(commentDate).format('YYYY-MM-DD HH:mm:ss')}</span>
       </div>
       <span className="comment-content">{body}</span>
     </div>
   );
 };
 
-const PostComment = () => {
+const PostComment = ({ commentList }) => {
   return (
     <PostCommentBlock>
-      <span>댓글 {5}</span>
+      <span>댓글 {commentList.length}</span>
       <WriteCommentBlock elevation={0}>
         <CommentField multiline placeholder="댓글 입력" />
         <WriteButton transparent>
@@ -99,15 +99,13 @@ const PostComment = () => {
         </WriteButton>
       </WriteCommentBlock>
       <CommentList>
-        <CommentItem publisher="user01" body="테스트 댓글 1\r\n테스트댓글" />
-        <CommentItem publisher="user02" body="테스트 댓글 2" />
-        <CommentItem publisher="user03" body="테스트 댓글 3" />
-        <CommentItem
-          className="list-item"
-          publisher="user04"
-          body="테스트 댓글 4"
-        />
-        <CommentItem publisher="user05" body="테스트 댓글 5" />
+        {commentList.map((comment) => (
+          <CommentItem
+            commenter={comment.commenter}
+            commentDate={comment.commentDate}
+            body={comment.body}
+          />
+        ))}
       </CommentList>
     </PostCommentBlock>
   );
