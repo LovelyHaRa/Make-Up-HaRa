@@ -368,3 +368,30 @@ export const deleteComment = async (ctx) => {
     ctx.throw(500, error);
   }
 };
+
+/**
+ * 포스트 댓글 조회 API
+ * GET /api/post/:id/comment
+ */
+
+export const getCommentList = async (ctx) => {
+  /* params */
+  const { id } = ctx.params;
+  const page = parseInt(ctx.request.body.page || '1', 10);
+  const block = parseInt(ctx.request.body.block || '10', 10);
+  if (page < 1 || block < 1) {
+    ctx.status = 400; // Bad Request
+    return;
+  }
+  try {
+    const post = await Post.findById(id, { comment: 1 }).lean();
+    const { comment } = post;
+    comment.reverse();
+    const begin = (page - 1) * block;
+    const end = begin + block;
+    const commentList = comment.slice(begin, end);
+    ctx.body = commentList;
+  } catch (error) {
+    ctx.throw(500, error);
+  }
+};
