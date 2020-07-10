@@ -5,6 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { readPost, unloadPost, setOriginalPost } from '../../module/redux/post';
 import PostActionButtions from '../../components/post/PostActionButtions';
 import { removePost } from '../../lib/api/post';
+import loadable from '@loadable/component';
+
+const PostCommentContainer = loadable(() =>
+  import('../../containers/post/PostCommentContainer'),
+);
 
 const PostViewerContainer = ({ match, history }) => {
   // 액션 함수 불러오기
@@ -47,16 +52,19 @@ const PostViewerContainer = ({ match, history }) => {
     (post && post.publisher.username) === (user && user.username);
 
   return (
-    <PostViewer
-      post={post}
-      loading={loading}
-      error={error}
-      actionButtons={
-        isPublisher && (
-          <PostActionButtions onEdit={onEdit} onRemove={onRemove} />
-        )
-      }
-    />
+    <>
+      <PostViewer
+        post={post}
+        loading={loading}
+        error={error}
+        actionButtons={
+          isPublisher && (
+            <PostActionButtions onEdit={onEdit} onRemove={onRemove} />
+          )
+        }
+      />
+      {!loading && !error && <PostCommentContainer />}
+    </>
   );
 };
 

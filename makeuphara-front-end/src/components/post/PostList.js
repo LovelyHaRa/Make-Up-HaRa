@@ -143,7 +143,7 @@ const PostList = ({
           </span>
           {showWriteButton && <WritePostButton isDarkTheme={isDarkTheme} />}
         </TitleWrapper>
-        <PageBlock handlePageBlock={handlePageBlock} />
+        <PageBlock block={block} handlePageBlock={handlePageBlock} />
         {postList && (
           <div>
             {postList.map((post) => (

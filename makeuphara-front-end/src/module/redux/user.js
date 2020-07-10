@@ -73,13 +73,14 @@ const changePasswordSaga = createRequestSaga(
   userAPI.changePassword,
 );
 
-const checkFailureSaga = () => {
+function* checkFailureSaga() {
   try {
+    yield call(authAPI.logout);
     sessionStorage.removeItem('user');
   } catch (error) {
     throw error;
   }
-};
+}
 
 function* logoutSaga() {
   try {

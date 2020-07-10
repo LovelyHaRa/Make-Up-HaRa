@@ -77,12 +77,13 @@ export const getPostById = async (ctx, next) => {
   }
   try {
     // 3. 데이터베이스 검색
-    const post = await Post.findById(id); // 포스트 검색
+    const post = await Post.findById(id).lean(); // 포스트 검색
     if (!post) {
       ctx.status = 404; // Not Found
       return;
     }
     // 4. 컨텍스트에 포스트 삽입
+    delete post.comment;
     ctx.state.post = post; // 포스트 상태 저장
     return next(); // 다음 미들웨어 호출
   } catch (error) {
@@ -377,8 +378,8 @@ export const deleteComment = async (ctx) => {
 export const getCommentList = async (ctx) => {
   /* params */
   const { id } = ctx.params;
-  const page = parseInt(ctx.request.body.page || '1', 10);
-  const block = parseInt(ctx.request.body.block || '10', 10);
+  const page = parseInt(ctx.query.page || '1', 10);
+  const block = parseInt(ctx.query.block || '10', 10);
   if (page < 1 || block < 1) {
     ctx.status = 400; // Bad Request
     return;
@@ -386,6 +387,11 @@ export const getCommentList = async (ctx) => {
   try {
     const post = await Post.findById(id, { comment: 1 }).lean();
     const { comment } = post;
+    ctx.set('Makeuphara-Post-Comment-Count', comment.length);
+    ctx.set(
+      'Makeuphara-Post-Comment-Last-Page',
+      Math.ceil(comment.length / block),
+    );
     comment.reverse();
     const begin = (page - 1) * block;
     const end = begin + block;

@@ -17,8 +17,17 @@ const PaginationBlock = styled.div`
   }
 `;
 
-const PageButton = styled(Button)`
+const PageLink = styled(Button)`
   width: 1rem;
+  padding: 0.375rem;
+  text-align: center;
+  & + & {
+    margin-left: 0.25rem;
+  }
+`;
+
+const PageButton = styled(Button)`
+  width: 1.5rem;
   padding: 0.375rem;
   text-align: center;
   & + & {
@@ -155,9 +164,49 @@ const Pagination = ({ path, query, page, lastPage }) => {
     <PaginationBlock>
       {pageNumber.front &&
         pageNumber.front.map((number) => (
-          <PageButton
+          <PageLink
             disabled={page === number}
             to={buildLink({ path, query, page: number })}
+            key={number}
+          >
+            {number}
+          </PageLink>
+        ))}
+      {pageNumber.front && <span />}
+      {pageNumber.mid &&
+        pageNumber.mid.map((number) => (
+          <PageLink
+            disabled={page === number}
+            to={buildLink({ path, query, page: number })}
+            key={number}
+          >
+            {number}
+          </PageLink>
+        ))}
+      {pageNumber.end && <span />}
+      {pageNumber.end &&
+        pageNumber.end.map((number) => (
+          <PageLink
+            disabled={page === number}
+            to={buildLink({ path, query, page: number })}
+            key={number}
+          >
+            {number}
+          </PageLink>
+        ))}
+    </PaginationBlock>
+  );
+};
+
+export const AsyncPagination = ({ handleClick, page, lastPage }) => {
+  const pageNumber = getPageNumber(page, lastPage);
+  return (
+    <PaginationBlock>
+      {pageNumber.front &&
+        pageNumber.front.map((number) => (
+          <PageButton
+            disabled={page === number}
+            onClick={() => handleClick(number)}
             key={number}
           >
             {number}
@@ -168,7 +217,7 @@ const Pagination = ({ path, query, page, lastPage }) => {
         pageNumber.mid.map((number) => (
           <PageButton
             disabled={page === number}
-            to={buildLink({ path, query, page: number })}
+            onClick={() => handleClick(number)}
             key={number}
           >
             {number}
@@ -179,7 +228,7 @@ const Pagination = ({ path, query, page, lastPage }) => {
         pageNumber.end.map((number) => (
           <PageButton
             disabled={page === number}
-            to={buildLink({ path, query, page: number })}
+            onClick={() => handleClick(number)}
             key={number}
           >
             {number}

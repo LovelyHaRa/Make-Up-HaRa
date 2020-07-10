@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '../common/Button';
 import moment from 'moment';
+import LoadingProgress from '../common/LoadingProgress';
+import Snackbar from '@material-ui/core/Snackbar';
 
 /**
  * 포스트 댓글 컴포넌트
@@ -14,6 +16,7 @@ const PostCommentBlock = styled(Responsive)`
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+  font-family: 'NanumBarunGothic';
   color: ${({ theme }) => theme.text};
 `;
 
@@ -35,9 +38,11 @@ const CommentField = styled(TextField)`
   flex: 1;
   .MuiInputBase-input {
     color: ${({ theme }) => theme.text};
+    font-family: 'NanumBarunGothic';
   }
   .MuiInputBase-input::placeholder {
     opacity: 0.6;
+    font-family: 'NanumBarunGothic';
     color: ${({ theme }) => theme.text};
   }
   .MuiInput-underline:hover:not(.Mui-disabled)::before {
@@ -72,41 +77,102 @@ const CommentList = styled.div`
     }
   }
   .comment-content {
+    display: flex;
+    align-items: center;
     margin-bottom: 1rem;
+    .comment-body {
+      flex: 1;
+      margin-right: 0.5rem;
+    }
   }
 `;
 
-const CommentItem = ({ commenter, commentDate, body }) => {
+const CommentItem = ({
+  commenter,
+  commentDate,
+  body,
+  isOwner,
+  actionButtons,
+}) => {
   return (
     <div className="list-item">
       <div className="commenter-info">
         <span>{commenter.username}</span>
         <span>{moment(commentDate).format('YYYY-MM-DD HH:mm:ss')}</span>
       </div>
-      <span className="comment-content">{body}</span>
+      <div className="comment-content">
+        <div className="comment-body">
+          {body.split('\n').map((element, index) => (
+            <span key={`commentBody${index}`}>
+              {element}
+              <br />
+            </span>
+          ))}
+        </div>
+        {isOwner && actionButtons}
+      </div>
     </div>
   );
 };
 
-const PostComment = ({ commentList }) => {
+const PostComment = ({
+  commentList,
+  loading,
+  error,
+  count,
+  commentInput,
+  handleChange,
+  handleSubmit,
+  user,
+  result,
+  handleResultClose,
+  actionButtons,
+}) => {
   return (
     <PostCommentBlock>
-      <span>댓글 {commentList.length}</span>
+      <span>댓글 {count}</span>
       <WriteCommentBlock elevation={0}>
-        <CommentField multiline placeholder="댓글 입력" />
-        <WriteButton transparent>
-          <span className="button-text">작성</span>
-        </WriteButton>
+        <CommentField
+          multiline
+          placeholder={
+            user ? '댓글 입력' : '로그인 후 댓글을 작성할 수 있습니다'
+          }
+          disabled={user ? false : true}
+          value={commentInput}
+          onChange={handleChange}
+        />
+        {user && (
+          <WriteButton transparent onClick={handleSubmit}>
+            <span className="button-text">작성</span>
+          </WriteButton>
+        )}
       </WriteCommentBlock>
-      <CommentList>
-        {commentList.map((comment) => (
-          <CommentItem
-            commenter={comment.commenter}
-            commentDate={comment.commentDate}
-            body={comment.body}
-          />
-        ))}
-      </CommentList>
+      {loading ? (
+        <LoadingProgress customHeight={10} />
+      ) : (
+        <CommentList>
+          {commentList.map((comment) => (
+            <CommentItem
+              key={comment._id}
+              commenter={comment.commenter}
+              commentDate={comment.commentDate}
+              body={comment.body}
+              isOwner={comment.commenter._id === user._id}
+              actionButtons={actionButtons}
+            />
+          ))}
+        </CommentList>
+      )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={!!result.state}
+        autoHideDuration={3000}
+        onClose={handleResultClose}
+        message={result.message}
+      />
     </PostCommentBlock>
   );
 };

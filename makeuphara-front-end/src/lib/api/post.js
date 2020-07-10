@@ -24,10 +24,15 @@ export const getList = ({ page, tag, username, query, block, oldest, day }) => {
   return client.get(`/api/post/list?${queryString}`);
 };
 
+export const readComment = ({ id, page, block }) => {
+  const queryString = qs.stringify({ page, block });
+  return client.get(`/api/post/${id}/comment?${queryString}`);
+};
+
 export const writeComment = ({ id, body }) =>
   client.post(`/api/post/${id}/comment`, { body });
 
-export const updateComent = ({ id, commentId, body }) =>
+export const updateComment = ({ id, commentId, body }) =>
   client.patch(`/api/post/${id}/comment`, { commentId, body });
 
 export const deleteComment = ({ id, commentId }) =>

@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import AskRemoveModal from './AskRemoveModal';
 
-const PostActionButtionsBlock = styled.div`
+const PostActionButtonsBlock = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 2rem;
-  margin-top: 1.5rem;
 `;
 
 const ActionButton = styled.button`
@@ -31,20 +29,20 @@ const ActionButton = styled.button`
 const PostActionButtions = ({ onEdit, onRemove }) => {
   const [modal, setModal] = useState(false);
 
-  const onRemoveClick = () => {
+  const onRemoveClick = useCallback(() => {
     setModal(true);
-  };
-  const onCancel = () => {
+  }, []);
+  const onCancel = useCallback(() => {
     setModal(false);
-  };
-  const onConfirm = () => {
+  }, []);
+  const onConfirm = useCallback(() => {
     setModal(false);
     onRemove();
-  };
+  }, [onRemove]);
 
   /* 모달 영역 밖 클릭시 모달 닫기 */
   useEffect(() => {
-    window.onclick = event => {
+    window.onclick = (event) => {
       if (
         !!event.target.className.includes &&
         event.target.className.includes('modal')
@@ -56,14 +54,14 @@ const PostActionButtions = ({ onEdit, onRemove }) => {
     return () => {
       window.onclick = () => {};
     };
-  }, []);
+  });
 
   return (
     <>
-      <PostActionButtionsBlock>
+      <PostActionButtonsBlock>
         <ActionButton onClick={onEdit}>수정</ActionButton>
         <ActionButton onClick={onRemoveClick}>삭제</ActionButton>
-      </PostActionButtionsBlock>
+      </PostActionButtonsBlock>
       <AskRemoveModal
         className="modal"
         visible={modal}

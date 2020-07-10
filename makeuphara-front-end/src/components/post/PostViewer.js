@@ -6,7 +6,6 @@ import SubInfo from './common/SubInfo';
 import Tags from './common/Tags';
 import ErrorBlock from '../common/ErrorBlock';
 import LoadingProgress from '../common/LoadingProgress';
-import PostComment from './PostComment';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -14,6 +13,11 @@ const PostViewerBlock = styled(Responsive)`
 
 const PostViewerErrorBlock = styled(ErrorBlock)`
   margin: 3rem;
+`;
+
+const ActionButtonsBlock = styled.div`
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
 `;
 
 const PostHead = styled.div`
@@ -85,7 +89,6 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
   }
   // 렌더링 데이터
   const { title, body, tags, publisher, publishedDate } = post;
-  console.log(post.comment);
   return (
     <PostViewerBlock>
       <Helmet>
@@ -101,8 +104,7 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
         <Tags tags={tags} />
       </PostHead>
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
-      {actionButtons}
-      <PostComment commentList={post.comment} />
+      <ActionButtonsBlock>{actionButtons}</ActionButtonsBlock>
     </PostViewerBlock>
   );
 };
