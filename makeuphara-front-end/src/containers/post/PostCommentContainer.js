@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PostComment from '../../components/post/PostComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { readPostComment, writePostComment } from '../../module/redux/post';
+import {
+  readPostComment,
+  writePostComment,
+  unloadPostComment,
+} from '../../module/redux/post';
 import { AsyncPagination } from '../../components/common/Pagination';
 import { deleteComment } from '../../lib/api/post';
 
@@ -62,12 +66,12 @@ const PostCommentContainer = ({ match }) => {
 
   const handleRemove = async (commentId) => {
     try {
+      setResult({ state: false, message: '' });
       const result = await deleteComment({ id: postId, commentId });
-      console.log(result);
       if (result.status === 204) {
         dispatch(readPostComment({ id: postId, page }));
         setResult({
-          state: 'false',
+          state: 'true',
           message: '성공적으로 삭제되었습니다.',
         });
       }
@@ -82,11 +86,19 @@ const PostCommentContainer = ({ match }) => {
 
   useEffect(() => {
     if (editComment) {
+      dispatch(unloadPostComment());
       dispatch(readPostComment({ id: postId }));
       setPage(1);
       setResult((result) => ({ ...result, state: true }));
     }
   }, [dispatch, editComment, postId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(unloadPostComment());
+      setResult({ state: false, message: '' });
+    };
+  }, [dispatch]);
 
   return (
     <>
