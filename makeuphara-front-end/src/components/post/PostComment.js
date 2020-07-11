@@ -7,6 +7,7 @@ import Button from '../common/Button';
 import moment from 'moment';
 import LoadingProgress from '../common/LoadingProgress';
 import Snackbar from '@material-ui/core/Snackbar';
+import PostActionButtions from './PostActionButtions';
 
 /**
  * 포스트 댓글 컴포넌트
@@ -126,7 +127,8 @@ const PostComment = ({
   user,
   result,
   handleResultClose,
-  actionButtons,
+  handleEdit,
+  handleRemove,
 }) => {
   return (
     <PostCommentBlock>
@@ -157,8 +159,14 @@ const PostComment = ({
               commenter={comment.commenter}
               commentDate={comment.commentDate}
               body={comment.body}
-              isOwner={comment.commenter._id === user._id}
-              actionButtons={actionButtons}
+              isOwner={user && comment.commenter._id === user._id}
+              actionButtons={
+                <PostActionButtions
+                  type="comment"
+                  onEdit={handleEdit}
+                  onRemove={() => handleRemove(comment._id)}
+                />
+              }
             />
           ))}
         </CommentList>

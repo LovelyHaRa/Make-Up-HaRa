@@ -265,10 +265,9 @@ export const writeComment = async (ctx) => {
  */
 export const updateComment = async (ctx) => {
   /* params */
-  const { id } = ctx.params;
+  const { id, commentId } = ctx.params;
   /* validate */
   const schema = Joi.object().keys({
-    commentId: Joi.string().required(),
     body: Joi.string().required(),
   });
   /* validate result */
@@ -280,7 +279,7 @@ export const updateComment = async (ctx) => {
     return;
   }
   /* data push */
-  const { commentId, body } = ctx.request.body;
+  const { body } = ctx.request.body;
   try {
     const post = await Post.findById(id);
     const commentList = post.comment || [];
@@ -323,27 +322,13 @@ export const updateComment = async (ctx) => {
  */
 export const deleteComment = async (ctx) => {
   /* params */
-  const { id } = ctx.params;
-  /* validate */
-  const schema = Joi.object().keys({
-    commentId: Joi.string().required(),
-  });
-  /* validate result */
-  const result = schema.validate(ctx.request.body);
-  /* validate failure */
-  if (result.error) {
-    ctx.status = 400;
-    ctx.body = result.error;
-    return;
-  }
-  /* data push */
-  const { commentId } = ctx.request.body;
+  const { id, commentId } = ctx.params;
   try {
     const post = await Post.findById(id);
     const commentList = post.comment || [];
     // 기존 comment 검색
-    const findCommentIdx = commentList.findIndex(
-      (element) => JSON.stringify(element._id) === JSON.stringify(commentId),
+    const findCommentIdx = commentList.findIndex((element) =>
+      isEqualObjectId(element._id, commentId),
     );
     // 찾을 수 없는 경우 리턴
     if (findCommentIdx === -1) {
@@ -359,12 +344,8 @@ export const deleteComment = async (ctx) => {
     // comment 삭제
     commentList.splice(findCommentIdx, 1);
     // 데이터베이스 업데이트
-    const updatePost = await Post.findByIdAndUpdate(
-      id,
-      { comment: commentList },
-      { new: true },
-    );
-    ctx.body = updatePost;
+    await Post.findByIdAndUpdate(id, { comment: commentList }, { new: true });
+    ctx.status = 204;
   } catch (error) {
     ctx.throw(500, error);
   }
@@ -374,7 +355,6 @@ export const deleteComment = async (ctx) => {
  * 포스트 댓글 조회 API
  * GET /api/post/:id/comment
  */
-
 export const getCommentList = async (ctx) => {
   /* params */
   const { id } = ctx.params;

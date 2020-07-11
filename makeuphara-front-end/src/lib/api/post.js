@@ -33,7 +33,7 @@ export const writeComment = ({ id, body }) =>
   client.post(`/api/post/${id}/comment`, { body });
 
 export const updateComment = ({ id, commentId, body }) =>
-  client.patch(`/api/post/${id}/comment`, { commentId, body });
+  client.patch(`/api/post/${id}/comment/${commentId}`, { body });
 
 export const deleteComment = ({ id, commentId }) =>
-  client.delete(`/api/post/${id}/comment`, { commentId });
+  client.delete(`/api/post/${id}/comment/${commentId}`);

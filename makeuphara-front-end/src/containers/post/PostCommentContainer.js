@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { readPostComment, writePostComment } from '../../module/redux/post';
 import { AsyncPagination } from '../../components/common/Pagination';
-import PostActionButtions from '../../components/post/PostActionButtions';
+import { deleteComment } from '../../lib/api/post';
 
 const PostCommentContainer = ({ match }) => {
   // 액션 함수 불러오기
@@ -60,6 +60,22 @@ const PostCommentContainer = ({ match }) => {
     setResult({ state: false, message: '' });
   };
 
+  const handleRemove = async (commentId) => {
+    try {
+      const result = await deleteComment({ id: postId, commentId });
+      console.log(result);
+      if (result.status === 204) {
+        dispatch(readPostComment({ id: postId, page }));
+        setResult({
+          state: 'false',
+          message: '성공적으로 삭제되었습니다.',
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
     dispatch(readPostComment({ id: postId }));
   }, [dispatch, postId]);
@@ -86,7 +102,7 @@ const PostCommentContainer = ({ match }) => {
         user={user}
         result={result}
         handleResultClose={handleResultClose}
-        actionButtons={<PostActionButtions />}
+        handleRemove={handleRemove}
       />
       {!loading && !error && (
         <AsyncPagination

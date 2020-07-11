@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import AskRemoveModal from './AskRemoveModal';
+import { AskPostRemoveModal, AskCommentRemoveModal } from './AskRemoveModal';
 
 const PostActionButtonsBlock = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const ActionButton = styled.button`
   }
 `;
 
-const PostActionButtions = ({ onEdit, onRemove }) => {
+const PostActionButtions = ({ type = 'post', onEdit, onRemove }) => {
   const [modal, setModal] = useState(false);
 
   const onRemoveClick = useCallback(() => {
@@ -59,15 +59,24 @@ const PostActionButtions = ({ onEdit, onRemove }) => {
   return (
     <>
       <PostActionButtonsBlock>
-        <ActionButton onClick={onEdit}>수정</ActionButton>
+        {type === 'post' && <ActionButton onClick={onEdit}>수정</ActionButton>}
         <ActionButton onClick={onRemoveClick}>삭제</ActionButton>
       </PostActionButtonsBlock>
-      <AskRemoveModal
-        className="modal"
-        visible={modal}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-      />
+      {type === 'post' ? (
+        <AskPostRemoveModal
+          className="modal"
+          visible={modal}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+        />
+      ) : (
+        <AskCommentRemoveModal
+          className="modal"
+          visible={modal}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+        />
+      )}
     </>
   );
 };
