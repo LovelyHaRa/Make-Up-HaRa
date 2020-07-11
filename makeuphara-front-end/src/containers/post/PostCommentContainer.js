@@ -44,12 +44,9 @@ const PostCommentContainer = ({ match }) => {
   };
 
   const handleSubmit = () => {
+    setResult({ state: false, message: '' });
     dispatch(writePostComment({ id: postId, body: commentInput }));
     setCommentInput('');
-    setResult({
-      state: 'false',
-      message: '성공적으로 등록되었습니다.',
-    });
   };
 
   const handlePageClick = (pageNumber) => {
@@ -89,7 +86,10 @@ const PostCommentContainer = ({ match }) => {
       dispatch(unloadPostComment());
       dispatch(readPostComment({ id: postId }));
       setPage(1);
-      setResult((result) => ({ ...result, state: true }));
+      setResult({
+        state: 'true',
+        message: '성공적으로 등록되었습니다.',
+      });
     }
   }, [dispatch, editComment, postId]);
 
