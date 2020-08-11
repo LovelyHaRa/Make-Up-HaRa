@@ -43,12 +43,6 @@ code {
   src: url('lib/styles/fonts/Raleway/Raleway-Italic.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'DancingScript';
-  font-weight: 700;
-  src: url('lib/styles/fonts/DancingScript/DancingScript-Bold.ttf')
-    format('truetype');
-}
-@font-face {
   font-family: 'NanumBarunGothic';
   font-weight: 300;
   src: url('lib/styles/fonts/NanumBarunGothic/NanumBarunGothicLight.ttf')

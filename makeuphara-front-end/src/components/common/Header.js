@@ -36,6 +36,9 @@ const HeaderBlock = styled.nav`
   & > div {
     display: flex;
   }
+  .header-left {
+    align-items: center;
+  }
   .header-mid {
     justify-content: center;
     align-items: center;
@@ -49,8 +52,8 @@ const HeaderBlock = styled.nav`
     margin-right: 0.25rem;
     font-size: 1rem;
     letter-spacing: 0.5px;
-    font-family: 'DancingScript';
-    font-weight: 700;
+    font-family: 'Raleway';
+    font-weight: 400;
     color: ${({ theme }) => theme.text};
   }
   .menu {
