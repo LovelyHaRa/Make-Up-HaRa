@@ -104,7 +104,7 @@ const WikiViewerContainer = ({ location, match, history }) => {
         });
       }
     } else if (resultError) {
-      if (resultError.response.status === 401) {
+      if (resultError.response && resultError.response.status === 401) {
         setResultMessage({
           success: '',
           failure: '로그인 후 등록할 수 있습니다.',
