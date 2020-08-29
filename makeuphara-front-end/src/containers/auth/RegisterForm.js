@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,43 +41,49 @@ const RegisterForm = ({ history }) => {
   });
 
   // 폼 데이터 변경 이벤트
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    dispatch(changeFieid({ form: 'register', key: name, value }));
-    setError(null);
-    if (name === 'username') {
-      setValidUsername({
-        result: false,
-        message: '',
-      });
-    } else if (name === 'name') {
-      setValidName({
-        result: false,
-        message: '',
-      });
-    }
-  };
+  const onChange = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      dispatch(changeFieid({ form: 'register', key: name, value }));
+      setError(null);
+      if (name === 'username') {
+        setValidUsername({
+          result: false,
+          message: '',
+        });
+      } else if (name === 'name') {
+        setValidName({
+          result: false,
+          message: '',
+        });
+      }
+    },
+    [dispatch],
+  );
 
   // submit 이벤트
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { username, password, passwordConfirm, name } = form;
-    // 하나라도 비어 있다면
-    if ([username, password, passwordConfirm].includes('')) {
-      setError('빈 칸을 모두 입력하세요.');
-      return;
-    }
-    // 비밀번호가 일치하지 않는다면
-    if (password !== passwordConfirm) {
-      setError('비밀번호가 일치하지 않습니다.');
-      dispatch(changeFieid({ form: 'register', key: 'password', value: '' }));
-      dispatch(
-        changeFieid({ form: 'register', key: 'passwordConfirm', value: '' }),
-      );
-      return;
-    }
-    dispatch(register({ username, password, name }));
-  };
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { username, password, passwordConfirm, name } = form;
+      // 하나라도 비어 있다면
+      if ([username, password, passwordConfirm].includes('')) {
+        setError('빈 칸을 모두 입력하세요.');
+        return;
+      }
+      // 비밀번호가 일치하지 않는다면
+      if (password !== passwordConfirm) {
+        setError('비밀번호가 일치하지 않습니다.');
+        dispatch(changeFieid({ form: 'register', key: 'password', value: '' }));
+        dispatch(
+          changeFieid({ form: 'register', key: 'passwordConfirm', value: '' }),
+        );
+        return;
+      }
+      dispatch(register({ username, password, name }));
+    },
+    [dispatch, form],
+  );
 
   const isLoading = useRef(true);
   // 컴포넌트가 처음 렌더링 될 때  form을 초기화함

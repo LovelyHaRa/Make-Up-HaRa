@@ -24,21 +24,21 @@ const WikiSearchContainer = ({ history }) => {
     [dispatch],
   );
 
-  const onSearch = () => {
+  const onSearch = useCallback(() => {
     if (query === '') {
       history.push('/wiki/list');
     } else {
       history.push(`/wiki/list?query=${query}`);
     }
-  };
+  }, [history, query]);
 
-  const onDirect = () => {
+  const onDirect = useCallback(() => {
     dispatch(getDirectTitle({ query }));
-  };
+  }, [dispatch, query]);
 
-  const onShuffle = () => {
+  const onShuffle = useCallback(() => {
     dispatch(getRandomTitle());
-  };
+  }, [dispatch]);
 
   // 다이렉트 이동
   useEffect(() => {
@@ -58,6 +58,7 @@ const WikiSearchContainer = ({ history }) => {
 
   return (
     <WikiSearch
+      query={query}
       onChangeField={onChangeField}
       onSearch={onSearch}
       onDirect={onDirect}

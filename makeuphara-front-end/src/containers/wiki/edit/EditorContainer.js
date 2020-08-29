@@ -17,6 +17,7 @@ const EditorContainer = ({ history }) => {
     (payload) => dispatch(changeField(payload)),
     [dispatch],
   );
+
   try {
     if (title) {
       sessionStorage.setItem('wiki-title', JSON.stringify(title));

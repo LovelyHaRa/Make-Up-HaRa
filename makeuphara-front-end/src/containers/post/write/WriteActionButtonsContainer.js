@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { writePost, updatePost } from '../../../module/redux/post';
@@ -23,19 +23,22 @@ const WriteActionButtonsContainer = ({ history }) => {
     editPostError: post.editPostError,
     targetPostId: post.targetPostId,
   }));
+
   // 이벤트 정의
   // 포스트 등록
-  const onPublish = () => {
+  const onPublish = useCallback(() => {
     if (targetPostId) {
       dispatch(updatePost({ id: targetPostId, title, body, tags }));
     } else {
       dispatch(writePost({ title, body, tags }));
     }
-  };
+  }, [dispatch, targetPostId, title, body, tags]);
+
   // 취소
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     history.goBack();
-  };
+  }, [history]);
+
   // 처리 후 작업
   useEffect(() => {
     if (editPost) {

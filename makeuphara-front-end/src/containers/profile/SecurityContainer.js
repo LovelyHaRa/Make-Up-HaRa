@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Security from '../../components/profile/Security';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -40,38 +40,46 @@ const SecurityContainer = () => {
   const MIN_LENGTH = 8;
 
   // 폼 데이터 변경시 메시지 초기화
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    if (name === 'curPassword') {
-      setValidMessage({
-        ...validMessage,
-        curPassword: '',
-      });
-    }
-    if (submitPassword.message && submitPassword.message !== '') {
-      setSubmitPassword({
-        result: false,
-        message: '',
-      });
-    }
-    dispatch(changeField({ form: 'password', key: name, value }));
-  };
+  const onChange = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      if (name === 'curPassword') {
+        setValidMessage({
+          ...validMessage,
+          curPassword: '',
+        });
+      }
+      if (submitPassword.message && submitPassword.message !== '') {
+        setSubmitPassword({
+          result: false,
+          message: '',
+        });
+      }
+      dispatch(changeField({ form: 'password', key: name, value }));
+    },
+    [dispatch, submitPassword, validMessage],
+  );
 
   // submit 이벤트
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const {
-      curPassword: curValid,
-      newPassword: newValid,
-      confirmPassword: confirmValid,
-    } = valid;
-    const { _id } = user;
-    const { curPassword, newPassword } = form;
-    // 검증 통과시 액션 수행
-    if (curValid && newValid && confirmValid) {
-      dispatch(changePassword({ id: _id, password: curPassword, newPassword }));
-    }
-  };
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const {
+        curPassword: curValid,
+        newPassword: newValid,
+        confirmPassword: confirmValid,
+      } = valid;
+      const { _id } = user;
+      const { curPassword, newPassword } = form;
+      // 검증 통과시 액션 수행
+      if (curValid && newValid && confirmValid) {
+        dispatch(
+          changePassword({ id: _id, password: curPassword, newPassword }),
+        );
+      }
+    },
+    [dispatch, form, user, valid],
+  );
 
   const stateValidMessage = useRef(validMessage);
 

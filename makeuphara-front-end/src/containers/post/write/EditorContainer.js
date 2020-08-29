@@ -13,15 +13,17 @@ const EditorContainer = () => {
     body: post.body,
   }));
   // 액션함수를 토대로 이벤트 정의
-  const onChangeField = useCallback(payload => dispatch(changeField(payload)), [
-    dispatch,
-  ]);
+  const onChangeField = useCallback(
+    (payload) => dispatch(changeField(payload)),
+    [dispatch],
+  );
   // 언마운트될 때 초기화
   useEffect(() => {
     return () => {
       dispatch(initialize());
     };
   }, [dispatch]);
+
   return <Editor onChangeField={onChangeField} title={title} body={body} />;
 };
 

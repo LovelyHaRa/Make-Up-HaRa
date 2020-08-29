@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Pagination from '../../components/common/Pagination';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -36,9 +36,9 @@ export const TotalPaginationContainer = withRouter(({ location }) => {
   });
   const queryString = qs.stringify({ query });
 
-  const compare = (a, b) => {
+  const compare = useCallback((a, b) => {
     return a > b ? a : b;
-  };
+  }, []);
 
   return (
     <Pagination
@@ -98,7 +98,7 @@ export const BlogPaginationContainer = withRouter(({ location }) => {
     return null;
   }
 
-  if (postList.length === 0 ) {
+  if (postList.length === 0) {
     return null;
   }
 

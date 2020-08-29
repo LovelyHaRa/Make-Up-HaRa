@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
@@ -61,12 +61,13 @@ const DocumentMenu = ({
   availableBarcode,
 }) => {
   const [modal, setModal] = useState(false);
-  const handleInputCodeButtonClick = () => {
+
+  const handleInputCodeButtonClick = useCallback(() => {
     setModal(true);
-  };
-  const onCancel = () => {
+  }, []);
+  const onCancel = useCallback(() => {
     setModal(false);
-  };
+  }, []);
 
   /* 모달 영역 밖 클릭시 모달 닫기 */
   useEffect(() => {

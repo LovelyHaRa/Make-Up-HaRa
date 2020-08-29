@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/open-color';
 import { Link } from 'react-router-dom';
@@ -16,8 +16,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { DarkThemeSwitch } from './CustomSwitch';
-import { useDispatch } from 'react-redux';
-import { setTheme } from '../../module/redux/theme';
 
 // Header 컴포넌트의 css 정의
 const HeaderBlock = styled.nav`
@@ -314,25 +312,14 @@ const ProfileInfo = ({ user }) => {
 };
 
 // 옵션 메뉴 드롭다운
-const OptionMenu = ({ isDarkTheme }) => {
+const OptionMenu = ({ isDarkTheme, handleDarkThemeToggle }) => {
   const useStyles = makeStyles(() => ({
     darkTheme: { fontFamily: 'Raleway' },
   }));
   const classes = useStyles();
   // 다크 모드 상태 저장
   const [darkTheme, setDarkTheme] = useState(false);
-  // 다크모드 액션 적용
-  const dispatch = useDispatch();
-  const handleDarkThemeToggle = () => {
-    dispatch(setTheme(!darkTheme));
-    try {
-      // 로컬스토리지에 다크모드 상태값 저장
-      localStorage.setItem('darkTheme', !darkTheme + '');
-    } catch (error) {
-      throw error;
-    }
-    setDarkTheme(!darkTheme);
-  };
+
   useEffect(() => {
     if (isDarkTheme) {
       setDarkTheme(true);
@@ -361,7 +348,10 @@ const OptionMenu = ({ isDarkTheme }) => {
             <Grid item>
               <DarkThemeSwitch
                 checked={darkTheme}
-                onChange={handleDarkThemeToggle}
+                onChange={() => {
+                  handleDarkThemeToggle(darkTheme);
+                  setDarkTheme(!darkTheme);
+                }}
                 name="darkTheme"
                 size="small"
               />
@@ -383,13 +373,23 @@ const LogoutMenu = ({ onLogout, currentPath }) => (
 );
 
 // 로그인 상태일 때 옵션 메뉴
-const UserDropDown = ({ state, user, onLogout, isDarkTheme, currentPath }) => {
+const UserDropDown = ({
+  state,
+  user,
+  onLogout,
+  isDarkTheme,
+  handleDarkThemeToggle,
+  currentPath,
+}) => {
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
         <ProfileInfo user={user} />
         <hr />
-        <OptionMenu isDarkTheme={isDarkTheme} />
+        <OptionMenu
+          isDarkTheme={isDarkTheme}
+          handleDarkThemeToggle={handleDarkThemeToggle}
+        />
         <hr />
         <LogoutMenu onLogout={onLogout} currentPath={currentPath} />
       </div>
@@ -398,11 +398,14 @@ const UserDropDown = ({ state, user, onLogout, isDarkTheme, currentPath }) => {
 };
 
 // 비로그인 상태일 때 옵션 메뉴
-const NoneUserDropDown = ({ state, isDarkTheme }) => {
+const NoneUserDropDown = ({ state, isDarkTheme, handleDarkThemeToggle }) => {
   return (
     state && (
       <div className="dropdown dropdown-menu dropdown-user-info">
-        <OptionMenu isDarkTheme={isDarkTheme} />
+        <OptionMenu
+          isDarkTheme={isDarkTheme}
+          handleDarkThemeToggle={handleDarkThemeToggle}
+        />
       </div>
     )
   );
@@ -447,6 +450,7 @@ const Header = ({
   searchQuery,
   handleSearchInput,
   handleSearchKeyUp,
+  handleDarkThemeToggle,
 }) => {
   library.add([faSearch, faEllipsisH, faEllipsisV, faUserCircle]);
   // 드롭다운 관련 핸들러
@@ -454,30 +458,31 @@ const Header = ({
   const [search, setSearch] = useState(false);
   const [userinfo, setUserinfo] = useState(false);
   const [noneuser, setNoneUser] = useState(false);
-  const handleEtcToggle = () => {
+
+  const handleEtcToggle = useCallback(() => {
     setEtc((prevOpen) => !prevOpen);
-  };
-  const handleEtcClose = () => {
+  }, []);
+  const handleEtcClose = useCallback(() => {
     setEtc(false);
-  };
-  const handleSearchToggle = () => {
+  }, []);
+  const handleSearchToggle = useCallback(() => {
     setSearch((prevOpen) => !prevOpen);
-  };
-  const handleSearchClose = () => {
+  }, []);
+  const handleSearchClose = useCallback(() => {
     setSearch(false);
-  };
-  const handleUserInfoToggle = () => {
+  }, []);
+  const handleUserInfoToggle = useCallback(() => {
     setUserinfo((prevOpen) => !prevOpen);
-  };
-  const handleUserInfoClose = () => {
+  }, []);
+  const handleUserInfoClose = useCallback(() => {
     setUserinfo(false);
-  };
-  const handleNoneUserToggle = () => {
+  }, []);
+  const handleNoneUserToggle = useCallback(() => {
     setNoneUser((prevOpen) => !prevOpen);
-  };
-  const handleNoneUserClose = () => {
+  }, []);
+  const handleNoneUserClose = useCallback(() => {
     setNoneUser(false);
-  };
+  }, []);
 
   return (
     <>
@@ -553,6 +558,7 @@ const Header = ({
                   user={user}
                   onLogout={onLogout}
                   isDarkTheme={isDarkTheme}
+                  handleDarkThemeToggle={handleDarkThemeToggle}
                   currentPath={currentPath}
                 />
               </div>
@@ -567,6 +573,7 @@ const Header = ({
                   <NoneUserDropDown
                     state={noneuser}
                     isDarkTheme={isDarkTheme}
+                    handleDarkThemeToggle={handleDarkThemeToggle}
                   />
                 </div>
               </ClickAwayListener>

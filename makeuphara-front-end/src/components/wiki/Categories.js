@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Category from '../common/Category';
 import { withRouter } from 'react-router-dom';
@@ -46,20 +46,23 @@ const Categories = ({ location }) => {
     ignoreQueryPrefix: true,
   });
   // 카테고리 중 쿼리에 해당하는 것 하나만 활성화하기 위한 핸들링 함수
-  const handleActive = (name) => {
-    if (name === 'oldest' && oldest === 'true') return true;
-    if (name === 'shortest' && shortest === 'true') return true;
-    if (name === 'longest' && longest === 'true') return true;
-    if (
-      name === 'normal' &&
-      oldest === undefined &&
-      shortest === undefined &&
-      longest === undefined
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const handleActive = useCallback(
+    (name) => {
+      if (name === 'oldest' && oldest === 'true') return true;
+      if (name === 'shortest' && shortest === 'true') return true;
+      if (name === 'longest' && longest === 'true') return true;
+      if (
+        name === 'normal' &&
+        oldest === undefined &&
+        shortest === undefined &&
+        longest === undefined
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [oldest, shortest, longest],
+  );
 
   return (
     <CategoriesBlock>

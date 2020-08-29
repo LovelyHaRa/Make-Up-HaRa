@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import WikiViewer from '../../components/wiki/WikiViewer';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -36,12 +36,12 @@ const WikiViewerContainer = ({ location, match, history }) => {
   const [availableBarcode, setAvailableBarcode] = useState(false);
 
   // 이벤트 정의
-  const onEdit = () => {
+  const onEdit = useCallback(() => {
     dispatch(setOriginalDocument(document));
     history.push('/wiki/edit');
-  };
+  }, [dispatch, history, document]);
 
-  const handleBarcodeChange = (event) => {
+  const handleBarcodeChange = useCallback((event) => {
     const data = event.target.value;
     // 14자 이후로는 허용 안함
     if (data.length < 14) {
@@ -58,16 +58,21 @@ const WikiViewerContainer = ({ location, match, history }) => {
       success: '',
       failure: '',
     });
-  };
+  }, []);
 
   // 바코드 등록 submit 이벤트
-  const handleBarcodeSubmit = (event) => {
-    event.preventDefault();
-    // 검증 성공시 액션 디스패치
-    if (!inputBarcodeError && barcode !== '') {
-      dispatch(addBarcodeNumber({ title: document.title.name, code: barcode }));
-    }
-  };
+  const handleBarcodeSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      // 검증 성공시 액션 디스패치
+      if (!inputBarcodeError && barcode !== '') {
+        dispatch(
+          addBarcodeNumber({ title: document.title.name, code: barcode }),
+        );
+      }
+    },
+    [dispatch, inputBarcodeError, barcode, document],
+  );
 
   useEffect(() => {
     if (docName) {

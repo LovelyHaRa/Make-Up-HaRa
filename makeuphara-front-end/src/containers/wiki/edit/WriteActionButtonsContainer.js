@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import WriteActionButtons from '../../../components/common/editor/WriteActionButtons';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ const WriteActionButtonsContainer = ({ history }) => {
       editDocumentError: wiki.editDocumentError,
     }),
   );
+
   let localTitle;
   try {
     localTitle = title || JSON.parse(sessionStorage.getItem('wiki-title'));
@@ -23,15 +24,18 @@ const WriteActionButtonsContainer = ({ history }) => {
     throw error;
   }
   const { _id } = localTitle;
+
   // 이벤트 정의
   // 문서 등록
-  const onPublish = () => {
+  const onPublish = useCallback(() => {
     dispatch(writeDocument({ id: _id, body }));
-  };
+  }, [dispatch, _id, body]);
+
   // 취소
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     history.goBack();
-  };
+  }, [history]);
+
   // 처리 후 작업
   useEffect(() => {
     if (editDocument) {
@@ -48,6 +52,7 @@ const WriteActionButtonsContainer = ({ history }) => {
       throw error;
     }
   }, [history, editDocument, editDocumentError]);
+
   return (
     <WriteActionButtons type="wiki" onClick={onPublish} onCancel={onCancel} />
   );

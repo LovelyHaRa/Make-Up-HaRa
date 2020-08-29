@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Profile from '../../components/profile/Profile';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -37,22 +37,28 @@ const ProfileContainer = () => {
   const loadingForm = useRef(true);
 
   // input 상태 반영
-  const onChange = (e) => {
-    setNameMessage('');
-    setSubmitMessage('');
-    setErrorMessage('');
-    const { value, name } = e.target;
-    dispatch(changeField({ form: 'profile', key: name, value }));
-  };
+  const onChange = useCallback(
+    (e) => {
+      setNameMessage('');
+      setSubmitMessage('');
+      setErrorMessage('');
+      const { value, name } = e.target;
+      dispatch(changeField({ form: 'profile', key: name, value }));
+    },
+    [dispatch],
+  );
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { name } = form;
-    const { _id } = user;
-    if (validName && !equalName) {
-      dispatch(updateName({ id: _id, name }));
-    }
-  };
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { name } = form;
+      const { _id } = user;
+      if (validName && !equalName) {
+        dispatch(updateName({ id: _id, name }));
+      }
+    },
+    [dispatch, form, user, validName, equalName],
+  );
 
   useEffect(() => {
     // 중복되지 않은 이름일 때

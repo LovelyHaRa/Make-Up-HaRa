@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import WikiList from '../../components/wiki/WikiList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchList } from '../../module/redux/wiki';
@@ -6,24 +6,28 @@ import qs from 'qs';
 import { withRouter } from 'react-router-dom';
 import Categories from '../../components/wiki/Categories';
 
-// 한가지 조건만 쿼리요청할 수 있도록 제어
-const isValidQuery = (oldest, shortest, longest) => {
-  if (oldest !== undefined && shortest !== undefined) {
-    return false;
-  }
-  if (shortest !== undefined && longest !== undefined) {
-    return false;
-  }
-  if (oldest !== undefined && longest !== undefined) {
-    return false;
-  }
-  if (oldest !== undefined && shortest !== undefined && longest !== undefined) {
-    return false;
-  }
-  return true;
-};
-
 const WikiListContainer = ({ location, history }) => {
+  // 한가지 조건만 쿼리요청할 수 있도록 제어
+  const isValidQuery = useCallback((oldest, shortest, longest) => {
+    if (oldest !== undefined && shortest !== undefined) {
+      return false;
+    }
+    if (shortest !== undefined && longest !== undefined) {
+      return false;
+    }
+    if (oldest !== undefined && longest !== undefined) {
+      return false;
+    }
+    if (
+      oldest !== undefined &&
+      shortest !== undefined &&
+      longest !== undefined
+    ) {
+      return false;
+    }
+    return true;
+  }, []);
+
   // 액션 함수 불러오기
   const dispatch = useDispatch();
   // 전역 설정 불러오기
@@ -35,6 +39,7 @@ const WikiListContainer = ({ location, history }) => {
   const { query, oldest, shortest, longest } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
+
   const page = useRef(1);
   const [documentList, setDocumentList] = useState([]); // 검색 결과 문서 리스트
   const [isLastPage, setIsLastPage] = useState(false); // 마지막 페이지 여부
@@ -59,7 +64,7 @@ const WikiListContainer = ({ location, history }) => {
     } else {
       history.replace(`/wiki/list?query=${query}`);
     }
-  }, [dispatch, history, query, oldest, shortest, longest]);
+  }, [dispatch, history, query, oldest, shortest, longest, isValidQuery]);
 
   // 인피니티 스크롤 핸들링
   const lastDocumentRef = useRef(null);
@@ -84,6 +89,7 @@ const WikiListContainer = ({ location, history }) => {
       }, 2000);
     }
   });
+
   useEffect(() => {
     if (lastDocumentRef.current) {
       intersectionObserver.observe(lastDocumentRef.current);

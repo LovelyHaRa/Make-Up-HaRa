@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,27 +21,36 @@ const LoginForm = ({ history }) => {
   }));
 
   // 폼 데이터 변경 이벤트
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    dispatch(changeFieid({ form: 'login', key: name, value }));
-    setError(null);
-  };
+  const onChange = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      dispatch(changeFieid({ form: 'login', key: name, value }));
+      setError(null);
+    },
+    [dispatch],
+  );
 
   // submit 이벤트
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { username, password } = form;
-    if ([username, password].includes('')) {
-      setError('빈 칸을 모두 입력하세요.');
-      return;
-    }
-    dispatch(login({ username, password }));
-  };
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { username, password } = form;
+      if ([username, password].includes('')) {
+        setError('빈 칸을 모두 입력하세요.');
+        return;
+      }
+      dispatch(login({ username, password }));
+    },
+    [dispatch, form],
+  );
 
   // 구글 로그인 이벤트
-  const onSocialLogin = ({ id_token }) => {
-    dispatch(loginWithGoogle({ id_token }));
-  };
+  const onSocialLogin = useCallback(
+    ({ id_token }) => {
+      dispatch(loginWithGoogle({ id_token }));
+    },
+    [dispatch],
+  );
 
   // 로그인 성공/실페에 따른 처리
   useEffect(() => {

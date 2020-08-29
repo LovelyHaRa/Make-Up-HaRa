@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../module/redux/user';
+import { setTheme } from '../../module/redux/theme';
 import Header from '../../components/common/Header';
 import { withRouter } from 'react-router-dom';
 import { changeInput } from '../../module/redux/search';
@@ -25,17 +26,37 @@ const HeaderContainer = ({ location, history }) => {
   );
 
   const currentPath = location.pathname + location.search;
-  const onLogout = () => {
+
+  const onLogout = useCallback(() => {
     dispatch(logout());
-  };
+  }, [dispatch]);
 
-  const handleSearchKeyUp = (searchQuery) => {
-    history.push(`/search?query=${searchQuery}`);
-  };
+  const handleSearchKeyUp = useCallback(
+    (searchQuery) => {
+      history.push(`/search?query=${searchQuery}`);
+    },
+    [history],
+  );
 
-  const handleSearchInput = (event) => {
-    dispatch(changeInput(event.target.value));
-  };
+  const handleSearchInput = useCallback(
+    (event) => {
+      dispatch(changeInput(event.target.value));
+    },
+    [dispatch],
+  );
+
+  const handleDarkThemeToggle = useCallback(
+    (state) => {
+      dispatch(setTheme(!state));
+      try {
+        // 로컬스토리지에 다크모드 상태값 저장
+        localStorage.setItem('darkTheme', !state + '');
+      } catch (error) {
+        throw error;
+      }
+    },
+    [dispatch],
+  );
 
   // 사용자 인증 관련 컴포넌트를 미리 로딩
   useEffect(() => {
@@ -53,6 +74,7 @@ const HeaderContainer = ({ location, history }) => {
       searchQuery={searchQuery}
       handleSearchInput={handleSearchInput}
       handleSearchKeyUp={handleSearchKeyUp}
+      handleDarkThemeToggle={handleDarkThemeToggle}
     />
   );
 };

@@ -64,7 +64,13 @@ const SearchButton = styled.button`
   }
 `;
 
-const WikiSearch = ({ onChangeField, onSearch, onDirect, onShuffle }) => {
+const WikiSearch = ({
+  query,
+  onChangeField,
+  onSearch,
+  onDirect,
+  onShuffle,
+}) => {
   library.add([faSearch, faRandom, faArrowRight]);
 
   const handleChange = (e) => {
@@ -87,6 +93,7 @@ const WikiSearch = ({ onChangeField, onSearch, onDirect, onShuffle }) => {
           onChange={handleChange}
           onKeyUp={handleKeyUp}
           placeholder="위키 문서 검색"
+          value={query}
         />
         <span className="action-button">
           <SearchButton onClick={onSearch}>

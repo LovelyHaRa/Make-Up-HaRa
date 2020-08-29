@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeOption, initializeOption } from '../../module/redux/search';
+import { changeOption } from '../../module/redux/search';
 import {
   TotalSearchOption,
   WikiSearchOption,
@@ -16,10 +16,13 @@ export const TotalSearchOptionContainer = withRouter(
       option: search.option,
     }));
 
-    const handleChange = (event) => {
-      const key = event.target.name;
-      dispatch(changeOption({ key, value: event.target.value }));
-    };
+    const handleChange = useCallback(
+      (event) => {
+        const key = event.target.name;
+        dispatch(changeOption({ key, value: event.target.value }));
+      },
+      [dispatch],
+    );
 
     const optionData = [
       {
@@ -61,12 +64,6 @@ export const TotalSearchOptionContainer = withRouter(
       history.replace(`/search?${queryString}`);
     }, [option, history, location.search]);
 
-    useEffect(() => {
-      return () => {
-        dispatch(initializeOption());
-      };
-    }, [dispatch]);
-
     return (
       <TotalSearchOption
         option={option}
@@ -83,10 +80,13 @@ export const WikiSearchOptionContainer = withRouter(({ location, history }) => {
     option: search.option,
   }));
 
-  const handleChange = (event) => {
-    const key = event.target.name;
-    dispatch(changeOption({ key, value: event.target.value }));
-  };
+  const handleChange = useCallback(
+    (event) => {
+      const key = event.target.name;
+      dispatch(changeOption({ key, value: event.target.value }));
+    },
+    [dispatch],
+  );
 
   const optionData = [
     {
@@ -130,12 +130,6 @@ export const WikiSearchOptionContainer = withRouter(({ location, history }) => {
     history.replace(`/search?${queryString}`);
   }, [option, history, location.search]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(initializeOption());
-    };
-  }, [dispatch]);
-
   return (
     <WikiSearchOption
       option={option}
@@ -151,10 +145,13 @@ export const BlogSearchOptionContainer = withRouter(({ location, history }) => {
     option: search.option,
   }));
 
-  const handleChange = (event) => {
-    const key = event.target.name;
-    dispatch(changeOption({ key, value: event.target.value }));
-  };
+  const handleChange = useCallback(
+    (event) => {
+      const key = event.target.name;
+      dispatch(changeOption({ key, value: event.target.value }));
+    },
+    [dispatch],
+  );
 
   const optionData = [
     {
@@ -195,12 +192,6 @@ export const BlogSearchOptionContainer = withRouter(({ location, history }) => {
     const queryString = qs.stringify({ blog, query, page, ...optionQuery });
     history.replace(`/search?${queryString}`);
   }, [option, history, location.search]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(initializeOption());
-    };
-  }, [dispatch]);
 
   return (
     <BlogSearchOption

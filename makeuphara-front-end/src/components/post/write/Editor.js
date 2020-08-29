@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Responsive from '../../common/Responsive';
 import Quill from 'quill';
@@ -86,9 +86,13 @@ const Editor = ({ title, body, onChangeField }) => {
     quillInstance.current.root.innerHTML = body;
   }, [body]);
 
-  const onChangeTitle = (e) => {
-    onChangeField({ key: 'title', value: e.target.value });
-  };
+  const onChangeTitle = useCallback(
+    (e) => {
+      onChangeField({ key: 'title', value: e.target.value });
+    },
+    [onChangeField],
+  );
+
   return (
     <EditorBlock>
       <TitleInput

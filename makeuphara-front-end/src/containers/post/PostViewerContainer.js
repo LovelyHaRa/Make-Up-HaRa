@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PostViewer from '../../components/post/PostViewer';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -26,19 +26,19 @@ const PostViewerContainer = ({ match, history }) => {
   );
 
   // 이벤트 정의
-  const onEdit = () => {
+  const onEdit = useCallback(() => {
     dispatch(setOriginalPost(post));
     history.push('/blog/write');
-  };
+  }, [dispatch, history, post]);
 
-  const onRemove = async () => {
+  const onRemove = useCallback(async () => {
     try {
       await removePost(postId);
       history.push('/blog');
     } catch (error) {
       throw error;
     }
-  };
+  }, [postId, history]);
 
   useEffect(() => {
     dispatch(readPost(postId));

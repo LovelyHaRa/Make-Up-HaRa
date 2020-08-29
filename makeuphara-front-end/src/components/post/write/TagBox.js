@@ -64,7 +64,7 @@ const TagItem = React.memo(({ tag, onRemove }) => (
 
 const TagList = React.memo(({ tags, onRemove }) => (
   <TagListBlock>
-    {tags.map(tag => (
+    {tags.map((tag) => (
       <TagItem key={tag} tag={tag} onRemove={onRemove} />
     ))}
   </TagListBlock>
@@ -75,7 +75,7 @@ const TagBox = ({ tags, onChangeTags }) => {
   const [localTags, setLocalTags] = useState([]);
 
   const insertTag = useCallback(
-    tag => {
+    (tag) => {
       if (!tag) return;
       if (localTags.includes(tag)) return;
       const nextTags = [...localTags, tag];
@@ -86,20 +86,20 @@ const TagBox = ({ tags, onChangeTags }) => {
   );
 
   const onRemove = useCallback(
-    tag => {
-      const nextTags = localTags.filter(t => t !== tag);
+    (tag) => {
+      const nextTags = localTags.filter((t) => t !== tag);
       setLocalTags(nextTags);
       onChangeTags(nextTags);
     },
     [localTags, onChangeTags],
   );
 
-  const onChange = useCallback(e => {
+  const onChange = useCallback((e) => {
     setInput(e.target.value);
   }, []);
 
   const onSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
       insertTag(input.trim());
       setInput('');

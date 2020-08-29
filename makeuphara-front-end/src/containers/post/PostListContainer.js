@@ -32,6 +32,7 @@ const PostListContainer = ({ location, match }) => {
   };
 
   const pagination = useRef(false);
+
   useEffect(() => {
     pagination.current = false;
     dispatch(getList({ username, tag, page }));

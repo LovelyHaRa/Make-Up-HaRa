@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PostComment from '../../components/post/PostComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -39,43 +39,49 @@ const PostCommentContainer = ({ match }) => {
   const [page, setPage] = useState(1);
   const [result, setResult] = useState({ state: false, message: '' });
 
-  const handleChange = (event) => {
+  const handleChange = useCallback((event) => {
     setCommentInput(event.target.value);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     setResult({ state: false, message: '' });
     dispatch(writePostComment({ id: postId, body: commentInput }));
     setCommentInput('');
-  };
+  }, [dispatch, postId, commentInput]);
 
-  const handlePageClick = (pageNumber) => {
-    dispatch(readPostComment({ id: postId, page: pageNumber }));
-    setPage(pageNumber);
-  };
+  const handlePageClick = useCallback(
+    (pageNumber) => {
+      dispatch(readPostComment({ id: postId, page: pageNumber }));
+      setPage(pageNumber);
+    },
+    [dispatch, postId],
+  );
 
-  const handleResultClose = (event, reason) => {
+  const handleResultClose = useCallback((event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setResult({ state: false, message: '' });
-  };
+  }, []);
 
-  const handleRemove = async (commentId) => {
-    try {
-      setResult({ state: false, message: '' });
-      const result = await deleteComment({ id: postId, commentId });
-      if (result.status === 204) {
-        dispatch(readPostComment({ id: postId, page }));
-        setResult({
-          state: 'true',
-          message: '성공적으로 삭제되었습니다.',
-        });
+  const handleRemove = useCallback(
+    async (commentId) => {
+      try {
+        setResult({ state: false, message: '' });
+        const result = await deleteComment({ id: postId, commentId });
+        if (result.status === 204) {
+          dispatch(readPostComment({ id: postId, page }));
+          setResult({
+            state: 'true',
+            message: '성공적으로 삭제되었습니다.',
+          });
+        }
+      } catch (error) {
+        throw error;
       }
-    } catch (error) {
-      throw error;
-    }
-  };
+    },
+    [dispatch, postId, page],
+  );
 
   useEffect(() => {
     dispatch(readPostComment({ id: postId }));

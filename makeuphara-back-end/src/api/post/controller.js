@@ -12,7 +12,7 @@ const removeHtmlAndShorten = (body) => {
 };
 
 /**
- * 포스트 작성 API
+ * 포스트 리스트 조회 API
  * GET /api/post/list
  */
 export const list = async (ctx) => {
@@ -182,7 +182,7 @@ export const update = async (ctx) => {
   nextData.publisher = ctx.state.user;
   try {
     const post = await Post.findById(id);
-    if (isEqualObjectId(post.publisher._id, nextData.publisher._id)) {
+    if (!isEqualObjectId(post.publisher._id, nextData.publisher._id)) {
       ctx.status = 400;
       return;
     }
@@ -207,7 +207,7 @@ export const remove = async (ctx) => {
   const { id } = ctx.params;
   try {
     const post = await Post.findById(id);
-    if (isEqualObjectId(post.publisher._id, ctx.state.user)) {
+    if (!isEqualObjectId(post.publisher._id, ctx.state.user._id)) {
       ctx.status = 400;
       return;
     }

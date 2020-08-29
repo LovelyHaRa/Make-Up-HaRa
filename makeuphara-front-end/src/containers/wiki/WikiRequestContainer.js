@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import WikiRequest from '../../components/wiki/WikiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequestList, setTitle } from '../../module/redux/wiki';
@@ -16,10 +16,13 @@ const WikiRequestContainer = ({ history }) => {
   }));
 
   // 이벤트 정의
-  const onEdit = title => {
-    dispatch(setTitle(title));
-    history.push('/wiki/edit');
-  };
+  const onEdit = useCallback(
+    (title) => {
+      dispatch(setTitle(title));
+      history.push('/wiki/edit');
+    },
+    [dispatch, history],
+  );
 
   useEffect(() => {
     dispatch(getRequestList());
