@@ -67,7 +67,7 @@ const RegisterForm = ({ history }) => {
       e.preventDefault();
       const { username, password, passwordConfirm, name } = form;
       // 하나라도 비어 있다면
-      if ([username, password, passwordConfirm].includes('')) {
+      if ([username, password, passwordConfirm, name].includes('')) {
         setError('빈 칸을 모두 입력하세요.');
         return;
       }
@@ -169,7 +169,7 @@ const RegisterForm = ({ history }) => {
     if (registerResult) {
       history.replace('/login');
     }
-  }, [registerResult, registerResultError, dispatch, history]);
+  }, [registerResult, registerResultError, history]);
 
   return (
     <AuthForm
