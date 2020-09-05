@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,14 +31,19 @@ const RegisterForm = ({ history }) => {
     registerResultError: auth.registerResultError,
   }));
 
-  const [validUsername, setValidUsername] = useState({
-    result: false,
-    message: '',
+  const [isValid, setIsValid] = useState({
+    username: true,
+    password: true,
+    passwordConfirm: true,
+    name: true,
   });
-  const [validName, setValidName] = useState({
-    result: false,
-    message: '',
+  const [validMessage, setValidMessage] = useState({
+    username: null,
+    password: null,
+    passwordConfirm: null,
+    name: null,
   });
+  const MIN_PASSWORD_LENGTH = 8;
 
   // 폼 데이터 변경 이벤트
   const onChange = useCallback(
@@ -47,15 +52,17 @@ const RegisterForm = ({ history }) => {
       dispatch(changeFieid({ form: 'register', key: name, value }));
       setError(null);
       if (name === 'username') {
-        setValidUsername({
-          result: false,
-          message: '',
-        });
+        setIsValid((prevState) => ({ ...prevState, username: true }));
+        setValidMessage((prevState) => ({
+          ...prevState,
+          username: null,
+        }));
       } else if (name === 'name') {
-        setValidName({
-          result: false,
-          message: '',
-        });
+        setIsValid((prevState) => ({ ...prevState, name: true }));
+        setValidMessage((prevState) => ({
+          ...prevState,
+          name: null,
+        }));
       }
     },
     [dispatch],
@@ -85,75 +92,120 @@ const RegisterForm = ({ history }) => {
     [dispatch, form],
   );
 
-  const isLoading = useRef(true);
-  // 컴포넌트가 처음 렌더링 될 때  form을 초기화함
-  useEffect(() => {
-    dispatch(initializeForm('register'));
-    isLoading.current = false;
-  }, [dispatch]);
+  // const isLoading = useRef(true);
+  // // 컴포넌트가 처음 렌더링 될 때  form을 초기화함
+  // useEffect(() => {
+  //   dispatch(initializeForm('register'));
+  //   isLoading.current = false;
+  // }, [dispatch]);
 
   // 비동기 계정명 중복 체크
   useEffect(() => {
-    if (isLoading.current) return;
     if (form.username !== '') {
       dispatch(checkExistUsername({ username: form.username }));
     }
-  }, [isLoading, dispatch, form.username]);
-
-  // 비동기 이름 중복 체크
-  useEffect(() => {
-    if (isLoading.current) return;
-    const { username, name } = form;
-    if (name === '') return;
-    if (
-      !isNotExistUsername ||
-      (isNotExistUsername && !isNotExistUsername.result)
-    ) {
-      setValidName({
-        result: false,
-        message: '계정 이름이 유효하지 않습니다.',
-      });
-      return;
-    } else {
-      dispatch(checkExistName({ username, name }));
-    }
-  }, [isLoading, dispatch, form, isNotExistUsername]);
+  }, [dispatch, form.username]);
 
   // 계정명 중복 체크 결과 반영
   useEffect(() => {
     if (isNotExistUsernameError) {
-      setValidUsername({
-        result: false,
-        message: '인증 서버 연결에 실패했습니다.',
-      });
-    } else if (!isNotExistUsername) return;
-    else if (isNotExistUsername.result) {
-      setValidUsername({ result: true, message: '' });
+      setIsValid((prevState) => ({ ...prevState, username: false }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        username: '인증 서버 연결에 실패했습니다.',
+      }));
+    } else if (!isNotExistUsername) {
+      return;
+    } else if (isNotExistUsername.result) {
+      setIsValid((prevState) => ({ ...prevState, username: true }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        username: null,
+      }));
     } else {
-      setValidUsername({
-        result: false,
-        message: isNotExistUsername ? isNotExistUsername.message : '',
-      });
+      setIsValid((prevState) => ({ ...prevState, username: false }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        username: isNotExistUsername ? isNotExistUsername.message : null,
+      }));
     }
   }, [isNotExistUsername, isNotExistUsernameError]);
+
+  useEffect(() => {
+    const isValidPassword =
+      form.password.length >= MIN_PASSWORD_LENGTH || form.password.length === 0;
+    setIsValid((prevState) => ({ ...prevState, password: isValidPassword }));
+    if (isValidPassword) {
+      setValidMessage((prevState) => ({ ...prevState, password: null }));
+    } else {
+      setValidMessage((prevState) => ({
+        ...prevState,
+        password: '비밀번호는 8자 이상 입력해야 합니다.',
+      }));
+    }
+  }, [form.password]);
+
+  useEffect(() => {
+    const isValidPassword =
+      form.passwordConfirm === form.password ||
+      form.passwordConfirm.length === 0;
+    setIsValid((prevState) => ({
+      ...prevState,
+      passwordConfirm: isValidPassword,
+    }));
+    if (isValidPassword) {
+      setValidMessage((prevState) => ({ ...prevState, passwordConfirm: null }));
+    } else {
+      setValidMessage((prevState) => ({
+        ...prevState,
+        passwordConfirm: '비밀번호가 일치하지 않습니다.',
+      }));
+    }
+  }, [form.password, form.passwordConfirm]);
+
+  // 비동기 이름 중복 체크
+  useEffect(() => {
+    const username = form.username;
+    const name = form.name;
+    if (name === '') {
+      return;
+    }
+    if (!isNotExistUsername || !isNotExistUsername.result) {
+      setIsValid((prevState) => ({ ...prevState, name: false }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        name: '계정 이름이 유효하지 않습니다.',
+      }));
+      return;
+    }
+    dispatch(checkExistName({ username, name }));
+  }, [form.username, form.name, isNotExistUsername, dispatch]);
 
   // 이름 중복 체크 결과 반영
   useEffect(() => {
     if (isNotExistNameError) {
-      setValidName({
-        result: false,
-        message: '인증 서버 연결에 실패했습니다.',
-      });
-    } else if (!isNotExistName) return;
-    else if (isNotExistName.result) {
-      setValidName({ result: true, message: '' });
-    } else {
-      setValidName({
-        result: false,
-        message: isNotExistName ? isNotExistName.message : '',
-      });
+      setIsValid((prevState) => ({ ...prevState, name: false }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        name: '인증 서버 연결에 실패했습니다.',
+      }));
+    } else if (!isNotExistName) {
+      return;
+    } else if (isNotExistName.result) {
+      setIsValid((prevState) => ({ ...prevState, name: true }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        name: null,
+      }));
+    } else if (!isNotExistName.result) {
+      setIsValid((prevState) => ({ ...prevState, name: false }));
+      setValidMessage((prevState) => ({
+        ...prevState,
+        name: isNotExistName ? isNotExistName.message : null,
+      }));
     }
   }, [isNotExistName, isNotExistNameError]);
+
   // 회원가입 성공/실패 처리
   useEffect(() => {
     if (registerResultError) {
@@ -171,12 +223,18 @@ const RegisterForm = ({ history }) => {
     }
   }, [registerResult, registerResultError, history]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(initializeForm('register'));
+    };
+  }, [dispatch]);
+
   return (
     <AuthForm
       type="register"
       form={form}
-      validUsername={validUsername}
-      validName={validName}
+      isValid={isValid}
+      validMessage={validMessage}
       onChange={onChange}
       onSubmit={onSubmit}
       error={error}

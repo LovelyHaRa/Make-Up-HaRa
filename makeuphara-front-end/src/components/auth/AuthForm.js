@@ -125,12 +125,12 @@ const ErrorMessage = styled.div`
 const AuthForm = ({
   type,
   form,
+  isValid,
+  validMessage,
   onChange,
   onSubmit,
   error,
   onSocialLogin,
-  validUsername,
-  validName,
 }) => {
   const text = textMap[type];
 
@@ -258,79 +258,67 @@ const AuthForm = ({
           autoComplete="username"
           className={
             type === 'register' &&
-            (validUsername.result === true
-              ? 'possible'
-              : validUsername.message !== '' && 'impossible')
+            form.username.length > 0 &&
+            (isValid.username ? 'possible' : 'impossible')
           }
           name="username"
           placeholder="계정 이름"
           value={form.username}
           onChange={onChange}
         />
-        {type === 'register' &&
-          validUsername.message &&
-          validUsername.message !== '' && (
-            <span className="invalid-message">{validUsername.message}</span>
-          )}
+        {type === 'register' && !isValid.username && (
+          <span className="invalid-message">{validMessage.username}</span>
+        )}
         <StyledInput
           type="password"
           autoComplete="new-password"
           className={
             type === 'register' &&
-            (form.password.length >= 8
-              ? 'possible'
-              : form.password !== '' && 'impossible')
+            form.password.length > 0 &&
+            (isValid.password ? 'possible' : 'impossible')
           }
           name="password"
           placeholder="비밀번호"
           value={form.password}
           onChange={onChange}
         />
-        {type === 'register' &&
-          form.password.length < 8 &&
-          form.password.length > 0 && (
-            <span className="invalid-message">8자 이상 입력해야 합니다.</span>
-          )}
+        {type === 'register' && !isValid.password && (
+          <span className="invalid-message">{validMessage.password}</span>
+        )}
         {type === 'register' && (
           <>
             <StyledInput
               type="password"
               autoComplete="new-password"
               className={
-                form.passwordConfirm.length >= 8 &&
-                form.passwordConfirm === form.password
-                  ? 'possible'
-                  : form.passwordConfirm !== '' && 'impossible'
+                form.passwordConfirm.length > 0 &&
+                (isValid.passwordConfirm ? 'possible' : 'impossible')
               }
               name="passwordConfirm"
               placeholder="비밀번호 확인"
               value={form.passwordConfirm}
               onChange={onChange}
             />
-            {form.passwordConfirm.length >= 8 &&
-              form.passwordConfirm !== form.password && (
-                <span className="invalid-message">
-                  비밀번호가 일치하지 않습니다.
-                </span>
-              )}
+            {!isValid.passwordConfirm && (
+              <span className="invalid-message">
+                {validMessage.passwordConfirm}
+              </span>
+            )}
             <StyledInput
               type="text"
               className={
                 type === 'register' &&
-                (validName.result === true
-                  ? 'possible'
-                  : validName.message !== '' && 'impossible')
+                form.name.length > 0 &&
+                (isValid.name ? 'possible' : 'impossible')
               }
               name="name"
               placeholder="활동명"
               value={form.name}
               onChange={onChange}
             />
-            {type === 'register' &&
-              validName.message &&
-              validName.message !== '' && (
-                <span className="invalid-message">{validName.message}</span>
-              )}
+            {type === 'register' && !isValid.name && (
+              <span className="invalid-message">{validMessage.name}</span>
+            )}
           </>
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
