@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Security from '../../components/profile/Security';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,21 +21,21 @@ const SecurityContainer = () => {
   );
 
   // 검증 정보
-  const [valid, setValid] = useState({
+  const [isValid, setIsValid] = useState({
     curPassword: false,
     newPassword: false,
     confirmPassword: false,
   });
   // 검증 메시지
   const [validMessage, setValidMessage] = useState({
-    curPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    curPassword: null,
+    newPassword: null,
+    confirmPassword: null,
   });
   // 비밀번호 변경 처리결과
   const [submitPassword, setSubmitPassword] = useState({
     result: false,
-    message: '',
+    message: null,
   });
   const MIN_LENGTH = 8;
 
@@ -46,13 +46,13 @@ const SecurityContainer = () => {
       if (name === 'curPassword') {
         setValidMessage({
           ...validMessage,
-          curPassword: '',
+          curPassword: null,
         });
       }
-      if (submitPassword.message && submitPassword.message !== '') {
+      if (submitPassword.message) {
         setSubmitPassword({
           result: false,
-          message: '',
+          message: null,
         });
       }
       dispatch(changeField({ form: 'password', key: name, value }));
@@ -65,23 +65,21 @@ const SecurityContainer = () => {
     (e) => {
       e.preventDefault();
       const {
-        curPassword: curValid,
-        newPassword: newValid,
-        confirmPassword: confirmValid,
-      } = valid;
+        curPassword: isCurValid,
+        newPassword: isNewValid,
+        confirmPassword: isConfirmValid,
+      } = isValid;
       const { _id } = user;
       const { curPassword, newPassword } = form;
       // 검증 통과시 액션 수행
-      if (curValid && newValid && confirmValid) {
+      if (isCurValid && isNewValid && isConfirmValid) {
         dispatch(
           changePassword({ id: _id, password: curPassword, newPassword }),
         );
       }
     },
-    [dispatch, form, user, valid],
+    [dispatch, form, user, isValid],
   );
-
-  const stateValidMessage = useRef(validMessage);
 
   // 비동기 검증 수행
   useEffect(() => {
@@ -90,7 +88,7 @@ const SecurityContainer = () => {
     const isValidConfirmPassword =
       form.confirmPassword === form.newPassword &&
       form.confirmPassword.length >= MIN_LENGTH;
-    setValid({
+    setIsValid({
       curPassword: form.curPassword !== '',
       newPassword:
         form.newPassword !== '' &&
@@ -100,36 +98,37 @@ const SecurityContainer = () => {
     });
     // 검증 실패 시 처리
     if (!isValidNewPassword && form.newPassword !== '') {
-      setValidMessage({
-        ...stateValidMessage.current,
+      setValidMessage((prevState) => ({
+        ...prevState,
         newPassword: '비밀번호는 8자 이상 입력해야 합니다!',
-      });
-    } else if (!isValidConfirmPassword && form.confirmPassword !== '') {
-      setValidMessage({
-        ...stateValidMessage.current,
-        confirmPassword: '비밀번호가 일치하지 않습니다!',
-      });
+      }));
     } else if (
       form.newPassword !== '' &&
       form.newPassword === form.curPassword &&
       isValidNewPassword
     ) {
-      setValidMessage({
-        ...stateValidMessage.current,
+      setValidMessage((prevState) => ({
+        ...prevState,
         newPassword: '기존 비밀번호와 일치합니다.',
-      });
+      }));
     } else if (form.newPassword === '' || isValidNewPassword) {
-      setValidMessage({
-        ...stateValidMessage.current,
+      setValidMessage((prevState) => ({
+        ...prevState,
         newPassword: '',
-      });
-    } else if (form.confirmPassword === '' || isValidConfirmPassword) {
-      setValidMessage({
-        ...stateValidMessage.current,
-        confirmPassword: '',
-      });
+      }));
     }
-  }, [form, stateValidMessage]);
+    if (!isValidConfirmPassword && form.confirmPassword !== '') {
+      setValidMessage((prevState) => ({
+        ...prevState,
+        confirmPassword: '비밀번호가 일치하지 않습니다!',
+      }));
+    } else if (form.confirmPassword === '' || isValidConfirmPassword) {
+      setValidMessage((prevState) => ({
+        ...prevState,
+        confirmPassword: '',
+      }));
+    }
+  }, [form]);
 
   // 비밀번호 변경 처리 결과에 따른 메시지 저장
   useEffect(() => {
@@ -146,18 +145,16 @@ const SecurityContainer = () => {
       ) {
         setSubmitPassword({
           result: false,
-          message: '',
+          message: null,
         });
-        setValidMessage({
+        setValidMessage((prevState) => ({
+          ...prevState,
           curPassword: '기존 비밀번호가 일치하지 않습니다',
-          newPassword: '',
-          confirmPassword: '',
-        });
-        setValid({
+        }));
+        setIsValid((prevState) => ({
+          ...prevState,
           curPassword: false,
-          newPassword: true,
-          confirmPassword: true,
-        });
+        }));
       } else {
         setSubmitPassword({
           result: false,
@@ -179,7 +176,7 @@ const SecurityContainer = () => {
       user={user}
       form={form}
       onChange={onChange}
-      valid={valid}
+      isValid={isValid}
       validMessage={validMessage}
       onSubmit={onSubmit}
       submitPassword={submitPassword}

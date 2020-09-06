@@ -95,12 +95,9 @@ const Profile = ({
   form,
   onChange,
   onSubmit,
-  validName,
-  nameMessage,
-  existNameError,
-  equalName,
-  submitMessage,
-  errorMessage,
+  isValid,
+  validMessage,
+  resultMessage,
 }) => {
   if (!user) {
     return (
@@ -109,24 +106,10 @@ const Profile = ({
       </ProfileErrorBlock>
     );
   }
-  if (existNameError) {
-    return (
-      <ProfileErrorBlock>
-        <span className="error-title">프로필 요청 실패.</span>
-        <span>
-          Status:{' '}
-          <span className="error-msg">{existNameError.response.status}</span>
-        </span>
-        <span>
-          Message:{' '}
-          <span className="error-msg">
-            {existNameError.response.statusText}
-          </span>
-        </span>
-      </ProfileErrorBlock>
-    );
-  }
   const { username, provider } = user;
+  const { existName: isExistValid, equalName: isEqualValid } = isValid;
+  const { existName: validNameMessage } = validMessage;
+  const { submit: submitMessage, error: errorMessage } = resultMessage;
   return (
     <ProfileBlock>
       <div>
@@ -156,13 +139,14 @@ const Profile = ({
               type="text"
               name="name"
               className={
-                !equalName && (validName === true ? 'possible' : 'impossible')
+                !isEqualValid &&
+                (isExistValid === true ? 'possible' : 'impossible')
               }
               value={form.name ? form.name : ''}
               onChange={onChange}
             />
-            {validName === false && (
-              <span className="invalid-message">{nameMessage}</span>
+            {isExistValid === false && (
+              <span className="invalid-message">{validNameMessage}</span>
             )}
             {submitMessage !== '' && (
               <span className="success-message">{submitMessage}</span>
@@ -174,7 +158,7 @@ const Profile = ({
           <ProfileSubmitButton
             themeColor
             fullWidth
-            disabled={!validName || equalName}
+            disabled={!isExistValid || isEqualValid}
           >
             수정
           </ProfileSubmitButton>
