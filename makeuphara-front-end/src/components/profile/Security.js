@@ -45,7 +45,7 @@ const Security = ({
   user,
   form,
   onChange,
-  valid,
+  isValid,
   validMessage,
   onSubmit,
   submitPassword,
@@ -59,14 +59,14 @@ const Security = ({
   }
   const { curPassword, newPassword, confirmPassword } = form;
   const {
-    curPassword: validCur,
-    newPassword: validNew,
-    confirmPassword: validConfirm,
-  } = valid;
+    curPassword: isCurValid,
+    newPassword: isNewValid,
+    confirmPassword: isConfirmValid,
+  } = isValid;
   const {
-    curPassword: validMessageCur,
-    newPassword: validMessageNew,
-    confirmPassword: validMessageConfirm,
+    curPassword: validCurMessage,
+    newPassword: validNewMessage,
+    confirmPassword: validConfirmMessage,
   } = validMessage;
   const { result, message } = submitPassword;
   const { username } = user ? user : '';
@@ -85,12 +85,12 @@ const Security = ({
                 name="curPassword"
                 autoComplete="new-password"
                 placeholder="기존 비밀번호 입력"
-                className={validCur === true ? 'possible' : 'impossible'}
+                className={isCurValid === true ? 'possible' : 'impossible'}
                 value={curPassword}
                 onChange={onChange}
               />
-              {validMessageCur !== '' && (
-                <span className="invalid-message">{validMessageCur}</span>
+              {validCurMessage && (
+                <span className="invalid-message">{validCurMessage}</span>
               )}
             </div>
             <div className="password-input-section">
@@ -99,12 +99,12 @@ const Security = ({
                 name="newPassword"
                 autoComplete="new-password"
                 placeholder="변경할 비밀번호 입력"
-                className={validNew === true ? 'possible' : 'impossible'}
+                className={isNewValid === true ? 'possible' : 'impossible'}
                 value={newPassword}
                 onChange={onChange}
               />
-              {validMessageNew !== '' && (
-                <span className="invalid-message">{validMessageNew}</span>
+              {validNewMessage && (
+                <span className="invalid-message">{validNewMessage}</span>
               )}
             </div>
             <div className="password-input-section">
@@ -113,12 +113,12 @@ const Security = ({
                 name="confirmPassword"
                 autoComplete="new-password"
                 placeholder="변경할 비밀번호 한번 더 입력"
-                className={validConfirm === true ? 'possible' : 'impossible'}
+                className={isConfirmValid === true ? 'possible' : 'impossible'}
                 value={confirmPassword}
                 onChange={onChange}
               />
-              {validMessageConfirm !== '' && (
-                <span className="invalid-message">{validMessageConfirm}</span>
+              {validConfirmMessage && (
+                <span className="invalid-message">{validConfirmMessage}</span>
               )}
             </div>
             <input
@@ -128,17 +128,17 @@ const Security = ({
             />
           </div>
           <div className="change-password-result">
-            {message !== '' && result && (
+            {result && message && (
               <span className="success-message">{message}</span>
             )}
-            {message !== '' && !result && (
+            {!result && message && (
               <span className="invalid-message">{message}</span>
             )}
           </div>
           <ButtonWithMarginTop
             themeColor
             fullWidth
-            disabled={!validCur || !validNew || !validConfirm}
+            disabled={!isCurValid || !isNewValid || !isConfirmValid}
           >
             비밀번호 변경
           </ButtonWithMarginTop>
