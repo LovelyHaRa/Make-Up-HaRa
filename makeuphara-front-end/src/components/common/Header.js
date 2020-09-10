@@ -170,6 +170,9 @@ const HeaderBlock = styled.nav`
     display: flex;
     align-items: center;
   }
+  .none-user div > a:hover {
+    color: ${({ theme }) => theme.hoverText};
+  }
 `;
 
 // 메뉴 영역 컴포넌트
@@ -187,6 +190,10 @@ const Menu = styled.div`
 
 // 반응형 검색 컴포넌트
 const SearchResponsive = styled.div`
+  .search-input.focus {
+    border: 2px solid ${({ theme }) => theme.themeColorBody};
+    border-radius: 3px;
+  }
   @media screen and (min-width: 769px) {
     .search-input {
       display: flex;
@@ -233,7 +240,7 @@ const SearchInput = styled.input`
     color: ${({ theme }) => theme.placeholder};
   }
   &:focus {
-    outline: 2px solid ${palette.indigo[9]};
+    outline: none;
   }
 `;
 
@@ -252,6 +259,37 @@ const SearchBtn = styled(Link)`
     background: ${palette.gray[6]};
   }
 `;
+
+// 검색 input과 액션 버튼을 패키징
+const SearchInputPackage = ({
+  type,
+  searchQuery,
+  handleSearchInput,
+  handleSearchKeyUp,
+}) => {
+  const [focus, setFocus] = useState(false);
+  return (
+    <div className={`${type}${focus ? ' focus' : ''}`} tabIndex="-1">
+      <SearchInputWrapper>
+        <SearchInput
+          placeholder="검색"
+          value={searchQuery}
+          onChange={handleSearchInput}
+          onKeyUp={(event) => {
+            if (event.key === 'Enter') {
+              handleSearchKeyUp(searchQuery);
+            }
+          }}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+        />
+      </SearchInputWrapper>
+      <SearchBtn to={`/search?query=${searchQuery}`}>
+        <FontAwesomeIcon icon="search" />
+      </SearchBtn>
+    </div>
+  );
+};
 
 // 기타메뉴 드롭다운 컴포넌트
 const EtcDropDown = ({ state }) => {
@@ -411,32 +449,6 @@ const NoneUserDropDown = ({ state, isDarkTheme, handleDarkThemeToggle }) => {
   );
 };
 
-// 검색 input과 액션 버튼을 패키징
-const SearchInputPackage = ({
-  type,
-  searchQuery,
-  handleSearchInput,
-  handleSearchKeyUp,
-}) => (
-  <div className={type} tabIndex="-1">
-    <SearchInputWrapper>
-      <SearchInput
-        placeholder="검색"
-        value={searchQuery}
-        onChange={handleSearchInput}
-        onKeyUp={(event) => {
-          if (event.keyCode === 13) {
-            handleSearchKeyUp(searchQuery);
-          }
-        }}
-      />
-    </SearchInputWrapper>
-    <SearchBtn to={`/search?query=${searchQuery}`}>
-      <FontAwesomeIcon icon="search" />
-    </SearchBtn>
-  </div>
-);
-
 // Header는 position 처리했으므로 공간을 띄워준다
 const Spacer = styled.div`
   height: 3rem;
@@ -566,7 +578,7 @@ const Header = ({
           ) : (
             <div className="none-user">
               <ClickAwayListener onClickAway={handleNoneUserClose}>
-                <div className="">
+                <div className="none-user-menu">
                   <Link to={currentPath} onClick={handleNoneUserToggle}>
                     <FontAwesomeIcon icon="ellipsis-v" />
                   </Link>
