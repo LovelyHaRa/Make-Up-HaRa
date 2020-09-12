@@ -227,12 +227,13 @@ const SearchInputWrapper = styled.div`
 
 // 검색 컴포넌트의 input style 정의
 const SearchInput = styled.input`
-  height: 1.875rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  padding: 0.55rem;
   border: none;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
   background: ${({ theme }) => theme.inputBody};
   color: ${({ theme }) => theme.text};
   &::placeholder {
