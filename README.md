@@ -10,7 +10,7 @@
 - Local Login/Social Login(Google, Naver, Kakao)
 - Dark Theme
 - WIKI (CRUD)
-- My Page (Change Name / Password, Activity Logs)
+- My Page (Change Name / Password / Activity Logs)
 - Local Search (Total / Wiki / Blog)
 
 
