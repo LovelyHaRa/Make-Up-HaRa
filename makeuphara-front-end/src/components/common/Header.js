@@ -229,7 +229,7 @@ const SearchInputWrapper = styled.div`
 const SearchInput = styled.input`
   appearance: none;
   -webkit-appearance: none;
-  -webkit-border-radius: 0;
+  border-radius: 0;
   padding: 0.55rem;
   border: none;
   border-top-left-radius: 3px;
