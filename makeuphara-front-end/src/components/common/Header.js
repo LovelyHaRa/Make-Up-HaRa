@@ -512,7 +512,7 @@ const Header = ({
               <Link to="/blog">Blog</Link>
             </Menu>
             <ClickAwayListener onClickAway={handleEtcClose}>
-              <Menu>
+              <Menu className="etc-menu-button">
                 <Link
                   to={currentPath}
                   onClick={handleEtcToggle}
