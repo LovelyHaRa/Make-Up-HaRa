@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginWithNaver } from '../../../module/redux/auth';
 import { check } from '../../../module/redux/user';
 
-const LoginWithNaverPage = ({ location, history }) => {
+const LoginWithNaverPage = () => {
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { auth, authError, user } = useSelector(({ auth, user }) => ({
     auth: auth.auth,
@@ -40,7 +42,7 @@ const LoginWithNaverPage = ({ location, history }) => {
         sessionStorage.setItem('user', JSON.stringify(user));
         history.replace('/');
       } catch (error) {
-        throw error;
+        throw new Error('cannot access sessionStorage');
       }
     }
   }, [user, history]);
@@ -51,4 +53,4 @@ const LoginWithNaverPage = ({ location, history }) => {
   );
 };
 
-export default withRouter(LoginWithNaverPage);
+export default LoginWithNaverPage;

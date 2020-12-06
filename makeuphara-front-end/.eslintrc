@@ -3,7 +3,9 @@
   "rules": {
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
-    "react/jsx-one-experssion-per-line": 0
+    "react/jsx-one-experssion-per-line": 0,
+    "no-shadow": 0,
+    "camelcase": 0
   },
   "env": { "browser": true }
 }
