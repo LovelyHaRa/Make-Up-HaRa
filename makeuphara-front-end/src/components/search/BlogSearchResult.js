@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import PostItem from '../post/common/PostItem';
 import ErrorBlock from '../common/ErrorBlock';
-import { Link } from 'react-router-dom';
 
 /**
  * 블로그 검색결과

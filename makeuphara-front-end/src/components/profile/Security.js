@@ -69,7 +69,7 @@ const Security = ({
     confirmPassword: validConfirmMessage,
   } = validMessage;
   const { result, message } = submitPassword;
-  const { username } = user ? user : '';
+  const { username } = user || '';
   return (
     <SecurityBlock>
       <div>
@@ -121,11 +121,7 @@ const Security = ({
                 <span className="invalid-message">{validConfirmMessage}</span>
               )}
             </div>
-            <input
-              type="hidden"
-              name="username"
-              value={username ? username : ''}
-            />
+            <input type="hidden" name="username" value={username || ''} />
           </div>
           <div className="change-password-result">
             {result && message && (

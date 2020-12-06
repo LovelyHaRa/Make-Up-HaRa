@@ -49,7 +49,9 @@ const RequestItem = ({ title, onEdit }) => {
   return (
     <div className="item">
       <span>{name}</span>
-      <button onClick={() => onEdit(title)}>작성하기</button>
+      <button type="button" onClick={() => onEdit(title)}>
+        작성하기
+      </button>
     </div>
   );
 };

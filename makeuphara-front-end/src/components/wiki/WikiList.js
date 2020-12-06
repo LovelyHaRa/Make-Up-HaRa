@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ErrorBlock from '../common/ErrorBlock';
 import { Helmet } from 'react-helmet-async';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ErrorBlock from '../common/ErrorBlock';
 import LoadingProgress from '../common/LoadingProgress';
 
 /**
@@ -51,7 +51,7 @@ const DocumentItem = forwardRef((props, ref) => {
   return (
     <DocumentBlock ref={ref}>
       <Link to={`/w/${name}`}>{name}</Link>
-      <div className="wiki-info"></div>
+      <div className="wiki-info" />
     </DocumentBlock>
   );
 });

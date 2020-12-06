@@ -35,11 +35,8 @@ const PageButton = styled(Button)`
   }
 `;
 
-const buildLink = ({ path, query, page }) => {
-  return query.length > 0
-    ? `${path}?${query}&page=${page}`
-    : `${path}?page=${page}`;
-};
+const buildLink = ({ path, query, page }) =>
+  query.length > 0 ? `${path}?${query}&page=${page}` : `${path}?page=${page}`;
 
 /* CONFIG */
 const endpointBlockCount = 3;
@@ -60,7 +57,7 @@ const getPageNumber = (page, lastPage) => {
   // 1. 전체 페이지 개수(lastPage)가 총 페이지 블록 개수보다 작으면 mid 위치에 페이지 블록 모두 삽입
   if (lastPage <= endpointBlockCount + blockCount + 1) {
     // 페이지 블록 모두 삽입
-    for (let i = 1; i <= lastPage; i++) {
+    for (let i = 1; i <= lastPage; i += 1) {
       result.mid.push(i);
     }
     // 양 끝 그룹 비활성화
@@ -70,11 +67,11 @@ const getPageNumber = (page, lastPage) => {
     return result;
   }
   // blockCount의 절반 값을 정수로 저장
-  const halfBlockCount = parseInt(blockCount / 2);
+  const halfBlockCount = parseInt(blockCount / 2, 10);
   // 2. 현 페이지가 왼쪽 구역일 경우
   if (endpointSite === 'first') {
     // front: 왼쪽 구역 블록 삽입
-    for (let i = 1; i <= endpointBlockCount; i++) {
+    for (let i = 1; i <= endpointBlockCount; i += 1) {
       result.front.push(i);
     }
     /**
@@ -89,17 +86,17 @@ const getPageNumber = (page, lastPage) => {
     if (page - halfBlockCount <= endpointBlockCount) {
       // 겹치는 개수를 구한다
       let count = halfBlockCount;
-      for (let i = page - 1; i > endpointBlockCount; i--) {
+      for (let i = page - 1; i > endpointBlockCount; i -= 1) {
         result.mid.push(i);
-        count--;
+        count -= 1;
       }
       // 겹친 개수만큼 오른쪽 블록에 추가
-      for (let i = page; i <= page + halfBlockCount + count; i++) {
+      for (let i = page; i <= page + halfBlockCount + count; i += 1) {
         result.mid.push(i);
       }
     } else {
       // 그렇지 않으면 현 페이지를 중심으로 하여 blockCount만큼 페이지 블록 삽입
-      for (let i = page - halfBlockCount; i <= page + halfBlockCount; i++) {
+      for (let i = page - halfBlockCount; i <= page + halfBlockCount; i += 1) {
         result.mid.push(i);
       }
     }
@@ -110,7 +107,7 @@ const getPageNumber = (page, lastPage) => {
     // front: 첫 페이지 번호만 삽입
     result.front.push(1);
     // end: 오른쪽 구역 블록 삽입
-    for (let i = 0; i < endpointBlockCount; i++) {
+    for (let i = 0; i < endpointBlockCount; i += 1) {
       result.end.push(lastPage - i);
     }
     /**
@@ -125,17 +122,17 @@ const getPageNumber = (page, lastPage) => {
     if (page + halfBlockCount >= lastPage - endpointBlockCount + 1) {
       // 겹치는 개수를 구한다
       let count = halfBlockCount;
-      for (let i = page + 1; i < lastPage - endpointBlockCount + 1; i++) {
+      for (let i = page + 1; i < lastPage - endpointBlockCount + 1; i += 1) {
         result.mid.push(i);
-        count--;
+        count -= 1;
       }
       // 겹친 개수만큼 왼쪽 블록에 추가
-      for (let i = page; i >= page - halfBlockCount - count; i--) {
+      for (let i = page; i >= page - halfBlockCount - count; i -= 1) {
         result.mid.push(i);
       }
     } else {
       // 그렇지 않으면 현 페이지를 중심으로 하여 blockCount만큼 페이지 블록 삽입
-      for (let i = page - halfBlockCount; i <= page + halfBlockCount; i++) {
+      for (let i = page - halfBlockCount; i <= page + halfBlockCount; i += 1) {
         result.mid.push(i);
       }
     }

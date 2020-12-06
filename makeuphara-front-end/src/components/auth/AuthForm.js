@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import styled, { css } from 'styled-components';
-import Button, { buttonStyle } from '../common/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import Button, { buttonStyle } from '../common/Button';
 import palette from '../../lib/styles/open-color';
 
 const AuthFormBlock = styled.div`
@@ -153,18 +153,19 @@ const AuthForm = ({
           // console.log('Image URL: ' + profile.getImageUrl());
           // console.log('Email: ' + profile.getEmail());
 
-          const id_token = googleUser.getAuthResponse().id_token;
+          const { id_token } = googleUser.getAuthResponse();
           onSocialLogin({ id_token });
         },
         (error) => {
           // console.log(JSON.stringify(error, undefined, 2));
+          Error(error);
         },
       );
     };
 
-    window['googleSDKLoaded'] = () => {
-      window['gapi'].load('auth2', () => {
-        auth2.current = window['gapi'].auth2.init({
+    window.googleSDKLoaded = () => {
+      window.gapi.load('auth2', () => {
+        auth2.current = window.gapi.auth2.init({
           client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           cookiepolicy: 'single_host_origin',
           scope: 'profile email',
@@ -181,9 +182,9 @@ const AuthForm = ({
     const state = process.env.REACT_APP_NAVER_LOGIN_STATE;
     let requestUrl =
       'https://nid.naver.com/oauth2.0/authorize?response_type=code';
-    requestUrl += '&client_id=' + client_id;
-    requestUrl += '&redirect_uri=' + redirect_uri;
-    requestUrl += '&state=' + state;
+    requestUrl += `&client_id=${client_id}`;
+    requestUrl += `&redirect_uri=${redirect_uri}`;
+    requestUrl += `&state=${state}`;
     window.location = requestUrl;
   }, []);
 
@@ -194,9 +195,9 @@ const AuthForm = ({
     const state = process.env.REACT_APP_KAKAO_LOGIN_STATE;
     let requestUrl =
       'https://kauth.kakao.com/oauth/authorize?response_type=code';
-    requestUrl += '&client_id=' + client_id;
-    requestUrl += '&redirect_uri=' + redirect_uri;
-    requestUrl += '&state=' + state;
+    requestUrl += `&client_id=${client_id}`;
+    requestUrl += `&redirect_uri=${redirect_uri}`;
+    requestUrl += `&state=${state}`;
     window.location = requestUrl;
   }, []);
 
@@ -331,18 +332,18 @@ const AuthForm = ({
           <hr />
           <GoogleLoginButton fullWidth indigo ref={googleLoginBtn}>
             <FontAwesomeIcon icon={faGoogle} />
-            {' ' + textMap['signinGoogle']}
+            {` ${textMap.signinGoogle}`}
             <span> </span>
           </GoogleLoginButton>
           <NaverLoginButton transparent onClick={() => onNaverLoginClick()}>
             <img
-              src={process.env.PUBLIC_URL + '/images/auth/naver_login_btn.png'}
+              src={`${process.env.PUBLIC_URL}/images/auth/naver_login_btn.png`}
               alt="naver-login-btn"
             />
           </NaverLoginButton>
           <KakaoLoginButton transparent onClick={() => onKakaoLoginClick()}>
             <img
-              src={process.env.PUBLIC_URL + '/images/auth/kakao_login_btn.png'}
+              src={`${process.env.PUBLIC_URL}/images/auth/kakao_login_btn.png`}
               alt="kakao-login-btn"
             />
           </KakaoLoginButton>

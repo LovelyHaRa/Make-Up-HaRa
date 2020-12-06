@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from './Button';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
+import Button from './Button';
 
 /**
  * 공통 모달 컴포넌트
@@ -141,26 +141,23 @@ export const AskModal = ({
   cancelText = '취소',
   onConfirm,
   onCancel,
-}) => {
-  return (
-    visible && (
-      <Fade in={visible}>
-        <FullScreen className={className}>
-          <AskModalBlock>
-            <h2>{title}</h2>
-            <p>{description}</p>
-            <div className="buttons">
-              <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
-              <StyledButton themeColor onClick={onConfirm}>
-                {confirmText}
-              </StyledButton>
-            </div>
-          </AskModalBlock>
-        </FullScreen>
-      </Fade>
-    )
+}) =>
+  visible && (
+    <Fade in={visible}>
+      <FullScreen className={className}>
+        <AskModalBlock>
+          <h2>{title}</h2>
+          <p>{description}</p>
+          <div className="buttons">
+            <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
+            <StyledButton themeColor onClick={onConfirm}>
+              {confirmText}
+            </StyledButton>
+          </div>
+        </AskModalBlock>
+      </FullScreen>
+    </Fade>
   );
-};
 
 export const SingleInputModal = ({
   className,

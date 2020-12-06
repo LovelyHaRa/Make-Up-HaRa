@@ -129,13 +129,9 @@ const PostItem = ({ post }) => {
 };
 
 const Activity = ({
-  user,
   postList,
   postCount,
-  lastPage,
   documentCount,
-  postListError,
-  documentCountError,
   loadingPost,
   loadingWiki,
 }) => {

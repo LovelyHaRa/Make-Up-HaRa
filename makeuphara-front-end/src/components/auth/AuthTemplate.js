@@ -42,17 +42,15 @@ const ContentBox = styled.div`
   border-radius: 2px;
 `;
 
-const AuthTemplate = ({ children }) => {
-  return (
-    <AuthTemplateBlock>
-      <ContentBox>
-        <div className="logo-area">
-          <Link to="/">MAKE UP HARA</Link>
-        </div>
-        {children}
-      </ContentBox>
-    </AuthTemplateBlock>
-  );
-};
+const AuthTemplate = ({ children }) => (
+  <AuthTemplateBlock>
+    <ContentBox>
+      <div className="logo-area">
+        <Link to="/">MAKE UP HARA</Link>
+      </div>
+      {children}
+    </ContentBox>
+  </AuthTemplateBlock>
+);
 
 export default AuthTemplate;

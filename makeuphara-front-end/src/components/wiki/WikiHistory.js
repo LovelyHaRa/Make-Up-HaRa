@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import Responsive from '../common/Responsive';
 import ErrorBlock from '../common/ErrorBlock';
 import LoadingProgress from '../common/LoadingProgress';
 
@@ -83,7 +83,7 @@ const WikiHistory = ({ historyList, error, loading, docName }) => {
   return (
     <WikiHistoryBlock>
       <span className="title">
-        <Link to="#">{docName}</Link>
+        <span>{docName}</span>
         <span>(문서 역사)</span>
       </span>
       {historyList.map((document) => (
