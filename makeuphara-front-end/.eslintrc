@@ -1,0 +1,9 @@
+{
+  "extends": ["react-app", "react-app/jest", "airbnb", "prettier"],
+  "rules": {
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-one-experssion-per-line": 0
+  },
+  "env": { "browser": true }
+}
