@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
-import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
+import AuthForm from '../../components/auth/AuthForm';
 import {
   changeFieid,
   login,
@@ -59,10 +59,9 @@ const LoginForm = ({ history }) => {
       if (authError.response.status === 401) {
         setError('계정 또는 비밀번호가 일치하지 않습니다.');
         return;
-      } else {
-        setError('로그인 실패: ' + authError);
-        return;
       }
+      setError(`로그인 실패: ${authError}`);
+      return;
     }
     // 로그인 성공 시 check 액션을 통해 유저 정보를 리덕스 상태에 업데이트
     if (auth) {
@@ -81,7 +80,7 @@ const LoginForm = ({ history }) => {
       try {
         sessionStorage.setItem('user', JSON.stringify(user));
       } catch (error) {
-        throw error;
+        throw new Error('cannot access sessionStorage');
       }
     }
   }, [user, history]);

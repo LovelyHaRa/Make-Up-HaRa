@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
+import loadable from '@loadable/component';
 import { getList, unloadList } from '../../module/redux/post';
 import PostList from '../../components/post/PostList';
-import loadable from '@loadable/component';
+
 const PaginationContainer = loadable(() => import('./PaginationContainer'));
 
 const PostListContainer = ({ location, match }) => {

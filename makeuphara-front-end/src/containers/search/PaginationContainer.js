@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import Pagination from '../../components/common/Pagination';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
+import Pagination from '../../components/common/Pagination';
 
 export const TotalPaginationContainer = withRouter(({ location }) => {
   // 전역 변수 불러오기
@@ -36,13 +36,11 @@ export const TotalPaginationContainer = withRouter(({ location }) => {
   });
   const queryString = qs.stringify({ query });
 
-  const compare = useCallback((a, b) => {
-    return a > b ? a : b;
-  }, []);
+  const compare = useCallback((a, b) => (a > b ? a : b), []);
 
   return (
     <Pagination
-      path={`/search`}
+      path="/search"
       query={queryString}
       page={parseInt(page, 10)}
       lastPage={compare(postLastPage, wikiLastPage)}
@@ -76,7 +74,7 @@ export const WikiPaginationContainer = withRouter(({ location }) => {
 
   return (
     <Pagination
-      path={`/search`}
+      path="/search"
       query={queryString}
       page={parseInt(page, 10)}
       lastPage={wikiLastPage}
@@ -110,7 +108,7 @@ export const BlogPaginationContainer = withRouter(({ location }) => {
 
   return (
     <Pagination
-      path={`/search`}
+      path="/search"
       query={queryString}
       page={parseInt(page, 10)}
       lastPage={postLastPage}

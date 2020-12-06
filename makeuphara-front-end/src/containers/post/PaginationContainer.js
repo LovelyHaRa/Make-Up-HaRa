@@ -1,8 +1,8 @@
 import React from 'react';
-import Pagination from '../../components/common/Pagination';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
+import Pagination from '../../components/common/Pagination';
 
 const PaginationContainer = ({ location, match }) => {
   // 전역 변수 불러오기

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Activity from '../../components/profile/Activity';
 import { useDispatch, useSelector } from 'react-redux';
+import Activity from '../../components/profile/Activity';
 import { getList, unloadList } from '../../module/redux/post';
 import { getDocumentCount } from '../../module/redux/wiki';
 

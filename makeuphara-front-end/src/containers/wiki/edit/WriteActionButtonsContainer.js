@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
-import WriteActionButtons from '../../../components/common/editor/WriteActionButtons';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import WriteActionButtons from '../../../components/common/editor/WriteActionButtons';
 import { writeDocument } from '../../../module/redux/wiki';
 
 const WriteActionButtonsContainer = ({ history }) => {
@@ -21,7 +21,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   try {
     localTitle = title || JSON.parse(sessionStorage.getItem('wiki-title'));
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
   const { _id } = localTitle;
 
@@ -49,7 +49,7 @@ const WriteActionButtonsContainer = ({ history }) => {
     try {
       sessionStorage.getItem('wiki-title');
     } catch (error) {
-      throw error;
+      throw new Error('cannot access sessionStorage');
     }
   }, [history, editDocument, editDocumentError]);
 

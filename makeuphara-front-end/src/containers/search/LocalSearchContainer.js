@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import Categories from '../../components/search/Categories';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   TotalSearchOptionContainer,
   WikiSearchOptionContainer,
   BlogSearchOptionContainer,
 } from './SearchOptionContainer';
-import { useDispatch, useSelector } from 'react-redux';
+import Categories from '../../components/search/Categories';
 import { getList } from '../../module/redux/post';
 import BlogSearchResult from '../../components/search/BlogSearchResult';
 import { getSearchList } from '../../module/redux/wiki';
@@ -63,11 +63,12 @@ const LocalSearchContainer = ({ location }) => {
     }
   }, [dispatch, query, page, oldest, day, longest, shortest, blog, wiki]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initialize());
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   if (wikiListLoading || postListLoading) {
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import Profile from '../../components/profile/Profile';
 import { useSelector, useDispatch } from 'react-redux';
+import Profile from '../../components/profile/Profile';
 import {
   changeField,
   checkExistName,
@@ -102,7 +102,7 @@ const ProfileContainer = () => {
   }, [isNotExistName]);
 
   useEffect(() => {
-    const { name } = user ? user : '';
+    const { name } = user || '';
     dispatch(changeField({ form: 'profile', key: 'name', value: name }));
     loadingForm.current = false;
   }, [dispatch, user]);
@@ -124,11 +124,12 @@ const ProfileContainer = () => {
     }
   }, [dispatch, updateUser, updateUserError]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initializeUpdateName());
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   return (
     <Profile
