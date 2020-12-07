@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
 import { withRouter } from 'react-router-dom';
@@ -74,31 +68,27 @@ const WikiListContainer = ({ location, history }) => {
 
   // 인피니티 스크롤 핸들링
   const lastDocumentRef = useRef(null);
-  const intersectionObserver = useMemo(
-    () =>
-      new IntersectionObserver((entries, observer) => {
-        const lastDocument = entries[0];
-        if (lastDocument.intersectionRatio > 0) {
-          observer.unobserve(lastDocument.target);
-          lastDocumentRef.current = null;
-          setTimeout(() => {
-            if (!isLastPage) {
-              page.current += 1;
-            }
-            dispatch(
-              getSearchList({
-                query,
-                oldest,
-                shortest,
-                longest,
-                page: page.current,
-              }),
-            );
-          }, 2000);
+  const intersectionObserver = new IntersectionObserver((entries, observer) => {
+    const lastDocument = entries[0];
+    if (lastDocument.intersectionRatio > 0) {
+      observer.unobserve(lastDocument.target);
+      lastDocumentRef.current = null;
+      setTimeout(() => {
+        if (!isLastPage) {
+          page.current += 1;
         }
-      }),
-    [dispatch, isLastPage, longest, oldest, query, shortest, page],
-  );
+        dispatch(
+          getSearchList({
+            query,
+            oldest,
+            shortest,
+            longest,
+            page: page.current,
+          }),
+        );
+      }, 2000);
+    }
+  });
 
   useEffect(() => {
     if (lastDocumentRef.current) {
