@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Category from '../common/Category';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
+import Category from '../common/Category';
 
 /**
  * 검색 결과 카테고리
@@ -52,9 +52,9 @@ const Categories = ({ location }) => {
         <Category
           key={category.name}
           activeClassName="active"
-          exact={true}
+          exact
           isActive={() => handleActive(category.name)}
-          to={category.to + '&query=' + query}
+          to={`${category.to}&query=${query}`}
         >
           {category.text}
         </Category>

@@ -36,12 +36,6 @@
     "test": "react-scripts test --watchAll",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -58,6 +52,8 @@
   "devDependencies": {
     "@types/redux-mock-store": "^1.0.2",
     "axios-mock-adapter": "^1.19.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.0.0",
     "redux-mock-store": "^1.5.4"
   }
 }

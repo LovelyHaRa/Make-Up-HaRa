@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import Category from '../common/Category';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
+import Category from '../common/Category';
 
 /**
  * 위키 검색결과 정렬 카테고리
@@ -70,14 +70,12 @@ const Categories = ({ location }) => {
         <Category
           key={category.name}
           activeClassName="active"
-          exact={true}
+          exact
           isActive={() => handleActive(category.name)}
           to={
             category.name === 'normal'
-              ? `/wiki/list?${qs.stringify({ query: query })}`
-              : `/wiki/list?${qs.stringify({ query: query })}&${
-                  category.name
-                }=true`
+              ? `/wiki/list?${qs.stringify({ query })}`
+              : `/wiki/list?${qs.stringify({ query })}&${category.name}=true`
           }
         >
           {category.text}

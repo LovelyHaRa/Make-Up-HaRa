@@ -1,10 +1,10 @@
 import React from 'react';
-import Responsive from '../../components/common/Responsive';
-import BodyBlock from '../../components/common/BodyBlock';
 import { Helmet } from 'react-helmet-async';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import loadable from '@loadable/component';
+import BodyBlock from '../../components/common/BodyBlock';
+import Responsive from '../../components/common/Responsive';
 
 const EditorContainer = loadable(() =>
   import('../../containers/post/write/EditorContainer'),
@@ -19,7 +19,8 @@ const EditorFooter = loadable(() =>
   import('../../components/common/editor/EditorFooter'),
 );
 
-const PostWritePage = ({ history }) => {
+const PostWritePage = () => {
+  const history = useHistory();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   if (!user) {
     history.replace('/login');
@@ -38,4 +39,4 @@ const PostWritePage = ({ history }) => {
   );
 };
 
-export default withRouter(PostWritePage);
+export default PostWritePage;

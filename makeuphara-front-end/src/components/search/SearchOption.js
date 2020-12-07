@@ -48,7 +48,7 @@ const CustomOption = ({ data, optionValue, handleChange }) => {
         value={optionValue}
         onChange={handleChange}
         displayEmpty
-        inputProps={{ 'aria-label': 'Without label', name: name }}
+        inputProps={{ 'aria-label': 'Without label', name }}
       >
         <CustomMenuItem value="" disabled>
           {text}
@@ -63,53 +63,47 @@ const CustomOption = ({ data, optionValue, handleChange }) => {
   );
 };
 
-export const TotalSearchOption = ({ option, optionData, handleChange }) => {
-  return (
-    <SearchOptionBlock>
-      <div className="option-group">
-        {optionData.map((data) => (
-          <CustomOption
-            key={data.name}
-            data={data}
-            optionValue={option[data.name]}
-            handleChange={handleChange}
-          />
-        ))}
-      </div>
-    </SearchOptionBlock>
-  );
-};
+export const TotalSearchOption = ({ option, optionData, handleChange }) => (
+  <SearchOptionBlock>
+    <div className="option-group">
+      {optionData.map((data) => (
+        <CustomOption
+          key={data.name}
+          data={data}
+          optionValue={option[data.name]}
+          handleChange={handleChange}
+        />
+      ))}
+    </div>
+  </SearchOptionBlock>
+);
 
-export const WikiSearchOption = ({ option, optionData, handleChange }) => {
-  return (
-    <SearchOptionBlock>
-      <div className="option-group">
-        {optionData.map((data) => (
-          <CustomOption
-            key={data.name}
-            data={data}
-            optionValue={option[data.name]}
-            handleChange={handleChange}
-          />
-        ))}
-      </div>
-    </SearchOptionBlock>
-  );
-};
+export const WikiSearchOption = ({ option, optionData, handleChange }) => (
+  <SearchOptionBlock>
+    <div className="option-group">
+      {optionData.map((data) => (
+        <CustomOption
+          key={data.name}
+          data={data}
+          optionValue={option[data.name]}
+          handleChange={handleChange}
+        />
+      ))}
+    </div>
+  </SearchOptionBlock>
+);
 
-export const BlogSearchOption = ({ option, optionData, handleChange }) => {
-  return (
-    <SearchOptionBlock>
-      <div className="option-group">
-        {optionData.map((data) => (
-          <CustomOption
-            key={data.name}
-            data={data}
-            optionValue={option[data.name]}
-            handleChange={handleChange}
-          />
-        ))}
-      </div>
-    </SearchOptionBlock>
-  );
-};
+export const BlogSearchOption = ({ option, optionData, handleChange }) => (
+  <SearchOptionBlock>
+    <div className="option-group">
+      {optionData.map((data) => (
+        <CustomOption
+          key={data.name}
+          data={data}
+          optionValue={option[data.name]}
+          handleChange={handleChange}
+        />
+      ))}
+    </div>
+  </SearchOptionBlock>
+);

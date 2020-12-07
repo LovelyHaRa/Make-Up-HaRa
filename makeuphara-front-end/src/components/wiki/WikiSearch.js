@@ -79,7 +79,7 @@ const WikiSearch = ({
 
   const handleKeyUp = (e) => {
     if (e.keyCode === 13) {
-      return onSearch();
+      onSearch();
     }
   };
 

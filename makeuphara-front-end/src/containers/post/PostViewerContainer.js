@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
-import PostViewer from '../../components/post/PostViewer';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import loadable from '@loadable/component';
+import PostViewer from '../../components/post/PostViewer';
 import { readPost, unloadPost, setOriginalPost } from '../../module/redux/post';
 import PostActionButtions from '../../components/post/PostActionButtions';
 import { removePost } from '../../lib/api/post';
-import loadable from '@loadable/component';
 
 const PostCommentContainer = loadable(() =>
   import('../../containers/post/PostCommentContainer'),
@@ -36,7 +36,7 @@ const PostViewerContainer = ({ match, history }) => {
       await removePost(postId);
       history.push('/blog');
     } catch (error) {
-      throw error;
+      throw new Error(error);
     }
   }, [postId, history]);
 

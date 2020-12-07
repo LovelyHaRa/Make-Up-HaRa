@@ -1,10 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Responsive from '../../components/common/Responsive';
 import { Helmet } from 'react-helmet-async';
-import BodyBlock from '../../components/common/BodyBlock';
 import loadable from '@loadable/component';
+import Responsive from '../../components/common/Responsive';
+import BodyBlock from '../../components/common/BodyBlock';
 
 const EditorContainer = loadable(() =>
   import('../../containers/wiki/edit/EditorContainer'),
@@ -16,7 +16,8 @@ const WriteActionButtonsContainer = loadable(() =>
   import('../../containers/wiki/edit/WriteActionButtonsContainer'),
 );
 
-const WikiEditPage = ({ history }) => {
+const WikiEditPage = () => {
+  const history = useHistory();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   if (!user) {
     history.replace('/login');
@@ -34,4 +35,4 @@ const WikiEditPage = ({ history }) => {
   );
 };
 
-export default withRouter(WikiEditPage);
+export default WikiEditPage;
