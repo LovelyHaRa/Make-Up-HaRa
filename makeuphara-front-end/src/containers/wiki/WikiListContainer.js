@@ -68,6 +68,7 @@ const WikiListContainer = ({ location, history }) => {
 
   // 인피니티 스크롤 핸들링
   const lastDocumentRef = useRef(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const intersectionObserver = new IntersectionObserver((entries, observer) => {
     const lastDocument = entries[0];
     if (lastDocument.intersectionRatio > 0) {
