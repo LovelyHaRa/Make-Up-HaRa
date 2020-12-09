@@ -71,9 +71,6 @@ const DocumentItem = ({ document }) => {
 };
 
 const WikiSection = ({ documentList, loading, error }) => {
-  if (loading) {
-    return <LoadingProgress />;
-  }
   if (error) {
     return (
       <SectionErrorBlock>
