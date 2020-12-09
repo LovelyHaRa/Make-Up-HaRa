@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import ErrorBlock from '../common/ErrorBlock';
-import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 최근 변경된 위키문서 리스트
