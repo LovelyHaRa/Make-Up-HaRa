@@ -135,7 +135,7 @@ export const samplePostList = [
     body: '유튜브테스트 ',
     publisher: {
       _id: '5ed8faf8d3fb0639901ba49d',
-      username: 'master',
+      username: 'test',
       name: 'master',
     },
     publishedDate: '2020-06-04T13:46:48.918Z',
