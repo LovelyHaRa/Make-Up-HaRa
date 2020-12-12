@@ -141,9 +141,10 @@ const PostList = ({
           </span>
           {showWriteButton && <WritePostButton isDarkTheme={isDarkTheme} />}
         </TitleWrapper>
-        <PageBlock block={block} handlePageBlock={handlePageBlock} />
+
         {postList && (
-          <div>
+          <div className="post-list">
+            <PageBlock block={block} handlePageBlock={handlePageBlock} />
             {postList.map((post) => (
               <PostItem post={post} username={username} key={post._id} />
             ))}
