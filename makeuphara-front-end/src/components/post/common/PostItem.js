@@ -46,7 +46,7 @@ const PostItemBlock = styled.div`
 const PostItem = ({ post, username }) => {
   const { _id, title, body, tags, publisher, publishedDate } = post;
   return (
-    <PostItemBlock>
+    <PostItemBlock className="post-item">
       <h2>
         <Link to={`/blog/@${publisher.username}/${_id}`}>{title}</Link>
       </h2>

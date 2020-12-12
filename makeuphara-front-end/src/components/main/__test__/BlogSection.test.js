@@ -4,8 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 
 import BlogSection from '../BlogSection';
-import { samplePostList as postList } from '../../../lib/data/test';
+import { samplePostList } from '../../../lib/data/test';
 
+const postList = samplePostList.slice(0, 5);
 const props = { loading: false, error: null };
 
 describe('<BlogSection />', () => {
