@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PostViewer from '../../components/post/PostViewer';
 import { readPost, unloadPost, setOriginalPost } from '../../module/redux/post';
-import PostActionButtions from '../../components/post/PostActionButtions';
+import PostActionButtons from '../../components/post/PostActionButtons';
 import { removePost } from '../../lib/api/post';
 
 const PostCommentContainer = loadable(() =>
@@ -59,7 +59,7 @@ const PostViewerContainer = ({ match, history }) => {
         error={error}
         actionButtons={
           isPublisher && (
-            <PostActionButtions onEdit={onEdit} onRemove={onRemove} />
+            <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
           )
         }
       />
