@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Button from '../common/Button';
 import LoadingProgress from '../common/LoadingProgress';
 import Responsive from '../common/Responsive';
-import PostActionButtions from './PostActionButtions';
+import PostActionButtons from './PostActionButtons';
 
 /**
  * 포스트 댓글 컴포넌트
@@ -88,7 +88,7 @@ const CommentList = styled.div`
   }
 `;
 
-const CommentItem = ({
+export const CommentItem = ({
   commenter,
   commentDate,
   body,
@@ -155,7 +155,7 @@ const PostComment = ({
             body={comment.body}
             isOwner={user && comment.commenter._id === user._id}
             actionButtons={
-              <PostActionButtions
+              <PostActionButtons
                 type="comment"
                 onEdit={handleEdit}
                 onRemove={() => handleRemove(comment._id)}

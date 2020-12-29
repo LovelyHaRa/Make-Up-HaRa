@@ -209,3 +209,36 @@ export const sampleDocumentList = [
     __v: 0,
   },
 ];
+
+export const sampleCommentList = [
+  {
+    _id: '5feb3d5b1482992b78ae4b8c',
+    body: 'test3',
+    commenter: {
+      _id: '5ed8faf8d3fb0639901ba49d',
+      username: 'master',
+      name: 'master',
+    },
+    commentDate: '2020-12-29T14:29:47.539Z',
+  },
+  {
+    _id: '5feb3d531482992b78ae4b89',
+    commenter: {
+      _id: '5ed8faf8d3fb0639901ba49d',
+      username: 'master',
+      name: 'master',
+    },
+    commentDate: '2020-12-29T14:29:39.586Z',
+    body: 'test2',
+  },
+  {
+    _id: '5feb3d4e1482992b78ae4b87',
+    commenter: {
+      _id: '5ed8faf8d3fb0639901ba49d',
+      username: 'test',
+      name: 'test',
+    },
+    commentDate: '2020-12-29T14:29:34.206Z',
+    body: 'test1',
+  },
+];

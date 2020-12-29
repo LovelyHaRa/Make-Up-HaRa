@@ -26,7 +26,7 @@ const ActionButton = styled.button`
   }
 `;
 
-const PostActionButtions = ({ type = 'post', onEdit, onRemove }) => {
+const PostActionButtons = ({ type = 'post', onEdit, onRemove }) => {
   const [modal, setModal] = useState(false);
 
   const onRemoveClick = useCallback(() => {
@@ -81,4 +81,4 @@ const PostActionButtions = ({ type = 'post', onEdit, onRemove }) => {
   );
 };
 
-export default PostActionButtions;
+export default PostActionButtons;
