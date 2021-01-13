@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Tags from '../post/common/Tags';
-import PaginationContainer from '../../containers/post/PaginationContainer';
 import LoadingProgress from '../common/LoadingProgress';
 
 /**
@@ -174,7 +173,6 @@ const Activity = ({
                     <PostItem post={post} key={post._id} />
                   ))}
                 </div>
-                <PaginationContainer />
               </div>
             )}
           </div>

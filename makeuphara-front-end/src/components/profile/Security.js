@@ -136,7 +136,7 @@ const Security = ({
             fullWidth
             disabled={!isCurValid || !isNewValid || !isConfirmValid}
           >
-            비밀번호 변경
+            변경
           </ButtonWithMarginTop>
         </form>
       </div>
