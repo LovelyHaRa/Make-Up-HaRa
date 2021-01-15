@@ -12,9 +12,18 @@ const props = {
   loadingWiki: false,
 };
 
+const paginationProps = {
+  path: '/mypage/activity',
+  query: '',
+  page: 1,
+  lastPage: 1,
+};
+
 describe('<Activity />', () => {
   it('should be render', () => {
-    const { getByText } = renderWithRouter(<Activity {...props} />);
+    const { getByText } = renderWithRouter(
+      <Activity {...props} {...paginationProps} />,
+    );
 
     expect(getByText('WIKI DOCUMENT')).toBeInTheDocument();
     expect(getByText('발행한 위키 문서 개수')).toBeInTheDocument();
@@ -24,5 +33,8 @@ describe('<Activity />', () => {
     expect(getByText(postList.length)).toBeInTheDocument();
     expect(getByText('PUBLISHED POST LIST')).toBeInTheDocument();
     expect(getByText('발행한 블로그 포스트 목록')).toBeInTheDocument();
+
+    const pageButton = getByText('1');
+    expect(pageButton).toBeInTheDocument();
   });
 });

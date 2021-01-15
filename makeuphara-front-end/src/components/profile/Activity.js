@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Tags from '../post/common/Tags';
 import LoadingProgress from '../common/LoadingProgress';
+import Pagination from '../common/Pagination';
 
 /**
  * 활동정보 컴포넌트
@@ -133,6 +134,7 @@ const Activity = ({
   documentCount,
   loadingPost,
   loadingWiki,
+  ...paginationProps
 }) => {
   if (loadingPost || loadingWiki) {
     return (
@@ -173,6 +175,7 @@ const Activity = ({
                     <PostItem post={post} key={post._id} />
                   ))}
                 </div>
+                <Pagination {...paginationProps} />
               </div>
             )}
           </div>
