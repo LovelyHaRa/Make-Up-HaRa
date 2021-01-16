@@ -15,6 +15,7 @@ describe('<Pagination />', () => {
   it('should be render if page is 1 and last page is 20', () => {
     const { container, getByText } = renderWithRouter(
       <Pagination {...props} />,
+      { route: props.path },
     );
 
     const { mid: midGroup } = getPageNumber(1, 20);
@@ -30,6 +31,7 @@ describe('<Pagination />', () => {
     const nextProps = { ...props, page: 10 };
     const { container, getByText } = renderWithRouter(
       <Pagination {...nextProps} />,
+      { route: props.path },
     );
 
     const { front: frontGroup, mid: midGroup } = getPageNumber(10, 20);
@@ -48,6 +50,7 @@ describe('<Pagination />', () => {
     const nextProps = { ...props, page: 20 };
     const { container, getByText } = renderWithRouter(
       <Pagination {...nextProps} />,
+      { route: props.path },
     );
 
     const { mid: midGroup } = getPageNumber(20, 20);
