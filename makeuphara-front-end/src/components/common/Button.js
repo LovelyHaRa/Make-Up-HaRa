@@ -27,6 +27,7 @@ export const buttonStyle = css`
   &:disabled,
   &[disabled] {
     cursor: default;
+    pointer-events: none;
     background: ${({ theme }) => theme.btnDisableBody};
     color: ${({ theme }) => theme.btnDisableColor};
     &:hover {
