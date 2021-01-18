@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import Profile from '../Profile';
 
@@ -37,5 +37,24 @@ describe('<Profile />', () => {
     expect(getByText(provider)).toBeInTheDocument();
     expect(getByText('DISPLAY NAME')).toBeInTheDocument();
     expect(getByText('수정')).toBeInTheDocument();
+  });
+
+  it('function should be called when renaming', () => {
+    const nextProps = {
+      ...props,
+      isValid: { existName: true, equalName: false },
+    };
+    nextProps.onSubmit.mockImplementation((e) => {
+      e.preventDefault();
+    });
+    const { getByText, getByDisplayValue } = render(<Profile {...nextProps} />);
+    window.HTMLFormElement.prototype.submit = () => {};
+    const input = getByDisplayValue('');
+    fireEvent.change(input, { target: { value: 'test' } });
+    expect(nextProps.onChange).toBeCalled();
+
+    const button = getByText('수정');
+    fireEvent.click(button);
+    expect(nextProps.onSubmit).toBeCalled();
   });
 });
