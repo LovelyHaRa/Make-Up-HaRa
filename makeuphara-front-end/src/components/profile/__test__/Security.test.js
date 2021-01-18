@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import Security from '../Security';
 
@@ -47,5 +47,34 @@ describe('<Security />', () => {
       getByPlaceholderText('변경할 비밀번호 한번 더 입력'),
     ).toBeInTheDocument();
     expect(getByText('변경')).toBeInTheDocument();
+  });
+
+  it('function should be called when change password', () => {
+    const nextProps = {
+      ...props,
+      isValid: {
+        curPassword: true,
+        newPassword: true,
+        confirmPassword: true,
+      },
+    };
+    nextProps.onSubmit.mockImplementation((e) => {
+      e.preventDefault();
+    });
+    const { getByText, getByPlaceholderText } = render(
+      <Security {...nextProps} />,
+    );
+    const curPassword = getByPlaceholderText('기존 비밀번호 입력');
+    fireEvent.change(curPassword, { target: { value: 'test1234' } });
+    const newPassword = getByPlaceholderText('변경할 비밀번호 입력');
+    fireEvent.change(newPassword, { target: { value: '1234test' } });
+    const confirmPassword = getByPlaceholderText(
+      '변경할 비밀번호 한번 더 입력',
+    );
+    fireEvent.change(confirmPassword, { target: { value: '1234test' } });
+    expect(nextProps.onChange).toBeCalledTimes(3);
+
+    fireEvent.click(getByText('변경'));
+    expect(nextProps.onSubmit).toBeCalled();
   });
 });
