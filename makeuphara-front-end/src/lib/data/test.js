@@ -242,3 +242,48 @@ export const sampleCommentList = [
     body: 'test1',
   },
 ];
+
+export const sampleHistoryList = [
+  {
+    _id: '5f48ec521a1fc95d281c276f',
+    title: {
+      code: ['1231241232132'],
+      _id: '5ed8fdc0d3fb0639901ba4a9',
+      name: 'MAKE UP HARA WIKI: 대문',
+      lately: 3,
+      __v: 0,
+      documentLength: 394,
+      updateDate: '2020-08-28T11:36:50.593Z',
+    },
+    revision: 3,
+    publishedDate: '2020-08-28T11:36:50.700Z',
+  },
+  {
+    _id: '5ee51be43a5cbc62649c7606',
+    title: {
+      code: ['1231241232132'],
+      _id: '5ed8fdc0d3fb0639901ba4a9',
+      name: 'MAKE UP HARA WIKI: 대문',
+      lately: 3,
+      __v: 0,
+      documentLength: 394,
+      updateDate: '2020-08-28T11:36:50.593Z',
+    },
+    revision: 2,
+    publishedDate: '2020-06-13T18:33:08.986Z',
+  },
+  {
+    _id: '5ed8ff23d3fb0639901ba4cb',
+    title: {
+      code: ['1231241232132'],
+      _id: '5ed8fdc0d3fb0639901ba4a9',
+      name: 'MAKE UP HARA WIKI: 대문',
+      lately: 3,
+      __v: 0,
+      documentLength: 394,
+      updateDate: '2020-08-28T11:36:50.593Z',
+    },
+    revision: 1,
+    publishedDate: '2020-06-04T14:03:15.936Z',
+  },
+];
