@@ -515,3 +515,20 @@ export const sampleDocumentSearchList = [
     updateDate: '2020-06-04T14:05:50.440Z',
   },
 ];
+
+export const sampleWikiRequestList = [
+  {
+    _id: '600eb883bebe5b0a8904427d',
+    code: [],
+    name: '이니스프리 납작 아이브로우 펜슬 0.3g',
+    lately: 0,
+    __v: 0,
+  },
+  {
+    _id: '600eba7abebe5b0a8904427e',
+    code: [],
+    name: '클리오 킬래쉬 마스카라',
+    lately: 0,
+    __v: 0,
+  },
+];
