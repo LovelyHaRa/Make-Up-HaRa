@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import moment from 'moment';
+import { format } from 'date-fns';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '../common/Button';
 import LoadingProgress from '../common/LoadingProgress';
@@ -98,7 +98,7 @@ export const CommentItem = ({
   <div className="list-item">
     <div className="commenter-info">
       <span>{commenter.username}</span>
-      <span>{moment(commentDate).format('YYYY-MM-DD HH:mm:ss')}</span>
+      <span>{format(new Date(commentDate), 'yyyy-MM-dd HH:mm:ss')}</span>
     </div>
     <div className="comment-content">
       <div className="comment-body">
