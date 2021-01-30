@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import { fireEvent, render } from '@testing-library/react';
 
@@ -64,7 +64,7 @@ describe('<PostComment />', () => {
 
     expect(getByText(itemProps.commenter.username)).toBeInTheDocument();
     expect(
-      getByText(moment(itemProps.commentDate).format('YYYY-MM-DD HH:mm:ss')),
+      getByText(format(new Date(itemProps.commentDate), 'yyyy-MM-dd HH:mm:ss')),
     ).toBeInTheDocument();
     expect(getByText(itemProps.body)).toBeInTheDocument();
   });
@@ -86,7 +86,7 @@ describe('<PostComment />', () => {
 
     expect(getByText(nextProps.commenter.username)).toBeInTheDocument();
     expect(
-      getByText(moment(nextProps.commentDate).format('YYYY-MM-DD HH:mm:ss')),
+      getByText(format(new Date(nextProps.commentDate), 'yyyy-MM-dd HH:mm:ss')),
     ).toBeInTheDocument();
     expect(getByText(nextProps.body)).toBeInTheDocument();
     const button = getByText('삭제');

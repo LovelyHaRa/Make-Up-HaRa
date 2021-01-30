@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { Helmet } from 'react-helmet-async';
 import ErrorBlock from '../common/ErrorBlock';
 import Responsive from '../common/Responsive';
@@ -232,7 +232,8 @@ const WikiViewer = ({
         <TitleBlock>
           <h2>{title && title.name}</h2>
           <p>
-            최근 수정시각: {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+            최근 수정시각:{' '}
+            {format(new Date(publishedDate), 'yyyy-MM-dd HH:mm:ss')}
           </p>
           <hr />
         </TitleBlock>

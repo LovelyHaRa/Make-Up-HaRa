@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { renderWithRouter } from '../../../lib/test-utils';
 
 import { sampleDocumentList as documentList } from '../../../lib/data/test';
@@ -48,7 +48,10 @@ describe('<WikiViewer />', () => {
     expect(getByText(title.name)).toBeInTheDocument();
     expect(
       getByText(
-        `최근 수정시각: ${moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}`,
+        `최근 수정시각: ${format(
+          new Date(publishedDate),
+          'yyyy-MM-dd HH:mm:ss',
+        )}`,
       ),
     ).toBeInTheDocument();
   });

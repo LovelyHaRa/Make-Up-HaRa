@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import { render } from '@testing-library/react';
 
@@ -26,7 +26,7 @@ describe('<PostItem />', () => {
     expect(getByText(username)).toBeInTheDocument();
     tags.forEach((tag) => expect(getByText(`#${tag}`)).toBeInTheDocument());
     expect(
-      getByText(moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')),
+      getByText(format(new Date(publishedDate), 'yyyy-MM-dd HH:mm:ss')),
     ).toBeInTheDocument();
   });
 });
