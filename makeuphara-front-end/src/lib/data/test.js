@@ -729,3 +729,33 @@ export const samplePostSearchResult = [
     __v: 0,
   },
 ];
+
+export const sampleWikiSearchResult = [
+  {
+    _id: '5ed8fdd1d3fb0639901ba4aa',
+    code: ['8809612845830'],
+    name: '이니스프리 미네랄 메이크업 베이스 03 크림 퍼플',
+    lately: 3,
+    __v: 0,
+    documentLength: 157,
+    updateDate: '2020-06-13T18:41:44.086Z',
+  },
+  {
+    _id: '5ed8fe33d3fb0639901ba4b8',
+    code: [],
+    name: '미샤 초보양 비비크림',
+    lately: 1,
+    __v: 0,
+    documentLength: 272,
+    updateDate: '2020-06-04T14:06:48.207Z',
+  },
+  {
+    _id: '5ed8fe0dd3fb0639901ba4b1',
+    code: [],
+    name: '에뛰드 수분가득 콜라겐 크림',
+    lately: 1,
+    __v: 0,
+    documentLength: 94,
+    updateDate: '2020-06-04T14:05:14.445Z',
+  },
+];
