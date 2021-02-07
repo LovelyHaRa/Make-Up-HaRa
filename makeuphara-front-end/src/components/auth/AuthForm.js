@@ -131,7 +131,6 @@ const AuthForm = ({
   onSubmit,
   error,
   googleLoginBtn,
-  onGoogleLoginClick,
   onNaverLoginClick,
   onKakaoLoginClick,
 }) => {
@@ -237,7 +236,7 @@ const AuthForm = ({
         </div>
       )}
 
-      <Footer>
+      <Footer className="auth-link">
         {type === 'login' ? (
           <Link to="/register">회원가입</Link>
         ) : (
