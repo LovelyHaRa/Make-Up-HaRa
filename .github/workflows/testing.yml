@@ -48,7 +48,7 @@ jobs:
               body: "테스트가 실패햇습니다!",
               event: "COMMENT"
             })
-          if: failure()
+        if: failure()
       - name: success testing
         uses: actions/github-script@v3.1.0
         with:
@@ -62,4 +62,4 @@ jobs:
               body: "테스트를 통과했습니다!",
               event: "COMMENT"
             )}
-          if: success()
+        if: success()
