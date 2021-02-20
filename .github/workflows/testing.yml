@@ -35,10 +35,10 @@ jobs:
         run: yarn test
         env:
           CI: true
-      - name: failed test
+      - name: fail testing
         uses: actions/github-script@v3.1.0
         with:
-          github-token: ${{github.token}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const ref = "${{github.ref}}"
             const pr_number = Number(ref.split("/")[2])
@@ -52,7 +52,7 @@ jobs:
       - name: success testing
         uses: actions/github-script@v3.1.0
         with:
-          github-token: ${{github.token}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const ref = "${{github.ref}}"
             const pr_number = Number(ref.split("/")[2])
