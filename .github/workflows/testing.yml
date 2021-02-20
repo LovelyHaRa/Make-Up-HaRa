@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         node_version: ['12']
-        os: [ubuntu-latest]
+        os: [macOS-latest]
 
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -29,10 +29,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: yarn install
         working-directory: ./makeuphara-front-end
-        run: yarn install --network-timeout 1000000
+        run: yarn install
       - name: yarn test
         working-directory: ./makeuphara-front-end
-        run: yarn test
+        run: yarn test --
       - name: failed test
         uses: actions/github-script@v3.1.0
         with:
