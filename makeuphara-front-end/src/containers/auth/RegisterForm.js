@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
-import AuthForm from '../../components/auth/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
+import AuthForm from '../../components/auth/AuthForm';
 import {
   changeFieid,
   register,
@@ -114,9 +114,7 @@ const RegisterForm = ({ history }) => {
         ...prevState,
         username: '인증 서버 연결에 실패했습니다.',
       }));
-    } else if (!isNotExistUsername) {
-      return;
-    } else if (isNotExistUsername.result) {
+    } else if (isNotExistUsername?.result) {
       setIsValid((prevState) => ({ ...prevState, username: true }));
       setValidMessage((prevState) => ({
         ...prevState,
@@ -165,9 +163,7 @@ const RegisterForm = ({ history }) => {
 
   // 비동기 이름 중복 체크
   useEffect(() => {
-    const username = form.username;
-    const name = form.name;
-    if (name === '') {
+    if (form.name === '') {
       return;
     }
     if (!isNotExistUsername || !isNotExistUsername.result) {
@@ -178,7 +174,7 @@ const RegisterForm = ({ history }) => {
       }));
       return;
     }
-    dispatch(checkExistName({ username, name }));
+    dispatch(checkExistName({ username: form.username, name: form.name }));
   }, [form.username, form.name, isNotExistUsername, dispatch]);
 
   // 이름 중복 체크 결과 반영
@@ -189,15 +185,13 @@ const RegisterForm = ({ history }) => {
         ...prevState,
         name: '인증 서버 연결에 실패했습니다.',
       }));
-    } else if (!isNotExistName) {
-      return;
-    } else if (isNotExistName.result) {
+    } else if (isNotExistName?.result) {
       setIsValid((prevState) => ({ ...prevState, name: true }));
       setValidMessage((prevState) => ({
         ...prevState,
         name: null,
       }));
-    } else if (!isNotExistName.result) {
+    } else if (!isNotExistName?.result) {
       setIsValid((prevState) => ({ ...prevState, name: false }));
       setValidMessage((prevState) => ({
         ...prevState,
@@ -223,11 +217,12 @@ const RegisterForm = ({ history }) => {
     }
   }, [registerResult, registerResultError, history]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initializeForm('register'));
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   return (
     <AuthForm

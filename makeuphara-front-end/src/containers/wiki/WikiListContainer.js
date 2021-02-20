@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import WikiList from '../../components/wiki/WikiList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSearchList } from '../../module/redux/wiki';
 import qs from 'qs';
 import { withRouter } from 'react-router-dom';
+import { getSearchList } from '../../module/redux/wiki';
+import WikiList from '../../components/wiki/WikiList';
 import Categories from '../../components/wiki/Categories';
 
 const WikiListContainer = ({ location, history }) => {
@@ -49,7 +49,7 @@ const WikiListContainer = ({ location, history }) => {
   // 문서 리스트 업데이트
   useEffect(() => {
     if (searchList && active && !loading) {
-      setIsLastPage(searchList.length === 0 ? true : false);
+      setIsLastPage(searchList.length === 0);
       setDocumentList((element) => [...element, ...searchList]);
     }
   }, [searchList, active, loading]);
@@ -68,6 +68,7 @@ const WikiListContainer = ({ location, history }) => {
 
   // 인피니티 스크롤 핸들링
   const lastDocumentRef = useRef(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const intersectionObserver = new IntersectionObserver((entries, observer) => {
     const lastDocument = entries[0];
     if (lastDocument.intersectionRatio > 0) {
@@ -97,13 +98,14 @@ const WikiListContainer = ({ location, history }) => {
   }, [lastDocumentRef, intersectionObserver]);
 
   // 언마운트시 처리
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       setIsLastPage(false);
       setActive(false);
       setDocumentList([]);
-    };
-  }, []);
+    },
+    [],
+  );
 
   return (
     <>

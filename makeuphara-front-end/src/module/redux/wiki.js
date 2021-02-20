@@ -1,10 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
+import { takeLatest } from 'redux-saga/effects';
 import {
   createRequestActionTypes,
   createRequestSaga,
 } from '../../lib/createRequest';
 import * as wikiAPI from '../../lib/api/wiki';
-import { takeLatest } from 'redux-saga/effects';
 
 /* action type */
 // api - request list
@@ -309,7 +309,7 @@ const wiki = handleActions(
       ...state,
       searchList,
       searchListError: null,
-      lastPage: parseInt(response.headers['makeuphara-wiki-last-page'], '10'),
+      lastPage: parseInt(response.headers['makeuphara-wiki-last-page'], 10),
     }),
     [GET_SEARCH_LIST_FAILURE]: (state, { payload: searchListError }) => ({
       ...state,

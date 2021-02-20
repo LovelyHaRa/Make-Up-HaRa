@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import loadable from '@loadable/component';
 import { logout } from '../../module/redux/user';
 import { setTheme } from '../../module/redux/theme';
 import Header from '../../components/common/Header';
-import { withRouter } from 'react-router-dom';
 import { changeInput } from '../../module/redux/search';
-import loadable from '@loadable/component';
 
 const AuthTemplate = loadable(() =>
   import('../../components/auth/AuthTemplate'),
@@ -50,9 +50,9 @@ const HeaderContainer = ({ location, history }) => {
       dispatch(setTheme(!state));
       try {
         // 로컬스토리지에 다크모드 상태값 저장
-        localStorage.setItem('darkTheme', !state + '');
+        localStorage.setItem('darkTheme', `${!state}`);
       } catch (error) {
-        throw error;
+        throw new Error('cannot access localStorage');
       }
     },
     [dispatch],

@@ -16,3 +16,5 @@ export const DarkThemeSwitch = styled(Switch)`
     color: ${({ theme }) => theme.darkThemeSwitchBody};
   }
 `;
+
+export default null;

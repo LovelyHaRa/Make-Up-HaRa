@@ -34,3 +34,5 @@ export const PageSlider = styled(Slider)`
     height: 0.5rem;
   }
 `;
+
+export default null;

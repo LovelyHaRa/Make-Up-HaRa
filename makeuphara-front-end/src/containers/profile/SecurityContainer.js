@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Security from '../../components/profile/Security';
 import { useDispatch, useSelector } from 'react-redux';
+import Security from '../../components/profile/Security';
 import {
   changeField,
   changePassword,
@@ -160,11 +160,12 @@ const SecurityContainer = () => {
   }, [dispatch, changePasswordResult, changePasswordError]);
 
   // 언마운트시 작업
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initializeChangePassword());
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   return (
     <Security

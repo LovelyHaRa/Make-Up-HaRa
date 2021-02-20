@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import qs from 'qs';
 import { changeOption } from '../../module/redux/search';
 import {
   TotalSearchOption,
   WikiSearchOption,
   BlogSearchOption,
 } from '../../components/search/SearchOption';
-import qs from 'qs';
 
 export const TotalSearchOptionContainer = withRouter(
   ({ location, history }) => {

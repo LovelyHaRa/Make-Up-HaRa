@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import Responsive from '../../common/Responsive';
 import Quill from 'quill';
-import 'quill/dist/quill.bubble.css';
 import ImageResize from 'quill-image-resize-module-react';
+import Responsive from '../../common/Responsive';
+import 'quill/dist/quill.bubble.css';
 
 Quill.debug('error');
 Quill.register('modules/imageResize', ImageResize);
@@ -50,7 +50,7 @@ const Editor = ({ onChangeField, title, body }) => {
   try {
     localTitle = title || JSON.parse(sessionStorage.getItem('wiki-title'));
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
   const quillElement = useRef(null);
   const quillInstance = useRef(null);

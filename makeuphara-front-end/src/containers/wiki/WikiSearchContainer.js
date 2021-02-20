@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
-import WikiSearch from '../../components/wiki/WikiSearch';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import WikiSearch from '../../components/wiki/WikiSearch';
 import {
   changeField,
   getDirectTitle,
   initialize,
   getRandomTitle,
 } from '../../module/redux/wiki';
-import { withRouter } from 'react-router-dom';
 
 const WikiSearchContainer = ({ history }) => {
   // 액션 함수 불러오기

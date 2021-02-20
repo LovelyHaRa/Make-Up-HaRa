@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 import ErrorBlock from '../common/ErrorBlock';
-import LoadingProgress from '../common/LoadingProgress';
 
 /**
  * 최근 변경된 위키문서 리스트
@@ -64,16 +63,13 @@ const DocumentItem = ({ document }) => {
     <DocumentBlock>
       <Link to={`/w/${name}`}>{name}</Link>
       <div className="wiki-info">
-        <span>{moment(publishedDate).format('YYYY-MM-DD')}</span>
+        <span>{format(new Date(publishedDate), 'yyyy-MM-dd')}</span>
       </div>
     </DocumentBlock>
   );
 };
 
 const WikiSection = ({ documentList, loading, error }) => {
-  if (loading) {
-    return <LoadingProgress />;
-  }
   if (error) {
     return (
       <SectionErrorBlock>

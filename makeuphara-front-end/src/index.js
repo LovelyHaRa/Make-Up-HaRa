@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
-import rootReducer, { rootSaga } from './module/redux/index';
 import { Provider } from 'react-redux';
-import { tempSetUser, check } from './module/redux/user';
 import { HelmetProvider } from 'react-helmet-async';
+import rootReducer, { rootSaga } from './module/redux/index';
+import { tempSetUser, check } from './module/redux/user';
+import * as serviceWorker from './serviceWorker';
+import App from './App';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -27,7 +27,7 @@ const loadUser = () => {
     store.dispatch(tempSetUser(user));
     store.dispatch(check());
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
 };
 loadUser();

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
-import WikiRequest from '../../components/wiki/WikiRequest';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRequestList, setTitle } from '../../module/redux/wiki';
 import { withRouter } from 'react-router-dom';
+import WikiRequest from '../../components/wiki/WikiRequest';
+import { getRequestList, setTitle } from '../../module/redux/wiki';
 
 const WikiRequestContainer = ({ history }) => {
   // 액션 함수 불러오기

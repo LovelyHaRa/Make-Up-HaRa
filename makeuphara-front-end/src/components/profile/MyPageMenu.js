@@ -41,16 +41,14 @@ const NavMenu = styled(NavLink)`
   }
 `;
 
-const MyPageMenu = () => {
-  return (
-    <MyPageMenuBlock>
-      {MenuList.map((menu) => (
-        <NavMenu key={menu.name} to={menu.link} exact={true}>
-          <span className="menu-name">{menu.name}</span>
-        </NavMenu>
-      ))}
-    </MyPageMenuBlock>
-  );
-};
+const MyPageMenu = () => (
+  <MyPageMenuBlock>
+    {MenuList.map((menu) => (
+      <NavMenu key={menu.name} to={menu.link} exact>
+        <span className="menu-name">{menu.name}</span>
+      </NavMenu>
+    ))}
+  </MyPageMenuBlock>
+);
 
 export default MyPageMenu;

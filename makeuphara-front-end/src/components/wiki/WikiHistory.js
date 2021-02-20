@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
+import Responsive from '../common/Responsive';
 import ErrorBlock from '../common/ErrorBlock';
 import LoadingProgress from '../common/LoadingProgress';
 
@@ -49,7 +49,7 @@ const HistoryItem = ({ document }) => {
   return (
     <div className="item">
       <span className="item-date">
-        {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+        {format(new Date(publishedDate), 'yyyy-MM-dd HH:mm:ss')}
       </span>
       <Link to={`/w/${title.name}?r=${revision}`} className="item-link">
         (보기)
@@ -83,7 +83,7 @@ const WikiHistory = ({ historyList, error, loading, docName }) => {
   return (
     <WikiHistoryBlock>
       <span className="title">
-        <Link to="#">{docName}</Link>
+        <span>{docName}</span>
         <span>(문서 역사)</span>
       </span>
       {historyList.map((document) => (

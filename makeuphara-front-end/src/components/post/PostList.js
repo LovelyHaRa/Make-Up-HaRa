@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet-async';
+import Typography from '@material-ui/core/Typography';
 import Responsive from '../common/Responsive';
 import Button from '../common/Button';
 import PostItem from './common/PostItem';
-import { Helmet } from 'react-helmet-async';
 import ErrorBlock from '../common/ErrorBlock';
 import { PageSlider } from '../common/CustomSlider';
-import Typography from '@material-ui/core/Typography';
 import LoadingProgress from '../common/LoadingProgress';
 
 const PostListBlock = styled.div`
@@ -52,34 +52,32 @@ const TitleWrapper = styled.div`
 
 const WritePostButton = ({ isDarkTheme }) => {
   const btn = !isDarkTheme ? (
-    <Button cyan="true" to={'/blog/write'}>
+    <Button cyan="true" to="/blog/write">
       포스트 작성
     </Button>
   ) : (
-    <Button violet="true" to={'/blog/write'}>
+    <Button violet="true" to="/blog/write">
       포스트 작성
     </Button>
   );
   return btn;
 };
 
-const PageBlock = ({ block, handlePageBlock }) => {
-  return (
-    <div className="page-block">
-      <Typography>페이지당 포스트 개수</Typography>
-      <PageSlider
-        valueLabelDisplay="auto"
-        defaultValue={10}
-        marks
-        min={10}
-        max={50}
-        step={10}
-        value={block}
-        onChange={handlePageBlock}
-      />
-    </div>
-  );
-};
+const PageBlock = ({ block, handlePageBlock }) => (
+  <div className="page-block">
+    <Typography>페이지당 포스트 개수</Typography>
+    <PageSlider
+      valueLabelDisplay="auto"
+      defaultValue={10}
+      marks
+      min={10}
+      max={50}
+      step={10}
+      value={block}
+      onChange={handlePageBlock}
+    />
+  </div>
+);
 
 const PostList = ({
   postList,
@@ -143,9 +141,10 @@ const PostList = ({
           </span>
           {showWriteButton && <WritePostButton isDarkTheme={isDarkTheme} />}
         </TitleWrapper>
-        <PageBlock block={block} handlePageBlock={handlePageBlock} />
+
         {postList && (
-          <div>
+          <div className="post-list">
+            <PageBlock block={block} handlePageBlock={handlePageBlock} />
             {postList.map((post) => (
               <PostItem post={post} username={username} key={post._id} />
             ))}

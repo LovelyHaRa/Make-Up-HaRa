@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 /**
  *  포스트의 부가정보(작성자, 작성일자)를 출력하는 컴포넌트
@@ -15,8 +15,8 @@ const SubInfoBlock = styled.div`
     `}
   color: ${({ theme }) => theme.postSubInfoText};
   .username {
-    font-family:'Raleway';
-    font-weight:600;
+    font-family: 'Raleway';
+    font-weight: 600;
   }
   .username:hover {
     color: ${({ theme }) => theme.postSubInfoHoverText};
@@ -33,21 +33,19 @@ const SubInfoBlock = styled.div`
   }
 `;
 
-const SubInfo = ({ username, publishedDate, hasMarginTop }) => {
-  return (
-    <SubInfoBlock hasMarginTop={hasMarginTop} className="subinfo">
-      <span className="username">
-        <Link to={`/blog/@${username}`}>
-          <b>{username}</b>
-        </Link>
+const SubInfo = ({ username, publishedDate, hasMarginTop }) => (
+  <SubInfoBlock hasMarginTop={hasMarginTop} className="subinfo">
+    <span className="username">
+      <Link to={`/blog/@${username}`}>
+        <b>{username}</b>
+      </Link>
+    </span>
+    {publishedDate && (
+      <span className="publishedDate">
+        {format(new Date(publishedDate), 'yyyy-MM-dd HH:mm:ss')}
       </span>
-      {publishedDate && (
-        <span className="publishedDate">
-          {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
-        </span>
-      )}
-    </SubInfoBlock>
-  );
-};
+    )}
+  </SubInfoBlock>
+);
 
 export default SubInfo;

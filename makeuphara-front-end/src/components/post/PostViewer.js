@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 import { Helmet } from 'react-helmet-async';
+import Responsive from '../common/Responsive';
 import SubInfo from './common/SubInfo';
 import Tags from './common/Tags';
 import ErrorBlock from '../common/ErrorBlock';
@@ -71,17 +71,14 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
           </span>
         </PostViewerErrorBlock>
       );
-    } else {
-      return (
-        <PostViewerErrorBlock>
-          <span className="error-title">포스트 요청 실패.</span>
-          <span className="error-msg">Status: {error.response.status}</span>
-          <span className="error-msg">
-            Message: {error.response.statusText}
-          </span>
-        </PostViewerErrorBlock>
-      );
     }
+    return (
+      <PostViewerErrorBlock>
+        <span className="error-title">포스트 요청 실패.</span>
+        <span className="error-msg">Status: {error.response.status}</span>
+        <span className="error-msg">Message: {error.response.statusText}</span>
+      </PostViewerErrorBlock>
+    );
   }
   // 로딩 중이거나 아직 포스트 데이터가 없을 때
   if (loading || !post) {

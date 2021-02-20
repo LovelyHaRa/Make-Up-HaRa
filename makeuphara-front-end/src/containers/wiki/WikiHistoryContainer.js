@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import WikiHistory from '../../components/wiki/WikiHistory';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHistoryList } from '../../module/redux/wiki';
 import { withRouter } from 'react-router-dom';
+import WikiHistory from '../../components/wiki/WikiHistory';
+import { getHistoryList } from '../../module/redux/wiki';
 
 const WikiHistoryContainer = ({ match }) => {
   // 액션 함수 불러오기

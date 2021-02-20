@@ -1,10 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
+import { takeLatest } from 'redux-saga/effects';
 import {
   createRequestActionTypes,
   createRequestSaga,
 } from '../../lib/createRequest';
 import * as postAPI from '../../lib/api/post';
-import { takeLatest } from 'redux-saga/effects';
 
 /* action type */
 // local
@@ -209,8 +209,8 @@ const post = handleActions(
     [GET_LIST_SUCCESS]: (state, { payload: postList, meta: response }) => ({
       ...state,
       postList,
-      postCount: parseInt(response.headers['makeuphara-post-count'], '10'),
-      lastPage: parseInt(response.headers['makeuphara-post-last-page'], '10'),
+      postCount: parseInt(response.headers['makeuphara-post-count'], 10),
+      lastPage: parseInt(response.headers['makeuphara-post-last-page'], 10),
     }),
     [GET_LIST_FAILURE]: (state, { payload: postListError }) => ({
       ...state,
@@ -230,11 +230,11 @@ const post = handleActions(
       commentList,
       commentCount: parseInt(
         response.headers['makeuphara-post-comment-count'],
-        '10',
+        10,
       ),
       commentLastPage: parseInt(
         response.headers['makeuphara-post-comment-last-page'],
-        '10',
+        10,
       ),
       commentListError: null,
     }),

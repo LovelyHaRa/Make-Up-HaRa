@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginWithKakao } from '../../../module/redux/auth';
 import { check } from '../../../module/redux/user';
 
-const LoginWithKakaoPage = ({ location, history }) => {
+const LoginWithKakaoPage = () => {
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { auth, authError, user } = useSelector(({ auth, user }) => ({
     auth: auth.auth,
@@ -40,8 +42,8 @@ const LoginWithKakaoPage = ({ location, history }) => {
       try {
         sessionStorage.setItem('user', JSON.stringify(user));
         history.replace('/');
-      } catch (error) {
-        throw error;
+      } catch (err) {
+        throw new Error('cannot access sessionStorage');
       }
     }
   }, [user, history]);
@@ -52,4 +54,4 @@ const LoginWithKakaoPage = ({ location, history }) => {
   );
 };
 
-export default withRouter(LoginWithKakaoPage);
+export default LoginWithKakaoPage;

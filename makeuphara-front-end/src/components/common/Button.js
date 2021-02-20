@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import palette from '../../lib/styles/open-color';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/open-color';
 
 /**
  * 소셜 로그인 버튼에서 css를 사용하기 위해 export
@@ -12,7 +12,7 @@ export const buttonStyle = css`
   border: none;
   border-radius: 2px;
   font-size: 1rem;
-  font-family:'NanumBarunGothic';
+  font-family: 'NanumBarunGothic';
   font-weight: normal;
   padding: 0.25rem 1rem;
   color: ${({ theme }) => theme.btnText};
@@ -27,9 +27,10 @@ export const buttonStyle = css`
   &:disabled,
   &[disabled] {
     cursor: default;
+    pointer-events: none;
     background: ${({ theme }) => theme.btnDisableBody};
     color: ${({ theme }) => theme.btnDisableColor};
-    &:hover{
+    &:hover {
       background: ${({ theme }) => theme.btnDisableBody};
     }
   }
@@ -120,7 +121,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Button = (props) => {
-  return props.to ? <StyledLink {...props} /> : <StyledButton {...props} />;
+  const { to } = props;
+  return to ? <StyledLink {...props} /> : <StyledButton {...props} />;
 };
 
 export default Button;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import palette from '../../lib/styles/open-color';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -10,11 +9,12 @@ import {
   faEllipsisV,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import Button from './Button';
 import { makeStyles } from '@material-ui/core/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Button from './Button';
+import palette from '../../lib/styles/open-color';
 import { DarkThemeSwitch } from './CustomSwitch';
 
 // Header 컴포넌트의 css 정의
@@ -293,62 +293,54 @@ const SearchInputPackage = ({
 };
 
 // 기타메뉴 드롭다운 컴포넌트
-const EtcDropDown = ({ state }) => {
-  return (
-    state && (
-      <div className="dropdown dropdown-menu">
-        <div className="all-menu">
-          <p>MAIN MENU</p>
-          <ul>
-            <Link to="/w">
-              <li>WIKI</li>
-            </Link>
-            <Link to="/blog">
-              <li>blog</li>
-            </Link>
-          </ul>
-          <hr />
-        </div>
-        <ul className="etc-menu">
-          <Link to="/wiki/request">
-            <li>작성이 필요한 문서[WIKI]</li>
+const EtcDropDown = ({ state }) =>
+  state && (
+    <div className="dropdown dropdown-menu">
+      <div className="all-menu">
+        <p>MAIN MENU</p>
+        <ul>
+          <Link to="/w">
+            <li>WIKI</li>
           </Link>
-          {/* <li>외부사이트 검색(구현 중...)</li>
+          <Link to="/blog">
+            <li>blog</li>
+          </Link>
+        </ul>
+        <hr />
+      </div>
+      <ul className="etc-menu">
+        <Link to="/wiki/request">
+          <li>작성이 필요한 문서[WIKI]</li>
+        </Link>
+        {/* <li>외부사이트 검색(구현 중...)</li>
           <li>바코드 / QR코드 만들기(구현 중...)</li>
           <li>실시간 검색어 순위(구현 중...)</li>
           <li>TODO(구현 중...)</li> */}
-        </ul>
-      </div>
-    )
-  );
-};
-const MemoizedEtcDropDown = React.memo(EtcDropDown);
-
-// 검색 컴포넌트 드롭다운 처리
-const SearchDropDown = ({ state, currentPath }) => {
-  return (
-    state && (
-      <SearchInputPackage
-        type="dropdown dropdown-search-input"
-        currentPath={currentPath}
-      />
-    )
-  );
-};
-
-// 유저 정보 드롭다운
-const ProfileInfo = ({ user }) => {
-  return (
-    <div className="profile-menu">
-      <p>{user.name}</p>
-      <ul>
-        <Link to={'/mypage'}>
-          <li className="profile-menu-mypage">My Page</li>
-        </Link>
       </ul>
     </div>
   );
-};
+const MemoizedEtcDropDown = React.memo(EtcDropDown);
+
+// 검색 컴포넌트 드롭다운 처리
+const SearchDropDown = ({ state, currentPath }) =>
+  state && (
+    <SearchInputPackage
+      type="dropdown dropdown-search-input"
+      currentPath={currentPath}
+    />
+  );
+
+// 유저 정보 드롭다운
+const ProfileInfo = ({ user }) => (
+  <div className="profile-menu">
+    <p>{user.name}</p>
+    <ul>
+      <Link to="/mypage">
+        <li className="profile-menu-mypage">My Page</li>
+      </Link>
+    </ul>
+  </div>
+);
 
 // 옵션 메뉴 드롭다운
 const OptionMenu = ({ isDarkTheme, handleDarkThemeToggle }) => {
@@ -419,36 +411,30 @@ const UserDropDown = ({
   isDarkTheme,
   handleDarkThemeToggle,
   currentPath,
-}) => {
-  return (
-    state && (
-      <div className="dropdown dropdown-menu dropdown-user-info">
-        <ProfileInfo user={user} />
-        <hr />
-        <OptionMenu
-          isDarkTheme={isDarkTheme}
-          handleDarkThemeToggle={handleDarkThemeToggle}
-        />
-        <hr />
-        <LogoutMenu onLogout={onLogout} currentPath={currentPath} />
-      </div>
-    )
+}) =>
+  state && (
+    <div className="dropdown dropdown-menu dropdown-user-info">
+      <ProfileInfo user={user} />
+      <hr />
+      <OptionMenu
+        isDarkTheme={isDarkTheme}
+        handleDarkThemeToggle={handleDarkThemeToggle}
+      />
+      <hr />
+      <LogoutMenu onLogout={onLogout} currentPath={currentPath} />
+    </div>
   );
-};
 
 // 비로그인 상태일 때 옵션 메뉴
-const NoneUserDropDown = ({ state, isDarkTheme, handleDarkThemeToggle }) => {
-  return (
-    state && (
-      <div className="dropdown dropdown-menu dropdown-user-info">
-        <OptionMenu
-          isDarkTheme={isDarkTheme}
-          handleDarkThemeToggle={handleDarkThemeToggle}
-        />
-      </div>
-    )
+const NoneUserDropDown = ({ state, isDarkTheme, handleDarkThemeToggle }) =>
+  state && (
+    <div className="dropdown dropdown-menu dropdown-user-info">
+      <OptionMenu
+        isDarkTheme={isDarkTheme}
+        handleDarkThemeToggle={handleDarkThemeToggle}
+      />
+    </div>
   );
-};
 
 // Header는 position 처리했으므로 공간을 띄워준다
 const Spacer = styled.div`
@@ -512,7 +498,7 @@ const Header = ({
               <Link to="/blog">Blog</Link>
             </Menu>
             <ClickAwayListener onClickAway={handleEtcClose}>
-              <Menu>
+              <Menu className="etc-menu-button">
                 <Link
                   to={currentPath}
                   onClick={handleEtcToggle}

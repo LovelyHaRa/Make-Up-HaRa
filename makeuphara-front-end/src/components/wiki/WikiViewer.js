@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import ErrorBlock from '../common/ErrorBlock';
+import { format } from 'date-fns';
 import { Helmet } from 'react-helmet-async';
+import ErrorBlock from '../common/ErrorBlock';
+import Responsive from '../common/Responsive';
 import InputBarcodeModal from './InputBarcodeModal';
 import LoadingProgress from '../common/LoadingProgress';
 
@@ -88,9 +88,13 @@ const DocumentMenu = ({
   return (
     <>
       {availableBarcode && (
-        <button onClick={handleInputCodeButtonClick}>코드 등록</button>
+        <button type="button" onClick={handleInputCodeButtonClick}>
+          코드 등록
+        </button>
       )}
-      <button onClick={onEdit}>편집</button>
+      <button type="button" onClick={onEdit}>
+        편집
+      </button>
       <Link to={`/wiki/history/${docName}`}>역사</Link>
       <InputBarcodeModal
         className="modal"
@@ -185,20 +189,19 @@ const WikiViewer = ({
           </DocumentBlock>
         </WikiViewerBlock>
       );
-    } else {
-      return (
-        <WikiViewerErrorBlock>
-          <span className="error-title">문서 요청 실패.</span>
-          <span>
-            Status: <span className="error-msg">{error.response.status}</span>
-          </span>
-          <span>
-            Message:{' '}
-            <span className="error-msg">{error.response.statusText}</span>
-          </span>
-        </WikiViewerErrorBlock>
-      );
     }
+    return (
+      <WikiViewerErrorBlock>
+        <span className="error-title">문서 요청 실패.</span>
+        <span>
+          Status: <span className="error-msg">{error.response.status}</span>
+        </span>
+        <span>
+          Message:{' '}
+          <span className="error-msg">{error.response.statusText}</span>
+        </span>
+      </WikiViewerErrorBlock>
+    );
   }
 
   if (loading || !document) {
@@ -229,7 +232,8 @@ const WikiViewer = ({
         <TitleBlock>
           <h2>{title && title.name}</h2>
           <p>
-            최근 수정시각: {moment(publishedDate).format('YYYY-MM-DD HH:mm:ss')}
+            최근 수정시각:{' '}
+            {format(new Date(publishedDate), 'yyyy-MM-dd HH:mm:ss')}
           </p>
           <hr />
         </TitleBlock>

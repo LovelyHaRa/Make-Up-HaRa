@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import Responsive from '../../common/Responsive';
 import Quill from 'quill';
-import 'quill/dist/quill.bubble.css';
 import ImageResize from 'quill-image-resize-module-react';
+import Responsive from '../../common/Responsive';
+import 'quill/dist/quill.bubble.css';
 
 Quill.debug('error');
 Quill.register('modules/imageResize', ImageResize);

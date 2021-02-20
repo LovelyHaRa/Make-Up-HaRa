@@ -1,12 +1,12 @@
+import { createAction, handleActions } from 'redux-actions';
+import { takeLatest, call } from 'redux-saga/effects';
+import produce from 'immer';
 import {
   createRequestActionTypes,
   createRequestSaga,
 } from '../../lib/createRequest';
-import { createAction, handleActions } from 'redux-actions';
 import * as authAPI from '../../lib/api/auth';
 import * as userAPI from '../../lib/api/user';
-import { takeLatest, call } from 'redux-saga/effects';
-import produce from 'immer';
 
 /* action type */
 const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
@@ -78,7 +78,7 @@ function* checkFailureSaga() {
     yield call(authAPI.logout);
     sessionStorage.removeItem('user');
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
 }
 
@@ -87,7 +87,7 @@ function* logoutSaga() {
     yield call(authAPI.logout);
     sessionStorage.removeItem('user');
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
 }
 

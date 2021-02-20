@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initialize } from '../../../module/redux/post';
-import { useEffect } from 'react';
+
 import Editor from '../../../components/post/write/Editor';
 
 const EditorContainer = () => {
@@ -18,11 +18,12 @@ const EditorContainer = () => {
     [dispatch],
   );
   // 언마운트될 때 초기화
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initialize());
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   return <Editor onChangeField={onChangeField} title={title} body={body} />;
 };

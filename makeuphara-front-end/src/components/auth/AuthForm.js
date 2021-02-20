@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
-import Button, { buttonStyle } from '../common/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import Button, { buttonStyle } from '../common/Button';
 import palette from '../../lib/styles/open-color';
 
 const AuthFormBlock = styled.div`
@@ -130,125 +130,11 @@ const AuthForm = ({
   onChange,
   onSubmit,
   error,
-  onSocialLogin,
+  googleLoginBtn,
+  onNaverLoginClick,
+  onKakaoLoginClick,
 }) => {
   const text = textMap[type];
-
-  // Login with Google
-  const googleLoginBtn = useRef(null);
-  const auth2 = useRef(null);
-
-  // Config Google Login API
-  const loadGoogleLoginApi = useCallback(() => {
-    // 로그인 버튼 이벤트 주입
-    const prepareLoginButton = () => {
-      auth2.current.attachClickHandler(
-        googleLoginBtn.current,
-        {},
-        (googleUser) => {
-          // const profile = googleUser.getBasicProfile();
-          // console.log('Token || ' + googleUser.getAuthResponse().id_token);
-          // console.log('ID: ' + profile.getId());
-          // console.log('Name: ' + profile.getName());
-          // console.log('Image URL: ' + profile.getImageUrl());
-          // console.log('Email: ' + profile.getEmail());
-
-          const id_token = googleUser.getAuthResponse().id_token;
-          onSocialLogin({ id_token });
-        },
-        (error) => {
-          // console.log(JSON.stringify(error, undefined, 2));
-        },
-      );
-    };
-
-    window['googleSDKLoaded'] = () => {
-      window['gapi'].load('auth2', () => {
-        auth2.current = window['gapi'].auth2.init({
-          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-          cookiepolicy: 'single_host_origin',
-          scope: 'profile email',
-        });
-        prepareLoginButton();
-      });
-    };
-  }, [onSocialLogin]);
-
-  // 네이버 로그인 클릭 이벤트
-  const onNaverLoginClick = useCallback(() => {
-    const client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
-    const redirect_uri = process.env.REACT_APP_NAVER_LOGIN_REDIRECT_URI;
-    const state = process.env.REACT_APP_NAVER_LOGIN_STATE;
-    let requestUrl =
-      'https://nid.naver.com/oauth2.0/authorize?response_type=code';
-    requestUrl += '&client_id=' + client_id;
-    requestUrl += '&redirect_uri=' + redirect_uri;
-    requestUrl += '&state=' + state;
-    window.location = requestUrl;
-  }, []);
-
-  // 카카오 로그인 클릭 이벤트
-  const onKakaoLoginClick = useCallback(() => {
-    const client_id = process.env.REACT_APP_KAKAO_CLIENT_ID;
-    const redirect_uri = process.env.REACT_APP_KAKAO_LOGIN_REDIRECT_URI;
-    const state = process.env.REACT_APP_KAKAO_LOGIN_STATE;
-    let requestUrl =
-      'https://kauth.kakao.com/oauth/authorize?response_type=code';
-    requestUrl += '&client_id=' + client_id;
-    requestUrl += '&redirect_uri=' + redirect_uri;
-    requestUrl += '&state=' + state;
-    window.location = requestUrl;
-  }, []);
-
-  // Load Script
-  const loadScript = useCallback((document, script, id, srcValue) => {
-    const referenceNode = document.getElementsByTagName(script)[0];
-    if (document.getElementById(id)) {
-      return;
-    }
-    const googlejssdkNode = document.createElement(script);
-    googlejssdkNode.id = id;
-    googlejssdkNode.src = srcValue;
-    referenceNode.parentNode.insertBefore(googlejssdkNode, referenceNode);
-  }, []);
-
-  // 언마운트시 API 스크립트 제거
-  const removeApiScript = useCallback(() => {
-    const removeTag = (tagName, targetId) => {
-      const targetNode = document.getElementsByTagName(tagName);
-      [...targetNode].map(
-        (node) =>
-          node.src.indexOf(targetId) >= 0 && node.parentNode.removeChild(node),
-      );
-    };
-
-    removeTag('script', 'apis.google.com');
-
-    const removeJssdk = (id) => {
-      const sdkNode = document.getElementById(id);
-      if (sdkNode) {
-        sdkNode.parentNode.removeChild(sdkNode);
-      }
-    };
-
-    removeJssdk('google-jssdk');
-  }, []);
-
-  // 컴포넌트 업데이트시 소셜로그인 스크립트 로딩
-  // 언마운트시 스크립트 제거
-  useEffect(() => {
-    loadScript(
-      document,
-      'script',
-      'google-jssdk',
-      'https://apis.google.com/js/platform.js?onload=googleSDKLoaded',
-    );
-    loadGoogleLoginApi();
-
-    return () => {
-      removeApiScript();
-    };
-  }, [loadScript, removeApiScript, loadGoogleLoginApi]);
 
   return (
     <AuthFormBlock>
@@ -331,18 +217,18 @@ const AuthForm = ({
           <hr />
           <GoogleLoginButton fullWidth indigo ref={googleLoginBtn}>
             <FontAwesomeIcon icon={faGoogle} />
-            {' ' + textMap['signinGoogle']}
+            {` ${textMap.signinGoogle}`}
             <span> </span>
           </GoogleLoginButton>
           <NaverLoginButton transparent onClick={() => onNaverLoginClick()}>
             <img
-              src={process.env.PUBLIC_URL + '/images/auth/naver_login_btn.png'}
+              src={`${process.env.PUBLIC_URL}/images/auth/naver_login_btn.png`}
               alt="naver-login-btn"
             />
           </NaverLoginButton>
           <KakaoLoginButton transparent onClick={() => onKakaoLoginClick()}>
             <img
-              src={process.env.PUBLIC_URL + '/images/auth/kakao_login_btn.png'}
+              src={`${process.env.PUBLIC_URL}/images/auth/kakao_login_btn.png`}
               alt="kakao-login-btn"
             />
           </KakaoLoginButton>
@@ -350,7 +236,7 @@ const AuthForm = ({
         </div>
       )}
 
-      <Footer>
+      <Footer className="auth-link">
         {type === 'login' ? (
           <Link to="/register">회원가입</Link>
         ) : (

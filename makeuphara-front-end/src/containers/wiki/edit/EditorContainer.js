@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
-import Editor from '../../../components/wiki/edit/Editor';
 import { useDispatch, useSelector } from 'react-redux';
-import { initialize, changeField } from '../../../module/redux/wiki';
 import { withRouter } from 'react-router-dom';
+import Editor from '../../../components/wiki/edit/Editor';
+import { initialize, changeField } from '../../../module/redux/wiki';
 
 const EditorContainer = ({ history }) => {
   // 액션 함수 불러오기
@@ -23,15 +23,16 @@ const EditorContainer = ({ history }) => {
       sessionStorage.setItem('wiki-title', JSON.stringify(title));
     }
   } catch (error) {
-    throw error;
+    throw new Error('cannot access sessionStorage');
   }
 
   // 언마운트 될 때 초기화
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(initialize());
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   // 세션스토리지를 이용하여 위키 타이틀 상태 저장
   if (!title && !sessionStorage.getItem('wiki-title')) {

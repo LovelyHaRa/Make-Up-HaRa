@@ -3,7 +3,7 @@ import Post from '../../database/models/post';
 import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
 import SanitizeOption from '../../lib/sanitize-html/SanitizeOption';
-import moment from 'moment';
+import sub from 'date-fns/sub';
 
 // html 태그 필터링
 const removeHtmlAndShorten = (body) => {
@@ -25,7 +25,7 @@ export const list = async (ctx) => {
   }
   /* 필터링 정보 */
   const { tag, username, query, oldest } = ctx.query;
-  const day = parseInt(ctx.query.day || '0', 10);
+  const days = parseInt(ctx.query.day || '0', 10);
   const queryObj = {
     ...(username ? { 'publisher.username': username } : {}),
     ...(tag ? { tags: tag } : {}),
@@ -37,9 +37,7 @@ export const list = async (ctx) => {
           ],
         }
       : {}),
-    ...(day > 0
-      ? { publishedDate: { $gte: moment().subtract(day, 'days') } }
-      : {}),
+    ...(days > 0 ? { publishedDate: { $gte: sub(new Date(), { days }) } } : {}),
   };
   const sortObj = {
     _id: oldest && oldest === 'true' ? 1 : -1,

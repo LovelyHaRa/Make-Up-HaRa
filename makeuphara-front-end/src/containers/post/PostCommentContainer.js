@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PostComment from '../../components/post/PostComment';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PostComment from '../../components/post/PostComment';
 import {
   readPostComment,
   writePostComment,
@@ -77,7 +77,7 @@ const PostCommentContainer = ({ match }) => {
           });
         }
       } catch (error) {
-        throw error;
+        throw new Error(error);
       }
     },
     [dispatch, postId, page],
@@ -99,12 +99,13 @@ const PostCommentContainer = ({ match }) => {
     }
   }, [dispatch, editComment, postId]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch(unloadPostComment());
       setResult({ state: false, message: '' });
-    };
-  }, [dispatch]);
+    },
+    [dispatch],
+  );
 
   return (
     <>

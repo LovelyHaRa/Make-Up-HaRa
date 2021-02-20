@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import WikiViewer from '../../components/wiki/WikiViewer';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import qs from 'qs';
 import {
   readDocument,
   unloadDocument,
   setOriginalDocument,
   addBarcodeNumber,
 } from '../../module/redux/wiki';
-import qs from 'qs';
+import WikiViewer from '../../components/wiki/WikiViewer';
 
 const WikiViewerContainer = ({ location, match, history }) => {
   // 액션 함수 불러오기
@@ -48,7 +48,7 @@ const WikiViewerContainer = ({ location, match, history }) => {
       setBarcode(event.target.value);
     }
     // 검증
-    if ((data.length > 0 && data.length < 13) || isNaN(data)) {
+    if ((data.length > 0 && data.length < 13) || Number.isNaN(data)) {
       setInputBarcodeError(true);
     } else {
       setInputBarcodeError(false);

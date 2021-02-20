@@ -1,12 +1,12 @@
+import { createAction, handleActions } from 'redux-actions';
+import { takeLatest, debounce } from 'redux-saga/effects';
+import produce from 'immer';
 import {
   createRequestActionTypes,
   createRequestSaga,
 } from '../../lib/createRequest';
-import { createAction, handleActions } from 'redux-actions';
 import * as authAPI from '../../lib/api/auth';
 import * as userAPI from '../../lib/api/user';
-import { takeLatest, debounce } from 'redux-saga/effects';
-import produce from 'immer';
 
 /* action type */
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
