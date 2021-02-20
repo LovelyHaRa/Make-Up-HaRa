@@ -90,7 +90,7 @@ const WikiSection = ({ documentList, loading, error }) => {
       )}
 
       <span className="footer">
-        <Link to="/wiki/list">MORE WIKI.</Link>
+        <Link to="/wiki/list">MORE WIKI..</Link>
       </span>
     </WikiSectionBlock>
   );
