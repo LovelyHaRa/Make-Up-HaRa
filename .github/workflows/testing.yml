@@ -32,7 +32,9 @@ jobs:
         run: yarn install
       - name: yarn test
         working-directory: ./makeuphara-front-end
-        run: yarn test --ci
+        run: yarn test
+        env:
+          CI: true
       - name: failed test
         uses: actions/github-script@v3.1.0
         with:
