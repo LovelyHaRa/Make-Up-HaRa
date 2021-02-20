@@ -41,11 +41,11 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const ref = "${{github.ref}}"
-            const pr_number = Number(ref.split("/")[2])
+            const pull_number = Number(ref.split("/")[2])
             await github.pulls.createReview({
               ...context.repo,
-              pr_number,
-              body: "테스트가 실패햇습니다!",
+              pull_number,
+              body: "테스트가 실패했습니다!",
               event: "COMMENT"
             })
         if: failure()
@@ -55,10 +55,10 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const ref = "${{github.ref}}"
-            const pr_number = Number(ref.split("/")[2])
+            const pull_number = Number(ref.split("/")[2])
             await github.pulls.createReview({
               ...context.repo,
-              pr_number,
+              pull_number,
               body: "테스트를 통과했습니다!",
               event: "COMMENT"
             )}
