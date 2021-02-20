@@ -27,12 +27,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: change FE directory
-        run: cd ./makeuphara-front-end
       - name: yarn install
+        working-directory: ./makeuphara-front-end
         run: yarn install
       - name: yarn test
+        working-directory: ./makeuphara-front-end
         run: yarn test
       - name: failed test
         uses: actions/github-script@v3.1.0
