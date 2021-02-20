@@ -47,6 +47,7 @@ jobs:
               pr_number,
               body: "테스트가 실패햇습니다!",
               event: "COMMENT"
+            })
           if: failure()
       - name: success testing
         uses: actions/github-script@v3.1.0
@@ -60,4 +61,5 @@ jobs:
               pr_number,
               body: "테스트를 통과했습니다!",
               event: "COMMENT"
+            )}
           if: success()
