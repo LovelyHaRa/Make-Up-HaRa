@@ -15,12 +15,12 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    name: Run Unit Testing
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['8', '10', '12']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node_version: ['12']
+        os: [macOS-latest]
 
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -28,6 +28,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: change FE directory
+        run: cd ./makeuphara-front-end
       - name: yarn install
         run: yarn install
       - name: yarn test
