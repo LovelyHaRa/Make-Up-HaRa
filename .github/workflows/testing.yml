@@ -61,5 +61,5 @@ jobs:
               pull_number,
               body: "테스트를 통과했습니다!",
               event: "COMMENT"
-            )}
+            })
         if: success()
