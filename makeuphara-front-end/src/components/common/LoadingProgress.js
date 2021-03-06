@@ -35,6 +35,7 @@ const LoadingProgress = (props) => {
     <LoadingProgressBlock
       {...props}
       className={`${full && 'full-height'} ${body && 'body-height'}`}
+      role="progressbar"
     >
       <CustomCircularProgress />
     </LoadingProgressBlock>

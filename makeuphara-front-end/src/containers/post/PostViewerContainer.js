@@ -1,15 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import loadable from '@loadable/component';
 import PostViewer from '../../components/post/PostViewer';
 import { readPost, unloadPost, setOriginalPost } from '../../module/redux/post';
 import PostActionButtons from '../../components/post/PostActionButtons';
 import { removePost } from '../../lib/api/post';
-
-const PostCommentContainer = loadable(() =>
-  import('../../containers/post/PostCommentContainer'),
-);
 
 const PostViewerContainer = ({ match, history }) => {
   // 액션 함수 불러오기
@@ -63,7 +58,6 @@ const PostViewerContainer = ({ match, history }) => {
           )
         }
       />
-      {!loading && !error && <PostCommentContainer />}
     </>
   );
 };
