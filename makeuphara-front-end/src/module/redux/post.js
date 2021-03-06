@@ -103,7 +103,7 @@ export const unloadPostComment = createAction(UNLOAD_POST_COMMENT);
 
 /* redux-saga */
 const writePostSaga = createRequestSaga(WRITE_POST, postAPI.writePost);
-const readPostSaga = createRequestSaga(READ_POST, postAPI.readPost);
+export const readPostSaga = createRequestSaga(READ_POST, postAPI.readPost);
 const updatePostSaga = createRequestSaga(UPDATE_POST, postAPI.updatePost);
 const getListSaga = createRequestSaga(GET_LIST, postAPI.getList);
 const readPostCommentSaga = createRequestSaga(

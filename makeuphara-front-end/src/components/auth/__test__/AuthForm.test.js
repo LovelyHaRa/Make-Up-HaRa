@@ -1,5 +1,5 @@
 import React from 'react';
-import { getByAltText, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import AuthForm from '../AuthForm';
