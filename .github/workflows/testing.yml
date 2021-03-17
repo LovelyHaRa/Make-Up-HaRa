@@ -48,7 +48,7 @@ jobs:
               body: "테스트가 실패했습니다!",
               event: "COMMENT"
             })
-        if: failure()
+        if: ${{ failure() && github.event_name == 'pull_request' }}
       - name: success testing
         uses: actions/github-script@v3.1.0
         with:
@@ -62,4 +62,4 @@ jobs:
               body: "테스트를 통과했습니다!",
               event: "COMMENT"
             })
-        if: success()
+        if: ${{ success() && github.event_name == 'pull_request' }}
