@@ -74,7 +74,7 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
     }
     return (
       <PostViewerErrorBlock>
-        <span className="error-title">포스트 요청 실패.</span>
+        <span className="error-title">포스트 요청 실패</span>
         <span className="error-msg">Status: {error.response.status}</span>
         <span className="error-msg">Message: {error.response.statusText}</span>
       </PostViewerErrorBlock>
