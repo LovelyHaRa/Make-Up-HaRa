@@ -1,5 +1,5 @@
 {
-  "extends": ["react-app", "react-app/jest", "airbnb", "prettier"],
+  "extends": ["react-app", "react-app/jest", "airbnb", "plugin:cypress/recommended", "prettier"],
   "rules": {
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,

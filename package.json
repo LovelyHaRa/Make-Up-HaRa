@@ -34,8 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:watch": "react-scripts test --watchAll",
-    "eject": "react-scripts eject"
+    "cypress:open": "cypress open"
   },
   "browserslist": {
     "production": [
@@ -53,8 +52,10 @@
   "devDependencies": {
     "@types/redux-mock-store": "^1.0.2",
     "axios-mock-adapter": "^1.19.0",
+    "cypress": "^7.4.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-cypress": "^2.11.3",
     "redux-mock-store": "^1.5.4",
     "redux-saga-test-plan": "^4.0.1"
   }
